@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">ContactsDB</string>
+
+    <string name="add">Add</string>
+    <string name="new_contact">New contact</string>
+
+
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone">Number phone</string>
+    <string name="address">Address</string>
+
+    <string name="job">Job</string>
+    <string name="female">female</string>
+    <string name="male">male</string>
+    <string name="married">married</string>
+    <string name="single">single</string>
+    <string name="email">Email</string>
+    <string name="marital_status">Marital status</string>
+    <string name="gender">Gender</string>
+
+
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+
+</resources>
