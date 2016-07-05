@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 
 public class Fragment2 extends Fragment {
     EditText etJob, etEmail;
-    CheckedTextView chkMarried, chkSingle, chkFemale, chkMale;
-    LinearLayout llNext2;
-
+    RadioButton chkMarried, chkSingle, chkFemale, chkMale;
 
 
     @Override
@@ -24,11 +23,10 @@ public class Fragment2 extends Fragment {
 
         etJob = (EditText) rootView.findViewById(R.id.etJob);
         etEmail = (EditText) rootView.findViewById(R.id.etEmail);
-        chkMarried = (CheckedTextView) rootView.findViewById(R.id.chkMarried);
-        chkSingle = (CheckedTextView) rootView.findViewById(R.id.chkSingle);
-        chkFemale = (CheckedTextView) rootView.findViewById(R.id.chkFemale);
-        chkMale = (CheckedTextView) rootView.findViewById(R.id.chkMale);
-        llNext2 = (LinearLayout) rootView.findViewById(R.id.llNext2);
+        chkMarried = (RadioButton) rootView.findViewById(R.id.chkMarried);
+        chkSingle = (RadioButton) rootView.findViewById(R.id.chkSingle);
+        chkFemale = (RadioButton) rootView.findViewById(R.id.chkFemale);
+        chkMale = (RadioButton) rootView.findViewById(R.id.chkMale);
 
 
         return rootView;

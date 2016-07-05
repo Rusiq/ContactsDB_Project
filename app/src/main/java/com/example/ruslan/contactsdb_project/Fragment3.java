@@ -31,6 +31,8 @@ public class Fragment3 extends Fragment {
         tvGender = (TextView) rootView.findViewById(R.id.tvGender);
         tvEmail = (TextView) rootView.findViewById(R.id.tvEmail);
 
+
+
         return rootView;
     }
 }
