@@ -187,15 +187,4 @@
         </LinearLayout>
     </ScrollView>
 
-
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:background="#43a047"
-        android:text="@string/save"
-        android:typeface="monospace"
-        />
-
 </RelativeLayout>
