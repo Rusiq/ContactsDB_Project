@@ -10,19 +10,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.ruslan.contactsdb_project.CustomViewPager;
 import com.example.ruslan.contactsdb_project.R;
 
 
 /**
  * Created by Ann Rodina LMC on 06.07.16, Mana App Studio Ltd.
  */
-public class MaterialIndicator extends RelativeLayout implements View.OnClickListener {
+public class MaterialIndicator extends RelativeLayout implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     private TextView btnSkip;
 
     private CirclePageIndicator indicator;
     private ImageView btnNext;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
 
 
     public MaterialIndicator(Context context) {
@@ -57,9 +58,10 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
         btnNext.setOnClickListener(this);
     }
 
-    public void setViewPager(ViewPager viewPager) {
+    public void setViewPager(CustomViewPager viewPager) {
         indicator.setViewPager(viewPager);
         this.viewPager = viewPager;
+        viewPager.addOnPageChangeListener(this);
     }
 
 
@@ -76,5 +78,20 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
                 viewPager.setCurrentItem(page - 1);
                 break;
         }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        viewPager.setPagingEnabled(position != 1);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
