@@ -20,7 +20,13 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        tvTitle = (TextView) findViewById(R.id.tvTitle);
+
+      /*Fragment1 frag1 = (Fragment1) getFragmentManager().findFragmentById(R.id.frag1);
+        frag1.getStatusEmptyFieldsFragment1();*/
+
+
+
+                tvTitle = (TextView) findViewById(R.id.tvTitle);
 
         customViewPager = (CustomViewPager) findViewById(R.id.custom_view_pager);
         indicator = (MaterialIndicator) findViewById(R.id.materialIndicator);
@@ -37,6 +43,7 @@ public class AddActivity extends AppCompatActivity {
                         break;
                     case 1:
                         tvTitle.setText(R.string.step_2);
+
                         break;
                     case 2:
                         tvTitle.setText(R.string.done);

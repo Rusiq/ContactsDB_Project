@@ -81,6 +81,7 @@
                 android:textSize="15dp"/>
 
             <RadioGroup
+                android:id="@+id/radioGender"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
