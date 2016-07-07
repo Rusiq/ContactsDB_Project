@@ -14,6 +14,7 @@ public class Fragment1 extends Fragment {
 
     EditText etFirstName, etLastName, etPhone, etAddress;
     boolean isEmptyFieldsFragment1;
+    boolean oldStatus;
 
 
     @Override
@@ -26,6 +27,7 @@ public class Fragment1 extends Fragment {
         etPhone = (EditText) rootView.findViewById(R.id.etPhone);
         etAddress = (EditText) rootView.findViewById(R.id.etAddress);
         isEmptyFieldsFragment1 = true;
+        oldStatus = true;
 
         etFirstName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -34,9 +36,15 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (etFirstName.getText().length() > 1 && etPhone.getText().length() == 11) {
+                if (etFirstName.getText().toString().trim().length() > 1 && etPhone.getText().toString().trim().length() == 11) {
                     isEmptyFieldsFragment1 = false;
                 } else isEmptyFieldsFragment1 = true;
+
+                if (oldStatus != isEmptyFieldsFragment1) {
+                    oldStatus = isEmptyFieldsFragment1;
+                    ((AddActivity) getActivity()).setStatus(isEmptyFieldsFragment1);
+                    Log.d("Empty status", "sending to Activity new status fields");
+                }
                 Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
             }
 
@@ -56,6 +64,13 @@ public class Fragment1 extends Fragment {
                 if (etFirstName.getText().length() > 1 && etPhone.getText().length() == 11) {
                     isEmptyFieldsFragment1 = false;
                 } else isEmptyFieldsFragment1 = true;
+
+                if (oldStatus != isEmptyFieldsFragment1) {
+                    oldStatus = isEmptyFieldsFragment1;
+                    ((AddActivity) getActivity()).setStatus(isEmptyFieldsFragment1);
+                    Log.d("Empty status", "sending to Activity new status fields");
+                }
+
                 Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
             }
 
