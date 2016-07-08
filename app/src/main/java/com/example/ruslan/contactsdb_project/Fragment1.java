@@ -1,6 +1,7 @@
 package com.example.ruslan.contactsdb_project;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 public class Fragment1 extends Fragment {
 
     EditText etFirstName, etLastName, etPhone, etAddress;
+    TextInputLayout tilFirstName, tilPhone;
     boolean isEmptyFieldsFragment1;
     boolean oldStatus;
 
@@ -26,8 +28,14 @@ public class Fragment1 extends Fragment {
         etLastName = (EditText) rootView.findViewById(R.id.etLastName);
         etPhone = (EditText) rootView.findViewById(R.id.etPhone);
         etAddress = (EditText) rootView.findViewById(R.id.etAddress);
+        tilFirstName = (TextInputLayout) rootView.findViewById(R.id.tilFristName);
+        tilPhone = (TextInputLayout) rootView.findViewById(R.id.tilPhone);
+
         isEmptyFieldsFragment1 = true;
         oldStatus = true;
+
+
+
 
         etFirstName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -36,14 +44,26 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (etFirstName.getText().toString().trim().length() < 2){
+                    tilFirstName.setErrorEnabled(true);
+                    tilFirstName.setError("Required field");
+                } else  tilFirstName.setErrorEnabled(false);
+
+
                 if (etFirstName.getText().toString().trim().length() > 1 && etPhone.getText().toString().trim().length() == 11) {
                     isEmptyFieldsFragment1 = false;
                 } else isEmptyFieldsFragment1 = true;
+
+
+
+
+
 
                 if (oldStatus != isEmptyFieldsFragment1) {
                     oldStatus = isEmptyFieldsFragment1;
                     ((AddActivity) getActivity()).setStatus(isEmptyFieldsFragment1);
                     Log.d("Empty status", "sending to Activity new status fields");
+
                 }
                 Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
             }
@@ -61,6 +81,11 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (etPhone.getText().length() < 11){
+                    tilPhone.setErrorEnabled(true);
+                    tilPhone.setError("Required field");
+                } else tilPhone.setErrorEnabled(false);
+
                 if (etFirstName.getText().length() > 1 && etPhone.getText().length() == 11) {
                     isEmptyFieldsFragment1 = false;
                 } else isEmptyFieldsFragment1 = true;

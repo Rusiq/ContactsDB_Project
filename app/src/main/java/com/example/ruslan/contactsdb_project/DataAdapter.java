@@ -1,7 +1,6 @@
 package com.example.ruslan.contactsdb_project;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,13 +36,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         holder.tvShowFirstName.setText(contact.getFirstName());
         holder.tvShowLastName.setText(contact.getLastName());
-        holder.tvShowPhone.setText(contact.getPhoneNumber());
+     /* holder.tvShowPhone.setText(contact.getPhoneNumber());
         holder.tvShowAddress.setText(contact.getAddress());
-
         holder.tvShowJob.setText(contact.getJob());
         holder.tvShowStatus.setText(contact.getMaritalStatus());
         holder.tvShowGender.setText(contact.getGender());
-        holder.tvShowEmail.setText(contact.getEmail());
+        holder.tvShowEmail.setText(contact.getEmail());*/
 
 
     }
@@ -66,13 +64,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
             tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
-            tvShowPhone = (TextView) itemView.findViewById(R.id.tvShowPhone);
+           /* tvShowPhone = (TextView) itemView.findViewById(R.id.tvShowPhone);
             tvShowAddress = (TextView) itemView.findViewById(R.id.tvShowAddress);
-
             tvShowJob = (TextView) itemView.findViewById(R.id.tvShowJob);
             tvShowStatus = (TextView) itemView.findViewById(R.id.tvShowStatus);
             tvShowGender = (TextView) itemView.findViewById(R.id.tvShowGender);
-            tvShowEmail = (TextView) itemView.findViewById(R.id.tvShowEmail);
+            tvShowEmail = (TextView) itemView.findViewById(R.id.tvShowEmail);*/
         }
     }
 }

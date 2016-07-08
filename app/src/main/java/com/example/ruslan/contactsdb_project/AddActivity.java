@@ -38,11 +38,6 @@ public class AddActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 0) tvTitle.setText(R.string.step_1);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
                         tvTitle.setText(R.string.step_1);
@@ -55,6 +50,11 @@ public class AddActivity extends AppCompatActivity {
                         tvTitle.setText(R.string.done);
                         break;
                 }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
             }
 
             @Override
