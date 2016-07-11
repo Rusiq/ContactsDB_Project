@@ -14,11 +14,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new Fragment1();
+                return new FragmentFirstStep();
             case 1:
-                return new Fragment2();
+                return new FragmentSecondStep();
             case 2:
-                return new Fragment3();
+                return new FragmentDone();
             default:
                 return null;
         }

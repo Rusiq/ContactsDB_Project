@@ -46,7 +46,7 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
         LayoutInflater inflater = (LayoutInflater)
                 getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.material_indicator, this);
-        btnSkip = (TextView) findViewById(R.id.btnSkip);
+        btnSkip = (TextView) findViewById(R.id.btnBack);
         indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setFillColor(Color.BLACK);
         indicator.setStrokeColor(Color.BLACK);
@@ -74,7 +74,7 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
             case R.id.btnNext:
                 viewPager.setCurrentItem(page + 1);
                 break;
-            case R.id.btnSkip:
+            case R.id.btnBack:
                 viewPager.setCurrentItem(page - 1);
                 break;
         }

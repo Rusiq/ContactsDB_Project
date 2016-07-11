@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class Fragment1 extends Fragment {
+public class FragmentFirstStep extends Fragment {
 
 
     EditText etFirstName, etLastName, etPhone, etAddress;
     TextInputLayout tilFirstName, tilPhone;
-    static boolean isEmptyFieldsFragment1;
+    boolean isEmptyFieldsFragment1;
     boolean oldStatus1;
+    private CustomViewPager customViewPager;
 
 
 
@@ -42,7 +43,7 @@ public class Fragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_first_step, container, false);
 
         etFirstName = (EditText) rootView.findViewById(R.id.etFirstName);
         etLastName = (EditText) rootView.findViewById(R.id.etLastName);
@@ -54,6 +55,29 @@ public class Fragment1 extends Fragment {
         isEmptyFieldsFragment1 = true;
         oldStatus1 = true;
 
+
+        tilFirstName.setErrorEnabled(true);
+        tilFirstName.setError("Required field");
+
+        tilPhone.setErrorEnabled(true);
+        tilPhone.setError("Required field");
+
+
+
+      /*  etFirstName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (etFirstName.getText().toString().trim().length() < 2) {
+                    tilFirstName.setErrorEnabled(true);
+                    tilFirstName.setError("Required field");
+                } else {
+                    tilFirstName.setErrorEnabled(false);
+                    tilFirstName.setError(null);
+                }
+            }
+        });*/
 
         etFirstName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,15 +91,16 @@ public class Fragment1 extends Fragment {
                     tilFirstName.setError("Required field");
                 } else tilFirstName.setErrorEnabled(false);
 
-
                 if (etFirstName.getText().toString().trim().length() > 1 && etPhone.getText().toString().trim().length() == 11) {
                     isEmptyFieldsFragment1 = false;
-                } else isEmptyFieldsFragment1 = true;
+                } else {
+                    isEmptyFieldsFragment1 = true;
+                }
 
 
                 if (oldStatus1 != isEmptyFieldsFragment1) {
                     oldStatus1 = isEmptyFieldsFragment1;
-                    ((AddActivity) getActivity()).setStatus(isEmptyFieldsFragment1);
+                    ((AddActivity) getActivity()).setStatus1(isEmptyFieldsFragment1);
                     Log.d("Empty status", "sending to Activity new status fields1");
 
                 }
@@ -106,7 +131,7 @@ public class Fragment1 extends Fragment {
 
                 if (oldStatus1 != isEmptyFieldsFragment1) {
                     oldStatus1 = isEmptyFieldsFragment1;
-                    ((AddActivity) getActivity()).setStatus(isEmptyFieldsFragment1);
+                    ((AddActivity) getActivity()).setStatus1(isEmptyFieldsFragment1);
                     Log.d("Empty status", "sending to Activity new status fields");
                 }
 

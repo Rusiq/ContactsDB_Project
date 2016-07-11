@@ -1,6 +1,7 @@
 package com.example.ruslan.contactsdb_project;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,46 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
-public class Fragment2 extends Fragment {
-
+public class FragmentSecondStep extends Fragment {
 
 
     EditText etJob, etEmail;
+    ImageView btnNext;
     RadioButton chkMarried, chkSingle, chkFemale, chkMale;
-    static boolean isEmptyFieldsFragment2;
+    boolean isEmptyFieldsFragment2;
     RadioGroup radioGender;
     boolean oldStatus2;
-
-
-
-
-  /*  public interface OnStatusFieldsFragment2Listener {
-        public void onStatusFieldsFragment2(isEmptyFieldsFragment2);
-    }
-
-    OnStatusFieldsFragment2Listener mListener;
-
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnStatusFieldsFragment2Listener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnStatusFieldsFragment2Listener");
-        }
-    }*/
-
+    TextInputLayout tilJob;
+    private CustomViewPager customViewPager;
+    FragmentFirstStep frag1;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment2, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_second_step, container, false);
 
         etJob = (EditText) rootView.findViewById(R.id.etJob);
         etEmail = (EditText) rootView.findViewById(R.id.etEmail);
@@ -57,26 +41,55 @@ public class Fragment2 extends Fragment {
         chkFemale = (RadioButton) rootView.findViewById(R.id.chkFemale);
         chkMale = (RadioButton) rootView.findViewById(R.id.chkMale);
         radioGender = (RadioGroup) rootView.findViewById(R.id.radioGender);
+        tilJob = (TextInputLayout) rootView.findViewById(R.id.tilJob);
+        btnNext = (ImageView) rootView.findViewById(R.id.btnNext);
+
+        frag1 = (FragmentFirstStep) getFragmentManager().findFragmentById(R.id.frag1);
         isEmptyFieldsFragment2 = true;
         oldStatus2 = true;
+
+        tilJob.setErrorEnabled(true);
+        tilJob.setError("Required field");
+
+        customViewPager = (CustomViewPager) getActivity().findViewById(R.id.custom_view_pager);
+
 
         etJob.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (etJob.getText().toString().trim().equals("")) {
                     isEmptyFieldsFragment2 = true;
-                } else isEmptyFieldsFragment2 = false;
+                    customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
+
+                    tilJob.setErrorEnabled(true);
+                    tilJob.setError("Required field");
+               //     btnNext.setVisibility(View.INVISIBLE);
+                } else {
+                    isEmptyFieldsFragment2 = false;
+                    tilJob.setErrorEnabled(false);
+                 //   if (frag1.isEmptyFieldsFragment1 == false) {
+                     //   btnNext.setVisibility(View.VISIBLE);
+                      //  customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
+                  //  }
+                }
 
                 if (oldStatus2 != isEmptyFieldsFragment2) {
                     oldStatus2 = isEmptyFieldsFragment2;
-                    ((AddActivity) getActivity()).setStatus(isEmptyFieldsFragment2);
+                    ((AddActivity) getActivity()).setStatus2(isEmptyFieldsFragment2);
+                    if (!oldStatus2 && !frag1.isEmptyFieldsFragment1) {
+                        customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
+                        btnNext.setVisibility(View.VISIBLE);
+                    } else {
+                        customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
+                    //    btnNext.setVisibility(View.INVISIBLE);
+                    }
                     Log.d("Empty status", "sending to Activity new status fields2");
                 }
-
                 Log.d("Empty fields fragment 2", String.valueOf(isEmptyFieldsFragment2));
             }
 
@@ -85,20 +98,13 @@ public class Fragment2 extends Fragment {
             }
         });
 
-
-
         return rootView;
     }
+
 
     public boolean getStatusEmptyFieldsFragment2() {
         return this.isEmptyFieldsFragment2;
     }
-
-
-
-
-
-
 
 
 }
