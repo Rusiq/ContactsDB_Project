@@ -1,12 +1,8 @@
 package com.example.ruslan.contactsdb_project;
 
-import android.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
-/**
- * Created by ruslan on 04.07.16.
- */
 public class PagerAdapter extends FragmentPagerAdapter {
 
 
