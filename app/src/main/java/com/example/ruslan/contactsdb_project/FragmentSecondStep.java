@@ -83,7 +83,6 @@ public class FragmentSecondStep extends Fragment {
                     ((AddActivity) getActivity()).setStatus2(isEmptyFieldsFragment2);
                     if (!oldStatus2 && !frag1.isEmptyFieldsFragment1) {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-                      //  btnNext.setVisibility(View.VISIBLE);
                     } else {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
                     }
@@ -106,11 +105,5 @@ public class FragmentSecondStep extends Fragment {
 
         return rootView;
     }
-
-
-    public boolean getStatusEmptyFieldsFragment2() {
-        return this.isEmptyFieldsFragment2;
-    }
-
 
 }

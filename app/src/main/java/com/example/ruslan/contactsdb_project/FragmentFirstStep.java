@@ -22,24 +22,6 @@ public class FragmentFirstStep extends Fragment {
 
 
 
-  /*  public interface OnStatusFieldsFragment1Listener {
-        public void onStatusFieldsFragment1(isEmptyFieldsFragment1);
-    }
-
-    OnStatusFieldsFragment1Listener mListener;public
-
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnStatusFieldsFragment1Listener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnStatusFieldsFragment1Listener");
-        }
-    }*/
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -150,10 +132,5 @@ public class FragmentFirstStep extends Fragment {
 
         return rootView;
     }
-
-    public boolean getStatusEmptyFieldsFragment1() {
-        return this.isEmptyFieldsFragment1;
-    }
-
 
 }

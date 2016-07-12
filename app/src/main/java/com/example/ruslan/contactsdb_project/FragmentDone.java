@@ -39,15 +39,46 @@ public class FragmentDone extends Fragment {
         llGender = (LinearLayout) rootView.findViewById(R.id.llGender);
         llEmail = (LinearLayout) rootView.findViewById(R.id.llEmail);
 
-        frag1 = (FragmentFirstStep) getFragmentManager().findFragmentById(R.id.frag1);
-        frag2 = (FragmentSecondStep) getFragmentManager().findFragmentById(R.id.frag2);
+       /* frag1 = (FragmentFirstStep) getFragmentManager().findFragmentById(R.id.frag1);
+        frag2 = (FragmentSecondStep) getFragmentManager().findFragmentById(R.id.frag2);*/
+        String tagFragmentDone = getTag();
+        ((AddActivity)getActivity()).setTabFragmentDone(tagFragmentDone);
 
         return rootView;
     }
 
 
+    public void updateTextFromFirstStep (String contactFirstName, String contactLastName, String contactPhone, String contactAddress){
+
+        tvFirstName.setText(contactFirstName);
+
+        if (contactLastName == null){
+            llLastName.setVisibility(View.GONE);
+        } else tvLastName.setText(contactLastName);
+
+        tvPhone.setText(contactPhone);
+
+        if (contactAddress == null){
+            llAddress.setVisibility(View.GONE);
+        } else tvAddress.setText(contactAddress);
+    }
 
 
 
+    public void updateTextFromSecondStep (String contactJob, String contactMaritalStatus, String contactGender, String contactEmail){
 
+        tvJob.setText(contactJob);
+
+        if (contactMaritalStatus == null){
+            llStatus.setVisibility(View.GONE);
+        } else tvStatus.setText(contactMaritalStatus);
+
+        if (contactGender == null){
+            llGender.setVisibility(View.GONE);
+        } else tvGender.setText(contactGender);
+
+        if (contactEmail == null){
+            llEmail.setVisibility(View.GONE);
+        } else tvEmail.setText(contactEmail);
+    }
 }

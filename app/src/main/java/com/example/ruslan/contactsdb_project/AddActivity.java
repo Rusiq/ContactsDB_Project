@@ -23,6 +23,17 @@ public class AddActivity extends AppCompatActivity {
     boolean status1 = true, status2 = true;
 
 
+    String TabFragmentDone;
+
+    public void setTabFragmentDone(String t) {
+        TabFragmentDone = t;
+    }
+
+    public String getTabFragmentDone(){
+        return TabFragmentDone;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
