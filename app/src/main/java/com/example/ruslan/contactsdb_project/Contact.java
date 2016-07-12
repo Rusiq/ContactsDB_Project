@@ -10,16 +10,17 @@ public class Contact {
     String _phone_number;
     String _address;
     String _job;
-    String _marital_status;
-    String _gender;
+    MaritalStatus _marital_status;
+    Gender _gender;
     String _email;
 
     // Empty constructor
-    public Contact(){
+    public Contact() {
 
     }
+
     // constructor
-    public Contact(int id, String firstName, String lastName, String _phone_number, String address, String job, String marital_status, String gender, String email){
+    public Contact(int id, String firstName, String lastName, String _phone_number, String address, String job, MaritalStatus marital_status, Gender gender, String email) {
         this._id = id;
         this._firstName = firstName;
         this._lastName = lastName;
@@ -34,7 +35,7 @@ public class Contact {
     }
 
     // constructor
-    public Contact(String firstName, String lastName, String _phone_number, String address, String job, String marital_status, String gender, String email){
+    public Contact(String firstName, String lastName, String _phone_number, String address, String job, MaritalStatus marital_status, Gender gender, String email) {
         this._firstName = firstName;
         this._lastName = lastName;
         this._phone_number = _phone_number;
@@ -46,93 +47,155 @@ public class Contact {
         this._email = email;
 
     }
+
     // getting ID
-    public int getID(){
+    public int getID() {
         return this._id;
     }
 
     // setting id
-    public void setID(int id){
+    public void setID(int id) {
         this._id = id;
     }
 
     // getting first name
-    public String getFirstName(){
+    public String getFirstName() {
         return this._firstName;
     }
 
     // setting first name
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this._firstName = firstName;
     }
 
     // getting last name
-    public String getLastName(){
+    public String getLastName() {
         return this._lastName;
     }
 
     // setting last name
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this._lastName = lastName;
     }
 
     // getting address
-    public String getAddress(){
+    public String getAddress() {
         return this._address;
     }
 
     // setting address
-    public void setAddress(String address){
+    public void setAddress(String address) {
         this._address = address;
     }
 
     // getting phone number
-    public String getPhoneNumber(){
+    public String getPhoneNumber() {
         return this._phone_number;
     }
 
     // setting phone number
-    public void setPhoneNumber(String phone_number){
+    public void setPhoneNumber(String phone_number) {
         this._phone_number = phone_number;
     }
 
     // getting job
-    public String getJob(){
+    public String getJob() {
         return this._job;
     }
 
     // setting job
-    public void setJob(String job){
+    public void setJob(String job) {
         this._job = job;
     }
 
     // getting marital status
-    public String getMaritalStatus(){
+    public MaritalStatus getMaritalStatus() {
         return this._marital_status;
     }
 
     // setting marital status
-    public void setMaritalStatus(String marital_status){
+    public void setMaritalStatus(MaritalStatus marital_status) {
         this._marital_status = marital_status;
     }
 
     // getting gender
-    public String getGender(){
+    public Gender getGender() {
         return this._gender;
     }
 
     // setting gender
-    public void setGender(String gender){
+    public void setGender(Gender gender) {
         this._gender = gender;
     }
 
     // getting email
-    public String getEmail(){
+    public String getEmail() {
         return this._email;
     }
 
     // setting email
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this._email = email;
     }
+
+
+    public enum Gender {
+        FEMALE("female"), MALE("male");
+
+        private String text;
+
+
+        Gender(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public static Gender fromString(String text) {
+            if (text != null) {
+                for (Gender b : Gender.values()) {
+                    if (text.contains(b.text)) {
+                        return b;
+                    }
+                }
+            }
+            return null;
+        }
+
+
+
+    }
+
+    public enum MaritalStatus {
+        MARRIED("married"), SINGLE("single");
+
+        private String text;
+
+
+        MaritalStatus(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public static MaritalStatus fromString(String text) {
+            if (text != null) {
+                for (MaritalStatus b : MaritalStatus.values()) {
+                    if (text.contains(b.text)) {
+                        return b;
+                    }
+                }
+            }
+            return null;
+        }
+
+
+
+    }
+
+
 }

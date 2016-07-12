@@ -13,13 +13,9 @@ import android.widget.EditText;
 
 public class FragmentFirstStep extends Fragment {
 
-
     EditText etFirstName, etLastName, etPhone, etAddress;
     TextInputLayout tilFirstName, tilPhone;
-    boolean isEmptyFieldsFragment1;
-    boolean oldStatus1;
-    private CustomViewPager customViewPager;
-
+    boolean isEmptyFieldsFragment1, oldStatus1;
 
 
     @Override
@@ -43,8 +39,6 @@ public class FragmentFirstStep extends Fragment {
 
         tilPhone.setErrorEnabled(true);
         tilPhone.setError("Required field");
-
-
 
       /*  etFirstName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
 
@@ -78,7 +72,6 @@ public class FragmentFirstStep extends Fragment {
                 } else {
                     isEmptyFieldsFragment1 = true;
                 }
-
 
                 if (oldStatus1 != isEmptyFieldsFragment1) {
                     oldStatus1 = isEmptyFieldsFragment1;
@@ -133,4 +126,19 @@ public class FragmentFirstStep extends Fragment {
         return rootView;
     }
 
+    public String getFirstName() {
+        return etFirstName.getText().toString().trim();
+    }
+
+    public String getLastName() {
+        return etLastName.getText().toString().trim();
+    }
+
+    public String getAddress() {
+        return etAddress.getText().toString().trim();
+    }
+
+    public String getPhone() {
+        return etPhone.getText().toString().trim();
+    }
 }

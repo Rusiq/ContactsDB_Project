@@ -21,12 +21,9 @@ public class FragmentSecondStep extends Fragment {
     EditText etJob, etEmail;
     ImageView btnNext;
     RadioButton chkMarried, chkSingle, chkFemale, chkMale;
-    boolean isEmptyFieldsFragment2;
+    boolean isEmptyFieldsFragment2, oldStatus2;
     RadioGroup radioGender, radioStatus;
-    boolean oldStatus2;
     TextInputLayout tilJob;
-    private CustomViewPager customViewPager;
-    FragmentFirstStep frag1;
 
 
     @Override
@@ -45,14 +42,11 @@ public class FragmentSecondStep extends Fragment {
         tilJob = (TextInputLayout) rootView.findViewById(R.id.tilJob);
         btnNext = (ImageView) rootView.findViewById(R.id.btnNext);
 
-        frag1 = (FragmentFirstStep) getFragmentManager().findFragmentById(R.id.frag1);
         isEmptyFieldsFragment2 = true;
         oldStatus2 = true;
 
         tilJob.setErrorEnabled(true);
         tilJob.setError("Required field");
-
-        customViewPager = (CustomViewPager) getActivity().findViewById(R.id.custom_view_pager);
 
 
         etJob.addTextChangedListener(new TextWatcher() {
@@ -65,36 +59,24 @@ public class FragmentSecondStep extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (etJob.getText().toString().trim().equals("")) {
                     isEmptyFieldsFragment2 = true;
-                    customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
-
                     tilJob.setErrorEnabled(true);
                     tilJob.setError("Required field");
                 } else {
                     isEmptyFieldsFragment2 = false;
                     tilJob.setErrorEnabled(false);
-
-
                 }
+
 
 
 
                 if (oldStatus2 != isEmptyFieldsFragment2) {
                     oldStatus2 = isEmptyFieldsFragment2;
                     ((AddActivity) getActivity()).setStatus2(isEmptyFieldsFragment2);
-                    if (!oldStatus2 && !frag1.isEmptyFieldsFragment1) {
-                        customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-                    } else {
-                        customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
-                    }
+
                     Log.d("Empty status", "sending to Activity new status fields2");
                 }
 
-                if (!((AddActivity) getActivity()).status1 && !isEmptyFieldsFragment2) {
-                    customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-
-                }
                 Log.d("Empty fields fragment 2", String.valueOf(isEmptyFieldsFragment2));
-                Log.d("STATUS1", String.valueOf(((AddActivity) getActivity()).status1));
 
             }
 
@@ -104,6 +86,23 @@ public class FragmentSecondStep extends Fragment {
         });
 
         return rootView;
+    }
+
+
+    public Contact.Gender getGender(){
+        return (radioGender.getCheckedRadioButtonId() == R.id.chkFemale) ? Contact.Gender.FEMALE : Contact.Gender.MALE;
+    }
+
+    public Contact.MaritalStatus getMaritalStatus(){
+        return (radioStatus.getCheckedRadioButtonId() == R.id.chkMarried) ? Contact.MaritalStatus.MARRIED : Contact.MaritalStatus.SINGLE;
+    }
+
+    public String getJob() {
+        return etJob.getText().toString().trim();
+    }
+
+    public String getEmail() {
+        return etEmail.getText().toString().trim();
     }
 
 }

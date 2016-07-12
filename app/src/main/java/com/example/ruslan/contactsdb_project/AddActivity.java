@@ -21,17 +21,10 @@ public class AddActivity extends AppCompatActivity {
     FragmentFirstStep frag1;
     FragmentDone frag3;
     boolean status1 = true, status2 = true;
+    private Contact mContact;
 
 
-    String TabFragmentDone;
 
-    public void setTabFragmentDone(String t) {
-        TabFragmentDone = t;
-    }
-
-    public String getTabFragmentDone(){
-        return TabFragmentDone;
-    }
 
 
     @Override
@@ -41,21 +34,26 @@ public class AddActivity extends AppCompatActivity {
 
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTitle.setText(R.string.step_1);
+        mContact = new Contact();
 
         frag2 = (FragmentSecondStep) getSupportFragmentManager().findFragmentById(R.id.frag2);
         frag1 = (FragmentFirstStep) getSupportFragmentManager().findFragmentById(R.id.frag1);
         frag3 = (FragmentDone) getSupportFragmentManager().findFragmentById(R.id.frag3);
 
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag3);
+//        if (fragment != null &&  fragment instanceof FragmentDone){
+//            frag3 = (FragmentDone)fragment;
+//        }
+
 
         customViewPager = (CustomViewPager) findViewById(R.id.custom_view_pager);
         indicator = (MaterialIndicator) findViewById(R.id.materialIndicator);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
         indicator.setViewPager(customViewPager);
 
         btnNext = (ImageView) findViewById(R.id.btnNext);
         btnSave = (ImageView) findViewById(R.id.btnSave);
-
 
         customViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -70,6 +68,7 @@ public class AddActivity extends AppCompatActivity {
                         tvTitle.setText(R.string.step_1);
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
+
                         break;
 
                     case 1:
@@ -90,6 +89,7 @@ public class AddActivity extends AppCompatActivity {
                         btnNext.setVisibility(View.INVISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
                         setFields();
+
                         break;
                 }
             }
@@ -104,44 +104,31 @@ public class AddActivity extends AppCompatActivity {
 
     public void setStatus1(boolean value) {
         status1 = value;
+
     }
 
     public void setStatus2(boolean value) {
         status2 = value;
+        if (!status1 && !status2) {
+            btnNext.setVisibility(View.VISIBLE);
+        } else btnNext.setVisibility(View.INVISIBLE);
+
     }
 
     public void setFields() {
-        frag3.tvFirstName.setText(frag1.etFirstName.getText().toString());
-        frag3.tvPhone.setText(frag1.etPhone.getText().toString());
-        frag3.tvJob.setText(frag2.etJob.getText().toString());
+        mContact.setFirstName(frag1.getFirstName());
+        mContact.setAddress(frag1.getAddress());
+        mContact.setLastName(frag1.getLastName());
+        mContact.setPhoneNumber(frag1.getPhone());
+        mContact.setGender(frag2.getGender());
+        mContact.setMaritalStatus(frag2.getMaritalStatus());
+        mContact.setJob(frag2.getJob());
+        mContact.setEmail(frag2.getEmail());
 
-        if (frag1.etLastName.getText().toString().trim().equals("")) {
-            frag3.llLastName.setVisibility(View.GONE);
-        } else frag3.tvLastName.setText(frag1.etLastName.getText().toString());
+        frag3.setContact(mContact);
+    }
 
-        if (frag1.etAddress.getText().toString().trim().equals("")) {
-            frag3.llAddress.setVisibility(View.GONE);
-        } else frag3.tvAddress.setText(frag1.etAddress.getText().toString());
-
-        if (frag2.etEmail.getText().toString().trim().equals("")) {
-            frag3.llLastName.setVisibility(View.GONE);
-        } else frag3.tvEmail.setText(frag2.etEmail.getText().toString());
-
-        switch (frag2.radioStatus.getCheckedRadioButtonId()){
-            case R.id.chkMarried: frag3.tvStatus.setText("@string/married");
-                break;
-            case R.id.chkSingle: frag3.tvStatus.setText("@string/single");
-                break;
-            default: frag3.llStatus.setVisibility(View.GONE);
-        }
-
-        switch (frag2.radioGender.getCheckedRadioButtonId()){
-            case R.id.chkFemale: frag3.tvGender.setText("@string/female");
-                break;
-            case R.id.chkMale: frag3.tvGender.setText("@string/male");
-                break;
-            default: frag3.llGender.setVisibility(View.GONE);
-        }
-
+    public Contact getContact() {
+        return mContact;
     }
 }

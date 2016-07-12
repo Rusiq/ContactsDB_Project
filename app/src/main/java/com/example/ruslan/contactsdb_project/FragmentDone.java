@@ -8,15 +8,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
- * Created by ruslan on 04.07.16.
- */
 public class FragmentDone extends Fragment {
 
-    TextView tvFirstName, tvLastName, tvPhone, tvAddress, tvJob, tvStatus, tvGender, tvEmail;
+    TextView tvFirstName;
+    TextView tvLastName;
+    TextView tvPhone;
+    TextView tvAddress;
+    TextView tvJob;
+    TextView tvStatus;
+    TextView tvGender;
+    TextView tvEmail;
     LinearLayout llLastName, llAddress, llStatus, llGender, llEmail;
-    FragmentFirstStep frag1;
-    FragmentSecondStep frag2;
 
 
     @Override
@@ -39,46 +41,24 @@ public class FragmentDone extends Fragment {
         llGender = (LinearLayout) rootView.findViewById(R.id.llGender);
         llEmail = (LinearLayout) rootView.findViewById(R.id.llEmail);
 
-       /* frag1 = (FragmentFirstStep) getFragmentManager().findFragmentById(R.id.frag1);
-        frag2 = (FragmentSecondStep) getFragmentManager().findFragmentById(R.id.frag2);*/
-        String tagFragmentDone = getTag();
-        ((AddActivity)getActivity()).setTabFragmentDone(tagFragmentDone);
-
+        ((AddActivity) getActivity()).getContact();
         return rootView;
     }
 
 
-    public void updateTextFromFirstStep (String contactFirstName, String contactLastName, String contactPhone, String contactAddress){
+    public void setContact(Contact mContact){
 
-        tvFirstName.setText(contactFirstName);
+        tvFirstName.setText(mContact.getFirstName());
+        tvLastName.setText(mContact.getLastName());
+        tvPhone.setText(mContact.getPhoneNumber());
+        tvAddress.setText(mContact.getAddress());
 
-        if (contactLastName == null){
-            llLastName.setVisibility(View.GONE);
-        } else tvLastName.setText(contactLastName);
-
-        tvPhone.setText(contactPhone);
-
-        if (contactAddress == null){
-            llAddress.setVisibility(View.GONE);
-        } else tvAddress.setText(contactAddress);
+        tvJob.setText(mContact.getJob());
+        tvStatus.setText(mContact.getMaritalStatus().toString());
+        tvGender.setText(mContact.getGender().toString());
+        tvEmail.setText(mContact.getEmail());
     }
 
 
 
-    public void updateTextFromSecondStep (String contactJob, String contactMaritalStatus, String contactGender, String contactEmail){
-
-        tvJob.setText(contactJob);
-
-        if (contactMaritalStatus == null){
-            llStatus.setVisibility(View.GONE);
-        } else tvStatus.setText(contactMaritalStatus);
-
-        if (contactGender == null){
-            llGender.setVisibility(View.GONE);
-        } else tvGender.setText(contactGender);
-
-        if (contactEmail == null){
-            llEmail.setVisibility(View.GONE);
-        } else tvEmail.setText(contactEmail);
-    }
 }
