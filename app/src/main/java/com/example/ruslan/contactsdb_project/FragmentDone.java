@@ -47,23 +47,7 @@ public class FragmentDone extends Fragment {
 
 
 
-    public void setFields() {
-        tvFirstName = (TextView) frag1.etFirstName.getText();
-        tvPhone = (TextView) frag1.etPhone.getText();
-        tvJob = (TextView) frag2.etJob.getText();
 
-        if (frag1.etLastName.getText().toString().trim().equals("")) {
-            llLastName.setVisibility(View.GONE);
-        } else tvLastName = (TextView) frag1.etLastName.getText();
-
-        if (frag1.etAddress.getText().toString().trim().equals("")) {
-            llAddress.setVisibility(View.GONE);
-        } else tvAddress = (TextView) frag1.etAddress.getText();
-
-        if (frag2.etEmail.getText().toString().trim().equals("")) {
-            llLastName.setVisibility(View.GONE);
-        } else tvEmail = (TextView) frag2.etEmail.getText();
-    }
 
 
 }

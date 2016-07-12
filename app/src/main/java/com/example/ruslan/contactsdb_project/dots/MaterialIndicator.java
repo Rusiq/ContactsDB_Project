@@ -19,7 +19,8 @@ import com.example.ruslan.contactsdb_project.R;
  */
 public class MaterialIndicator extends RelativeLayout implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
-    private TextView btnSkip;
+    private TextView btnBack;
+    private ImageView btnSave;
 
     private CirclePageIndicator indicator;
     private ImageView btnNext;
@@ -46,7 +47,7 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
         LayoutInflater inflater = (LayoutInflater)
                 getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.material_indicator, this);
-        btnSkip = (TextView) findViewById(R.id.btnBack);
+        btnBack = (TextView) findViewById(R.id.btnBack);
         indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setFillColor(Color.BLACK);
         indicator.setStrokeColor(Color.BLACK);
@@ -54,7 +55,8 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
         indicator.setRadius(12);
         indicator.setPageColor(Color.WHITE);
         btnNext = (ImageView) findViewById(R.id.btnNext);
-        btnSkip.setOnClickListener(this);
+        btnSave = (ImageView) findViewById(R.id.btnSave);
+        btnBack.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
@@ -76,6 +78,8 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.btnBack:
                 viewPager.setCurrentItem(page - 1);
+                break;
+            case R.id.btnSave:
                 break;
         }
     }

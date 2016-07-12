@@ -22,7 +22,7 @@ public class FragmentSecondStep extends Fragment {
     ImageView btnNext;
     RadioButton chkMarried, chkSingle, chkFemale, chkMale;
     boolean isEmptyFieldsFragment2;
-    RadioGroup radioGender;
+    RadioGroup radioGender, radioStatus;
     boolean oldStatus2;
     TextInputLayout tilJob;
     private CustomViewPager customViewPager;
@@ -41,6 +41,7 @@ public class FragmentSecondStep extends Fragment {
         chkFemale = (RadioButton) rootView.findViewById(R.id.chkFemale);
         chkMale = (RadioButton) rootView.findViewById(R.id.chkMale);
         radioGender = (RadioGroup) rootView.findViewById(R.id.radioGender);
+        radioStatus = (RadioGroup) rootView.findViewById(R.id.radioStatus);
         tilJob = (TextInputLayout) rootView.findViewById(R.id.tilJob);
         btnNext = (ImageView) rootView.findViewById(R.id.btnNext);
 
@@ -68,14 +69,12 @@ public class FragmentSecondStep extends Fragment {
 
                     tilJob.setErrorEnabled(true);
                     tilJob.setError("Required field");
-               //     btnNext.setVisibility(View.INVISIBLE);
                 } else {
                     isEmptyFieldsFragment2 = false;
                     tilJob.setErrorEnabled(false);
-                 //   if (frag1.isEmptyFieldsFragment1 == false) {
-                     //   btnNext.setVisibility(View.VISIBLE);
-                      //  customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-                  //  }
+                    if (frag1.isEmptyFieldsFragment1 == false) {
+                        customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
+                    }
                 }
 
                 if (oldStatus2 != isEmptyFieldsFragment2) {
@@ -86,7 +85,7 @@ public class FragmentSecondStep extends Fragment {
                         btnNext.setVisibility(View.VISIBLE);
                     } else {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
-                    //    btnNext.setVisibility(View.INVISIBLE);
+                        //    btnNext.setVisibility(View.INVISIBLE);
                     }
                     Log.d("Empty status", "sending to Activity new status fields2");
                 }
