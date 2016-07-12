@@ -72,24 +72,31 @@ public class FragmentSecondStep extends Fragment {
                 } else {
                     isEmptyFieldsFragment2 = false;
                     tilJob.setErrorEnabled(false);
-                    if (frag1.isEmptyFieldsFragment1 == false) {
-                        customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-                    }
+
+
                 }
+
+
 
                 if (oldStatus2 != isEmptyFieldsFragment2) {
                     oldStatus2 = isEmptyFieldsFragment2;
                     ((AddActivity) getActivity()).setStatus2(isEmptyFieldsFragment2);
                     if (!oldStatus2 && !frag1.isEmptyFieldsFragment1) {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-                        btnNext.setVisibility(View.VISIBLE);
+                      //  btnNext.setVisibility(View.VISIBLE);
                     } else {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
-                        //    btnNext.setVisibility(View.INVISIBLE);
                     }
                     Log.d("Empty status", "sending to Activity new status fields2");
                 }
+
+                if (!((AddActivity) getActivity()).status1 && !isEmptyFieldsFragment2) {
+                    customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
+
+                }
                 Log.d("Empty fields fragment 2", String.valueOf(isEmptyFieldsFragment2));
+                Log.d("STATUS1", String.valueOf(((AddActivity) getActivity()).status1));
+
             }
 
             @Override

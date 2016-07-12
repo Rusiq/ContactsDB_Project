@@ -120,6 +120,8 @@ public class FragmentFirstStep extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
                 if (etPhone.getText().length() < 11) {
                     tilPhone.setErrorEnabled(true);
                     tilPhone.setError("Required field");
@@ -136,6 +138,7 @@ public class FragmentFirstStep extends Fragment {
                 }
 
                 Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
+                Log.d("STATUS1", String.valueOf(((AddActivity) getActivity()).status1));
             }
 
             @Override

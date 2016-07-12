@@ -3,6 +3,7 @@ package com.example.ruslan.contactsdb_project;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ public class AddActivity extends AppCompatActivity {
                         break;
 
                     case 1:
+                        Log.d("STATUS1", String.valueOf(status1));
                         tvTitle.setText(R.string.step_2);
                         btnSave.setVisibility(View.INVISIBLE);
                         if (!status1 && !status2) {
