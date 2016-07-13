@@ -8,11 +8,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="40dp"
-        android:paddingBottom="70dp"
+        android:layout_marginTop="?attr/actionBarSize"
         >
 
         <LinearLayout
@@ -34,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/tvFirstName"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -55,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/tvLastName"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -75,7 +74,7 @@
 
                 <TextView
                     android:id="@+id/tvPhone"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -96,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/tvAddress"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -117,7 +116,7 @@
 
                 <TextView
                     android:id="@+id/tvJob"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -138,7 +137,7 @@
 
                 <TextView
                     android:id="@+id/tvStatus"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -159,7 +158,7 @@
 
                 <TextView
                     android:id="@+id/tvGender"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>
@@ -180,7 +179,7 @@
 
                 <TextView
                     android:id="@+id/tvEmail"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"/>

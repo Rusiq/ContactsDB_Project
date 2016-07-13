@@ -24,9 +24,6 @@ public class AddActivity extends AppCompatActivity {
     private Contact mContact;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +42,11 @@ public class AddActivity extends AppCompatActivity {
 //            frag3 = (FragmentDone)fragment;
 //        }
 
-
         customViewPager = (CustomViewPager) findViewById(R.id.custom_view_pager);
         indicator = (MaterialIndicator) findViewById(R.id.materialIndicator);
         final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
+        //customViewPager.setOffscreenPageLimit(0);
         indicator.setViewPager(customViewPager);
 
         btnNext = (ImageView) findViewById(R.id.btnNext);
@@ -69,6 +66,8 @@ public class AddActivity extends AppCompatActivity {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
 
+                       // frag2.etEmail.setText("test@mail");
+                        Log.d("contact","First name " +  mContact.getFirstName());
                         break;
 
                     case 1:
@@ -77,11 +76,12 @@ public class AddActivity extends AppCompatActivity {
                         btnSave.setVisibility(View.INVISIBLE);
                         if (!status1 && !status2) {
                             btnNext.setVisibility(View.VISIBLE);
-                        } else btnNext.setVisibility(View.INVISIBLE);
-
-                        if (!status1 && !status2) {
                             customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
-                        } else customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
+                        } else {
+                            btnNext.setVisibility(View.INVISIBLE);
+                            customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
+                        }
+                        Log.d("contact", "First name " + String.valueOf(mContact.getFirstName()));
                         break;
 
                     case 2:
@@ -90,6 +90,11 @@ public class AddActivity extends AppCompatActivity {
                         btnSave.setVisibility(View.VISIBLE);
                         setFields();
 
+
+                        Log.d("contact", "First name " + String.valueOf(mContact.getFirstName()));
+                        Log.d("contact", mContact.getFirstName());
+                      //  Log.d("Frag3 tvFirstName", String.valueOf(frag3.tvFirstName.toString()));
+                        Log.d("Frag3 tvFirstName", frag3.tvFirstName.getText().toString());
                         break;
                 }
             }
@@ -111,7 +116,11 @@ public class AddActivity extends AppCompatActivity {
         status2 = value;
         if (!status1 && !status2) {
             btnNext.setVisibility(View.VISIBLE);
-        } else btnNext.setVisibility(View.INVISIBLE);
+            customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
+        } else {
+            btnNext.setVisibility(View.INVISIBLE);
+            customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
+        }
 
     }
 
@@ -125,7 +134,9 @@ public class AddActivity extends AppCompatActivity {
         mContact.setJob(frag2.getJob());
         mContact.setEmail(frag2.getEmail());
 
+        Log.d("contact", mContact.getFirstName());
         frag3.setContact(mContact);
+
     }
 
     public Contact getContact() {

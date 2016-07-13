@@ -62,8 +62,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_PH_NO, contact.getPhoneNumber()); // Contact Phone
 
         values.put(KEY_JOB, contact.getJob()); // Contact Job
-     //   values.put(KEY_STATUS, contact.getMaritalStatus()); // Contact MaritalStatus
-      //  values.put(KEY_GENDER, contact.getGender()); // Contact Gender
+        values.put(KEY_STATUS, String.valueOf(contact.getMaritalStatus())); // Contact MaritalStatus
+        values.put(KEY_GENDER, String.valueOf(contact.getGender())); // Contact Gender
         values.put(KEY_EMAIL, contact.getEmail()); // Contact Email
 
         // Inserting Row
@@ -92,8 +92,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 contact.setAddress(cursor.getString(4));
 
                 contact.setJob(cursor.getString(5));
-         //       contact.setMaritalStatus(cursor.getString(6));
-         //       contact.setGender(cursor.getString(7));
+                contact.setMaritalStatus(Contact.MaritalStatus.fromString(cursor.getString(6)));
+                contact.setGender(Contact.Gender.fromString(cursor.getString(7)));
                 contact.setEmail(cursor.getString(8));
                 // Adding contact to list
                 contactList.add(contact);

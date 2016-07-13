@@ -2,6 +2,7 @@ package com.example.ruslan.contactsdb_project;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class FragmentDone extends Fragment {
     TextView tvGender;
     TextView tvEmail;
     LinearLayout llLastName, llAddress, llStatus, llGender, llEmail;
+    Contact contact;
 
 
     @Override
@@ -41,24 +43,22 @@ public class FragmentDone extends Fragment {
         llGender = (LinearLayout) rootView.findViewById(R.id.llGender);
         llEmail = (LinearLayout) rootView.findViewById(R.id.llEmail);
 
-        ((AddActivity) getActivity()).getContact();
         return rootView;
     }
 
 
-    public void setContact(Contact mContact){
+    public void setContact(Contact contact) {
+       // contact = ((AddActivity) getActivity()).getContact();
 
-        tvFirstName.setText(mContact.getFirstName());
-        tvLastName.setText(mContact.getLastName());
-        tvPhone.setText(mContact.getPhoneNumber());
-        tvAddress.setText(mContact.getAddress());
+        tvFirstName.setText(contact.getFirstName());
+        tvLastName.setText(contact.getLastName());
+        tvPhone.setText(contact.getPhoneNumber());
+        tvAddress.setText(contact.getAddress());
 
-        tvJob.setText(mContact.getJob());
-        tvStatus.setText(mContact.getMaritalStatus().toString());
-        tvGender.setText(mContact.getGender().toString());
-        tvEmail.setText(mContact.getEmail());
+        tvJob.setText(contact.getJob());
+        tvStatus.setText(contact.getMaritalStatus().toString());
+        tvGender.setText(contact.getGender().toString());
+        tvEmail.setText(contact.getEmail());
+        Log.d("Info", contact.getFirstName());
     }
-
-
-
 }
