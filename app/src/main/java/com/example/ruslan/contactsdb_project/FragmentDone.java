@@ -43,22 +43,34 @@ public class FragmentDone extends Fragment {
         llGender = (LinearLayout) rootView.findViewById(R.id.llGender);
         llEmail = (LinearLayout) rootView.findViewById(R.id.llEmail);
 
+        contact = ((AddActivity) getActivity()).getContact();
+
         return rootView;
     }
 
 
     public void setContact(Contact contact) {
-       // contact = ((AddActivity) getActivity()).getContact();
 
+        contact = this.contact;
         tvFirstName.setText(contact.getFirstName());
-        tvLastName.setText(contact.getLastName());
-        tvPhone.setText(contact.getPhoneNumber());
-        tvAddress.setText(contact.getAddress());
-
         tvJob.setText(contact.getJob());
-        tvStatus.setText(contact.getMaritalStatus().toString());
-        tvGender.setText(contact.getGender().toString());
-        tvEmail.setText(contact.getEmail());
+        tvPhone.setText(contact.getPhoneNumber());
+
+        if (contact.getLastName() == null) llLastName.setVisibility(View.GONE);
+        else tvLastName.setText(contact.getLastName());
+
+        if (contact.getAddress() == null) llAddress.setVisibility(View.GONE);
+        else tvAddress.setText(contact.getAddress());
+
+        if (contact.getMaritalStatus().toString() == null) llStatus.setVisibility(View.GONE);
+        else tvStatus.setText(contact.getMaritalStatus().toString());
+
+        if (contact.getGender().toString() == null) llGender.setVisibility(View.GONE);
+        else tvGender.setText(contact.getGender().toString());
+
+        if (contact.getEmail() == null) llEmail.setVisibility(View.GONE);
+        else tvEmail.setText(contact.getEmail());
+
         Log.d("Info", contact.getFirstName());
     }
 }

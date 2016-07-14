@@ -66,8 +66,8 @@ public class AddActivity extends AppCompatActivity {
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
 
-                       // frag2.etEmail.setText("test@mail");
-                        Log.d("contact","First name " +  mContact.getFirstName());
+                        // frag2.etEmail.setText("test@mail");
+                        Log.d("contact", "First name " + mContact.getFirstName());
                         break;
 
                     case 1:
@@ -90,10 +90,10 @@ public class AddActivity extends AppCompatActivity {
                         btnSave.setVisibility(View.VISIBLE);
                         setFields();
 
-
+                        frag3.tvFirstName.setText(frag1.etFirstName.getText().toString());
                         Log.d("contact", "First name " + String.valueOf(mContact.getFirstName()));
                         Log.d("contact", mContact.getFirstName());
-                      //  Log.d("Frag3 tvFirstName", String.valueOf(frag3.tvFirstName.toString()));
+                        //  Log.d("Frag3 tvFirstName", String.valueOf(frag3.tvFirstName.toString()));
                         Log.d("Frag3 tvFirstName", frag3.tvFirstName.getText().toString());
                         break;
                 }
@@ -125,6 +125,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void setFields() {
+
         mContact.setFirstName(frag1.getFirstName());
         mContact.setAddress(frag1.getAddress());
         mContact.setLastName(frag1.getLastName());
