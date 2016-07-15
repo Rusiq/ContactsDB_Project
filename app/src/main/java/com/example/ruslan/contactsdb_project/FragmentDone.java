@@ -20,8 +20,13 @@ public class FragmentDone extends Fragment {
     TextView tvGender;
     TextView tvEmail;
     LinearLayout llLastName, llAddress, llStatus, llGender, llEmail;
-    Contact contact;
+    //Contact contact;
 
+
+    public static  FragmentDone getInstance(){
+        FragmentDone fragmentDone = new FragmentDone();
+        return fragmentDone;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class FragmentDone extends Fragment {
         llGender = (LinearLayout) rootView.findViewById(R.id.llGender);
         llEmail = (LinearLayout) rootView.findViewById(R.id.llEmail);
 
-        contact = ((AddActivity) getActivity()).getContact();
+        //contact = ((AddActivity) getActivity()).getContact();
 
         return rootView;
     }
@@ -51,7 +56,7 @@ public class FragmentDone extends Fragment {
 
     public void setContact(Contact contact) {
 
-        contact = this.contact;
+      //  contact = this.contact;
         tvFirstName.setText(contact.getFirstName());
         tvJob.setText(contact.getJob());
         tvPhone.setText(contact.getPhoneNumber());

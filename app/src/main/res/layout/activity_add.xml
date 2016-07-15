@@ -34,22 +34,22 @@
         android:layout_height="match_parent">
 
 
-        <fragment
-            android:id="@+id/frag1"
-            class="com.example.ruslan.contactsdb_project.FragmentFirstStep"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout="@layout/fragment_first_step"/>
-        <fragment
-            android:id="@+id/frag2"
-            class="com.example.ruslan.contactsdb_project.FragmentSecondStep"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <fragment
-            android:id="@+id/frag3"
-            class="com.example.ruslan.contactsdb_project.FragmentDone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--<fragment-->
+            <!--android:id="@+id/frag1"-->
+            <!--class="com.example.ruslan.contactsdb_project.FragmentFirstStep"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:layout="@layout/fragment_first_step"/>-->
+        <!--<fragment-->
+            <!--android:id="@+id/frag2"-->
+            <!--class="com.example.ruslan.contactsdb_project.FragmentSecondStep"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
+        <!--<fragment-->
+            <!--android:id="@+id/frag3"-->
+            <!--class="com.example.ruslan.contactsdb_project.FragmentDone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
     </com.example.ruslan.contactsdb_project.CustomViewPager>
 
     <com.example.ruslan.contactsdb_project.dots.MaterialIndicator

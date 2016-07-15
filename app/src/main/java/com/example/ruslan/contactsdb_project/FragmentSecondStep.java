@@ -26,6 +26,11 @@ public class FragmentSecondStep extends Fragment {
     TextInputLayout tilJob;
 
 
+    public static  FragmentSecondStep getInstance(){
+        FragmentSecondStep fragmentSecondStep = new FragmentSecondStep();
+        return fragmentSecondStep;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

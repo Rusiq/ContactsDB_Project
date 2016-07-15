@@ -18,6 +18,12 @@ public class FragmentFirstStep extends Fragment {
     boolean isEmptyFieldsFragment1, oldStatus1;
 
 
+    public static FragmentFirstStep getInstance() {
+        FragmentFirstStep fragmentFirstStep = new FragmentFirstStep();
+        return fragmentFirstStep;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -127,6 +133,7 @@ public class FragmentFirstStep extends Fragment {
     }
 
     public String getFirstName() {
+        Log.d("fr1", "contact " + etFirstName.getText());
         return etFirstName.getText().toString().trim();
     }
 

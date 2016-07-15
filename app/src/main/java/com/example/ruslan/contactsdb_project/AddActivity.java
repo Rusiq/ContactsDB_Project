@@ -1,6 +1,7 @@
 package com.example.ruslan.contactsdb_project;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ruslan.contactsdb_project.adapters.SectionsPagerAdapter;
 import com.example.ruslan.contactsdb_project.dots.MaterialIndicator;
 
 
@@ -17,12 +19,13 @@ public class AddActivity extends AppCompatActivity {
     TextView tvTitle;
     ImageView btnNext, btnSave;
     private MaterialIndicator indicator;
-    FragmentSecondStep frag2;
-    FragmentFirstStep frag1;
-    FragmentDone frag3;
+//    FragmentSecondStep frag2;
+//    FragmentFirstStep frag1;
+//    FragmentDone frag3;
     boolean status1 = true, status2 = true;
     private Contact mContact;
-
+    Fragment fragCurrent;
+    SectionsPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +36,9 @@ public class AddActivity extends AppCompatActivity {
         tvTitle.setText(R.string.step_1);
         mContact = new Contact();
 
-        frag2 = (FragmentSecondStep) getSupportFragmentManager().findFragmentById(R.id.frag2);
-        frag1 = (FragmentFirstStep) getSupportFragmentManager().findFragmentById(R.id.frag1);
-        frag3 = (FragmentDone) getSupportFragmentManager().findFragmentById(R.id.frag3);
+//        frag2 = (FragmentSecondStep) getSupportFragmentManager().findFragmentById(R.id.frag2);
+//        frag1 = (FragmentFirstStep) getSupportFragmentManager().findFragmentById(R.id.frag1);
+//        frag3 = (FragmentDone) getSupportFragmentManager().findFragmentById(R.id.frag3);
 
 //        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag3);
 //        if (fragment != null &&  fragment instanceof FragmentDone){
@@ -44,7 +47,7 @@ public class AddActivity extends AppCompatActivity {
 
         customViewPager = (CustomViewPager) findViewById(R.id.custom_view_pager);
         indicator = (MaterialIndicator) findViewById(R.id.materialIndicator);
-        final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
         //customViewPager.setOffscreenPageLimit(0);
         indicator.setViewPager(customViewPager);
@@ -52,20 +55,24 @@ public class AddActivity extends AppCompatActivity {
         btnNext = (ImageView) findViewById(R.id.btnNext);
         btnSave = (ImageView) findViewById(R.id.btnSave);
 
+        fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
+
+
         customViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
+
                         tvTitle.setText(R.string.step_1);
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
-
                         // frag2.etEmail.setText("test@mail");
                         Log.d("contact", "First name " + mContact.getFirstName());
                         break;
@@ -81,7 +88,10 @@ public class AddActivity extends AppCompatActivity {
                             btnNext.setVisibility(View.INVISIBLE);
                             customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
                         }
-                        Log.d("contact", "First name " + String.valueOf(mContact.getFirstName()));
+                        if (fragCurrent != null && fragCurrent instanceof FragmentFirstStep){
+                            Log.d("onPageSelected", "First name " + ((FragmentFirstStep)fragCurrent).getFirstName());
+                        }
+
                         break;
 
                     case 2:
@@ -89,14 +99,17 @@ public class AddActivity extends AppCompatActivity {
                         btnNext.setVisibility(View.INVISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
                         setFields();
+                        //frag3.setContact(mContact);
 
-                        frag3.tvFirstName.setText(frag1.etFirstName.getText().toString());
+
+                        //frag3.tvFirstName.setText(frag1.etFirstName.getText().toString());
                         Log.d("contact", "First name " + String.valueOf(mContact.getFirstName()));
                         Log.d("contact", mContact.getFirstName());
                         //  Log.d("Frag3 tvFirstName", String.valueOf(frag3.tvFirstName.toString()));
-                        Log.d("Frag3 tvFirstName", frag3.tvFirstName.getText().toString());
+                       // Log.d("Frag3 tvFirstName", frag3.tvFirstName.getText().toString());
                         break;
                 }
+                fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
             }
 
             @Override
@@ -126,17 +139,19 @@ public class AddActivity extends AppCompatActivity {
 
     public void setFields() {
 
-        mContact.setFirstName(frag1.getFirstName());
-        mContact.setAddress(frag1.getAddress());
-        mContact.setLastName(frag1.getLastName());
-        mContact.setPhoneNumber(frag1.getPhone());
-        mContact.setGender(frag2.getGender());
-        mContact.setMaritalStatus(frag2.getMaritalStatus());
-        mContact.setJob(frag2.getJob());
-        mContact.setEmail(frag2.getEmail());
 
-        Log.d("contact", mContact.getFirstName());
-        frag3.setContact(mContact);
+
+//        mContact.setFirstName(frag1.getFirstName());
+//        mContact.setAddress(frag1.getAddress());
+//        mContact.setLastName(frag1.getLastName());
+//        mContact.setPhoneNumber(frag1.getPhone());
+//        mContact.setGender(frag2.getGender());
+//        mContact.setMaritalStatus(frag2.getMaritalStatus());
+//        mContact.setJob(frag2.getJob());
+//        mContact.setEmail(frag2.getEmail());
+
+        Log.d("contact", "contact " + mContact.getFirstName());
+       // frag3.setContact(mContact);
 
     }
 
