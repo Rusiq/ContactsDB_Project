@@ -1,5 +1,6 @@
 package com.example.ruslan.contactsdb_project;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,9 @@ import android.widget.RadioGroup;
 
 public class FragmentSecondStep extends Fragment {
 
+    public interface OnFragmentSecondStepInteractionListener {
+        public void onFragmentSecondStepEditTextFilled(String job, Contact.MaritalStatus maritalStatus, Contact.Gender gender, String email);
+    }
 
     EditText etJob, etEmail;
     ImageView btnNext;
@@ -25,6 +29,7 @@ public class FragmentSecondStep extends Fragment {
     RadioGroup radioGender, radioStatus;
     TextInputLayout tilJob;
 
+    private OnFragmentSecondStepInteractionListener listenerSecondStep;
 
     public static  FragmentSecondStep getInstance(){
         FragmentSecondStep fragmentSecondStep = new FragmentSecondStep();
@@ -91,6 +96,27 @@ public class FragmentSecondStep extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        try {
+            listenerSecondStep = (OnFragmentSecondStepInteractionListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentSecondStepInteractionListener");
+        }
+        super.onAttach(activity);
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+
+            listenerSecondStep.onFragmentSecondStepEditTextFilled(getJob(), getMaritalStatus(), getGender(), getEmail());
+            Log.i("Fragment", "call activity: " + getJob() + getMaritalStatus() + getGender() + getEmail());
+        }
     }
 
 

@@ -32,7 +32,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 if (sFragmentFirstStep == null)
                     sFragmentFirstStep = FragmentFirstStep.getInstance();
-                fragment = FragmentFirstStep.getInstance();;
+                fragment = FragmentFirstStep.getInstance();
                 break;
             case 1:
                 if (sFragmentSecondStep == null)

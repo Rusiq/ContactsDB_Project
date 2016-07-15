@@ -13,13 +13,13 @@ import com.example.ruslan.contactsdb_project.adapters.SectionsPagerAdapter;
 import com.example.ruslan.contactsdb_project.dots.MaterialIndicator;
 
 
-public class AddActivity extends AppCompatActivity {
-    private CustomViewPager customViewPager;
+public class AddActivity extends AppCompatActivity implements FragmentFirstStep.OnFragmentFirstStepInteractionListener, FragmentSecondStep.OnFragmentSecondStepInteractionListener {
 
+    private CustomViewPager customViewPager;
     TextView tvTitle;
     ImageView btnNext, btnSave;
     private MaterialIndicator indicator;
-//    FragmentSecondStep frag2;
+    //    FragmentSecondStep frag2;
 //    FragmentFirstStep frag1;
 //    FragmentDone frag3;
     boolean status1 = true, status2 = true;
@@ -47,8 +47,10 @@ public class AddActivity extends AppCompatActivity {
 
         customViewPager = (CustomViewPager) findViewById(R.id.custom_view_pager);
         indicator = (MaterialIndicator) findViewById(R.id.materialIndicator);
+
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
+
         //customViewPager.setOffscreenPageLimit(0);
         indicator.setViewPager(customViewPager);
 
@@ -69,16 +71,12 @@ public class AddActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-
                         tvTitle.setText(R.string.step_1);
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
-                        // frag2.etEmail.setText("test@mail");
-                        Log.d("contact", "First name " + mContact.getFirstName());
                         break;
 
                     case 1:
-                        Log.d("STATUS1", String.valueOf(status1));
                         tvTitle.setText(R.string.step_2);
                         btnSave.setVisibility(View.INVISIBLE);
                         if (!status1 && !status2) {
@@ -88,25 +86,18 @@ public class AddActivity extends AppCompatActivity {
                             btnNext.setVisibility(View.INVISIBLE);
                             customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
                         }
-                        if (fragCurrent != null && fragCurrent instanceof FragmentFirstStep){
-                            Log.d("onPageSelected", "First name " + ((FragmentFirstStep)fragCurrent).getFirstName());
+                        if (fragCurrent != null && fragCurrent instanceof FragmentFirstStep) {
+                            Log.d("onPageSelected", "First name " + ((FragmentFirstStep) fragCurrent).getFirstName());
                         }
-
                         break;
 
                     case 2:
                         tvTitle.setText(R.string.done);
                         btnNext.setVisibility(View.INVISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
-                        setFields();
+                        // setFields();
                         //frag3.setContact(mContact);
 
-
-                        //frag3.tvFirstName.setText(frag1.etFirstName.getText().toString());
-                        Log.d("contact", "First name " + String.valueOf(mContact.getFirstName()));
-                        Log.d("contact", mContact.getFirstName());
-                        //  Log.d("Frag3 tvFirstName", String.valueOf(frag3.tvFirstName.toString()));
-                       // Log.d("Frag3 tvFirstName", frag3.tvFirstName.getText().toString());
                         break;
                 }
                 fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
@@ -140,7 +131,6 @@ public class AddActivity extends AppCompatActivity {
     public void setFields() {
 
 
-
 //        mContact.setFirstName(frag1.getFirstName());
 //        mContact.setAddress(frag1.getAddress());
 //        mContact.setLastName(frag1.getLastName());
@@ -151,11 +141,27 @@ public class AddActivity extends AppCompatActivity {
 //        mContact.setEmail(frag2.getEmail());
 
         Log.d("contact", "contact " + mContact.getFirstName());
-       // frag3.setContact(mContact);
+        // frag3.setContact(mContact);
 
     }
 
     public Contact getContact() {
         return mContact;
+    }
+
+    @Override
+    public void onFragmentFirstStepEditTextFilled(String firstName, String lastName, String phone, String address) {
+        mContact.setFirstName(firstName);
+        mContact.setLastName(lastName);
+        mContact.setPhoneNumber(phone);
+        mContact.setAddress(address);
+    }
+
+    @Override
+    public void onFragmentSecondStepEditTextFilled(String job, Contact.MaritalStatus maritalStatus, Contact.Gender gender, String email) {
+        mContact.setJob(job);
+        mContact.setMaritalStatus(maritalStatus);
+        mContact.setGender(gender);
+        mContact.setEmail(email);
     }
 }

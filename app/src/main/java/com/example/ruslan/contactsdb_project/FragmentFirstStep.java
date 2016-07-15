@@ -1,5 +1,6 @@
 package com.example.ruslan.contactsdb_project;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,15 @@ import android.widget.EditText;
 
 public class FragmentFirstStep extends Fragment {
 
+    public interface OnFragmentFirstStepInteractionListener {
+        public void onFragmentFirstStepEditTextFilled(String firstName, String lastName, String phone, String address);
+    }
+
     EditText etFirstName, etLastName, etPhone, etAddress;
     TextInputLayout tilFirstName, tilPhone;
     boolean isEmptyFieldsFragment1, oldStatus1;
+
+    private OnFragmentFirstStepInteractionListener listenerFirstStep;
 
 
     public static FragmentFirstStep getInstance() {
@@ -47,10 +54,8 @@ public class FragmentFirstStep extends Fragment {
         tilPhone.setError("Required field");
 
       /*  etFirstName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-
             @Override
             public void onFocusChange(View view, boolean b) {
-
                 if (etFirstName.getText().toString().trim().length() < 2) {
                     tilFirstName.setErrorEnabled(true);
                     tilFirstName.setError("Required field");
@@ -132,8 +137,30 @@ public class FragmentFirstStep extends Fragment {
         return rootView;
     }
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        try {
+            listenerFirstStep = (OnFragmentFirstStepInteractionListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentFirstStepInteractionListener");
+        }
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+
+            listenerFirstStep.onFragmentFirstStepEditTextFilled(getFirstName(), getLastName(), getPhone(), getAddress());
+            Log.i("Fragment", "call activity: " + getFirstName() + getLastName() + getPhone() + getAddress());
+        }
+    }
+
+
     public String getFirstName() {
-        Log.d("fr1", "contact " + etFirstName.getText());
+     //   Log.d("fr1", "contact " + etFirstName.getText());
         return etFirstName.getText().toString().trim();
     }
 
