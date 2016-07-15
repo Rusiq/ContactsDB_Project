@@ -1,6 +1,6 @@
 package com.example.ruslan.contactsdb_project;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -139,20 +139,19 @@ public class FragmentFirstStep extends Fragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context context) {
         try {
             listenerFirstStep = (OnFragmentFirstStepInteractionListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnFragmentFirstStepInteractionListener");
+            throw new ClassCastException(context.toString() + " must implement OnFragmentFirstStepInteractionListener");
         }
-        super.onAttach(activity);
+        super.onAttach(context);
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-
+        if (getView() !=null) {
             listenerFirstStep.onFragmentFirstStepEditTextFilled(getFirstName(), getLastName(), getPhone(), getAddress());
             Log.i("Fragment", "call activity: " + getFirstName() + getLastName() + getPhone() + getAddress());
         }

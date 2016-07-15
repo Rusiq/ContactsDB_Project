@@ -25,6 +25,7 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
     boolean status1 = true, status2 = true;
     private Contact mContact;
     Fragment fragCurrent;
+   // FragmentDone fragmentDone;
     SectionsPagerAdapter pagerAdapter;
 
     @Override
@@ -51,15 +52,23 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
 
+       // FragmentDone fragmentDone = (FragmentDone) getSupportFragmentManager().findFragmentByTag(FragmentDone.getInstance().getTag());
+
+
         //customViewPager.setOffscreenPageLimit(0);
         indicator.setViewPager(customViewPager);
 
         btnNext = (ImageView) findViewById(R.id.btnNext);
         btnSave = (ImageView) findViewById(R.id.btnSave);
 
+        /*fragmentDone.getFragmentManager().beginTransaction().
+                add(fragmentDone, "tagDoneFrag").
+                commit();*/
+
         fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
 
-
+        customViewPager.setCurrentItem(2);
+        customViewPager.setCurrentItem(0);
         customViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -74,6 +83,11 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
                         tvTitle.setText(R.string.step_1);
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
+//                        Log.d("onPageSelected", "page 1" + " - Job: " + mContact.getJob());
+//                        Log.d("onPageSelected", "page 1" + " - FirstName: " + mContact.getFirstName());
+//                        Log.d("onPageSelected", "page 1" + " - LasttName: " + mContact.getLastName());
+//                        Log.d("onPageSelected", "page 1" + " - Phone: " + mContact.getPhoneNumber());
+//                        Log.d("onPageSelected", "page 1" + " - Address: " + mContact.getAddress());
                         break;
 
                     case 1:
@@ -86,9 +100,14 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
                             btnNext.setVisibility(View.INVISIBLE);
                             customViewPager.setDirection(CustomViewPager.SwipeDirection.left);
                         }
-                        if (fragCurrent != null && fragCurrent instanceof FragmentFirstStep) {
+                       /* if (fragCurrent != null && fragCurrent instanceof FragmentFirstStep) {
                             Log.d("onPageSelected", "First name " + ((FragmentFirstStep) fragCurrent).getFirstName());
-                        }
+                        }*/
+//                        Log.d("onPageSelected", "page 2" + " - Job: " + mContact.getJob());
+//                        Log.d("onPageSelected", "page 2" + " - FirstName: " + mContact.getFirstName());
+//                        Log.d("onPageSelected", "page 2" + " - LasttName: " + mContact.getLastName());
+//                        Log.d("onPageSelected", "page 2" + " - Phone: " + mContact.getPhoneNumber());
+//                        Log.d("onPageSelected", "page 2" + " - Address: " + mContact.getAddress());
                         break;
 
                     case 2:
@@ -96,8 +115,16 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
                         btnNext.setVisibility(View.INVISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
                         // setFields();
-                        //frag3.setContact(mContact);
-
+                    //    fragmentDone.setContact(mContact);
+                        Log.d("onPageSelected", "page 3" + " - Job: " + mContact.getJob());
+                        Log.d("onPageSelected", "page 3" + " - FirstName: " + mContact.getFirstName());
+                        Log.d("onPageSelected", "page 3" + " - LasttName: " + mContact.getLastName());
+                        Log.d("onPageSelected", "page 3" + " - Phone: " + mContact.getPhoneNumber());
+                        Log.d("onPageSelected", "page 3" + " - Address: " + mContact.getAddress());
+                        fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
+                        if (fragCurrent instanceof FragmentDone){
+                            ((FragmentDone) fragCurrent).setContact(mContact);
+                        }
                         break;
                 }
                 fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());

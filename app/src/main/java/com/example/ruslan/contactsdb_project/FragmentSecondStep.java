@@ -1,6 +1,6 @@
 package com.example.ruslan.contactsdb_project;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -76,9 +76,6 @@ public class FragmentSecondStep extends Fragment {
                     tilJob.setErrorEnabled(false);
                 }
 
-
-
-
                 if (oldStatus2 != isEmptyFieldsFragment2) {
                     oldStatus2 = isEmptyFieldsFragment2;
                     ((AddActivity) getActivity()).setStatus2(isEmptyFieldsFragment2);
@@ -99,13 +96,13 @@ public class FragmentSecondStep extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context context) {
         try {
             listenerSecondStep = (OnFragmentSecondStepInteractionListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnFragmentSecondStepInteractionListener");
+            throw new ClassCastException(context.toString() + " must implement OnFragmentSecondStepInteractionListener");
         }
-        super.onAttach(activity);
+        super.onAttach(context);
     }
 
 

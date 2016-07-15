@@ -20,11 +20,13 @@ public class FragmentDone extends Fragment {
     TextView tvGender;
     TextView tvEmail;
     LinearLayout llLastName, llAddress, llStatus, llGender, llEmail;
+    String tagFragmentDone;
     //Contact contact;
 
 
-    public static  FragmentDone getInstance(){
+    public static FragmentDone getInstance() {
         FragmentDone fragmentDone = new FragmentDone();
+
         return fragmentDone;
     }
 
@@ -49,14 +51,14 @@ public class FragmentDone extends Fragment {
         llEmail = (LinearLayout) rootView.findViewById(R.id.llEmail);
 
         //contact = ((AddActivity) getActivity()).getContact();
-
+       // tagFragmentDone = getFragmentManager().
         return rootView;
     }
 
 
     public void setContact(Contact contact) {
 
-      //  contact = this.contact;
+        //  contact = this.contact;
         tvFirstName.setText(contact.getFirstName());
         tvJob.setText(contact.getJob());
         tvPhone.setText(contact.getPhoneNumber());
@@ -78,4 +80,5 @@ public class FragmentDone extends Fragment {
 
         Log.d("Info", contact.getFirstName());
     }
+
 }
