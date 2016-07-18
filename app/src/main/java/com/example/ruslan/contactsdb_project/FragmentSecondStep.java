@@ -1,6 +1,5 @@
 package com.example.ruslan.contactsdb_project;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -18,10 +17,6 @@ import android.widget.RadioGroup;
 
 public class FragmentSecondStep extends Fragment {
 
-    public interface OnFragmentSecondStepInteractionListener {
-        public void onFragmentSecondStepEditTextFilled(String job, Contact.MaritalStatus maritalStatus, Contact.Gender gender, String email);
-    }
-
     EditText etJob, etEmail;
     ImageView btnNext;
     RadioButton chkMarried, chkSingle, chkFemale, chkMale;
@@ -29,7 +24,6 @@ public class FragmentSecondStep extends Fragment {
     RadioGroup radioGender, radioStatus;
     TextInputLayout tilJob;
 
-    private OnFragmentSecondStepInteractionListener listenerSecondStep;
 
     public static  FragmentSecondStep getInstance(){
         FragmentSecondStep fragmentSecondStep = new FragmentSecondStep();
@@ -48,7 +42,9 @@ public class FragmentSecondStep extends Fragment {
         chkFemale = (RadioButton) rootView.findViewById(R.id.chkFemale);
         chkMale = (RadioButton) rootView.findViewById(R.id.chkMale);
         radioGender = (RadioGroup) rootView.findViewById(R.id.radioGender);
+        radioGender.check(R.id.chkMale);
         radioStatus = (RadioGroup) rootView.findViewById(R.id.radioStatus);
+        radioStatus.check(R.id.chkSingle);
         tilJob = (TextInputLayout) rootView.findViewById(R.id.tilJob);
         btnNext = (ImageView) rootView.findViewById(R.id.btnNext);
 
@@ -93,27 +89,6 @@ public class FragmentSecondStep extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        try {
-            listenerSecondStep = (OnFragmentSecondStepInteractionListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnFragmentSecondStepInteractionListener");
-        }
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-
-            listenerSecondStep.onFragmentSecondStepEditTextFilled(getJob(), getMaritalStatus(), getGender(), getEmail());
-      //      Log.i("Fragment", "call activity: " + getJob() + getMaritalStatus() + getGender() + getEmail());
-        }
     }
 
 

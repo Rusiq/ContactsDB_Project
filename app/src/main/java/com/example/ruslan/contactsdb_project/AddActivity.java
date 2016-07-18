@@ -13,19 +13,16 @@ import com.example.ruslan.contactsdb_project.adapters.SectionsPagerAdapter;
 import com.example.ruslan.contactsdb_project.dots.MaterialIndicator;
 
 
-public class AddActivity extends AppCompatActivity implements FragmentFirstStep.OnFragmentFirstStepInteractionListener, FragmentSecondStep.OnFragmentSecondStepInteractionListener {
+public class AddActivity extends AppCompatActivity {
 
     private CustomViewPager customViewPager;
     TextView tvTitle;
     ImageView btnNext, btnSave;
     private MaterialIndicator indicator;
-    //    FragmentSecondStep frag2;
-//    FragmentFirstStep frag1;
-//    FragmentDone frag3;
+
     boolean status1 = true, status2 = true;
     private Contact mContact;
     Fragment fragCurrent;
-    // FragmentDone fragmentDone;
     SectionsPagerAdapter pagerAdapter;
 
     @Override
@@ -37,33 +34,16 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
         tvTitle.setText(R.string.step_1);
         mContact = new Contact();
 
-//        frag2 = (FragmentSecondStep) getSupportFragmentManager().findFragmentById(R.id.frag2);
-//        frag1 = (FragmentFirstStep) getSupportFragmentManager().findFragmentById(R.id.frag1);
-//        frag3 = (FragmentDone) getSupportFragmentManager().findFragmentById(R.id.frag3);
-
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag3);
-//        if (fragment != null &&  fragment instanceof FragmentDone){
-//            frag3 = (FragmentDone)fragment;
-//        }
-
         customViewPager = (CustomViewPager) findViewById(R.id.custom_view_pager);
         indicator = (MaterialIndicator) findViewById(R.id.materialIndicator);
 
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
 
-        // FragmentDone fragmentDone = (FragmentDone) getSupportFragmentManager().findFragmentByTag(FragmentDone.getInstance().getTag());
-
-
-        //customViewPager.setOffscreenPageLimit(0);
         indicator.setViewPager(customViewPager);
 
         btnNext = (ImageView) findViewById(R.id.btnNext);
         btnSave = (ImageView) findViewById(R.id.btnSave);
-
-        /*fragmentDone.getFragmentManager().beginTransaction().
-                add(fragmentDone, "tagDoneFrag").
-                commit();*/
 
         fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
 
@@ -115,8 +95,9 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
                             ((FragmentDone) fragCurrent).setContact(mContact);
                         }
 
-                        logContactInfo();
+
                         Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
+                        logContactInfo();
                         break;
                 }
                 fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
@@ -128,6 +109,10 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
             }
         });
 
+    }
+
+    public Contact getContact() {
+        return mContact;
     }
 
     private void getDateFromFirstStep() {
@@ -164,22 +149,6 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
 
     }
 
-
-    @Override
-    public void onFragmentFirstStepEditTextFilled(String firstName, String lastName, String phone, String address) {
-//        mContact.setFirstName(firstName);
-//        mContact.setLastName(lastName);
-//        mContact.setPhoneNumber(phone);
-//        mContact.setAddress(address);
-    }
-
-    @Override
-    public void onFragmentSecondStepEditTextFilled(String job, Contact.MaritalStatus maritalStatus, Contact.Gender gender, String email) {
-//        mContact.setJob(job);
-//        mContact.setMaritalStatus(maritalStatus);
-//        mContact.setGender(gender);
-//        mContact.setEmail(email);
-    }
 
     public void logContactInfo() {
 

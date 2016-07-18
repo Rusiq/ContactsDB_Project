@@ -1,6 +1,6 @@
 package com.example.ruslan.contactsdb_project;
 
-import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -11,18 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 public class FragmentFirstStep extends Fragment {
-
-    public interface OnFragmentFirstStepInteractionListener {
-        public void onFragmentFirstStepEditTextFilled(String firstName, String lastName, String phone, String address);
-    }
 
     EditText etFirstName, etLastName, etPhone, etAddress;
     TextInputLayout tilFirstName, tilPhone;
     boolean isEmptyFieldsFragment1, oldStatus1;
-
-    private OnFragmentFirstStepInteractionListener listenerFirstStep;
 
 
     public static FragmentFirstStep getInstance() {
@@ -33,8 +28,12 @@ public class FragmentFirstStep extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_first_step, container, false);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ScrollView scrollView = (ScrollView)rootView.findViewById(R.id.scrollFirstStep);
+            scrollView.setEnabled(false);
+        }
 
         etFirstName = (EditText) rootView.findViewById(R.id.etFirstName);
         etLastName = (EditText) rootView.findViewById(R.id.etLastName);
@@ -138,28 +137,8 @@ public class FragmentFirstStep extends Fragment {
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        try {
-            listenerFirstStep = (OnFragmentFirstStepInteractionListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnFragmentFirstStepInteractionListener");
-        }
-        super.onAttach(context);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getView() !=null) {
-            listenerFirstStep.onFragmentFirstStepEditTextFilled(getFirstName(), getLastName(), getPhone(), getAddress());
-    //        Log.i("Fragment", "call activity: " + getFirstName() + getLastName() + getPhone() + getAddress());
-        }
-    }
-
 
     public String getFirstName() {
-     //   Log.d("fr1", "contact " + etFirstName.getText());
         return etFirstName.getText().toString().trim();
     }
 

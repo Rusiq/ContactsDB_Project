@@ -14,9 +14,6 @@ import com.example.ruslan.contactsdb_project.CustomViewPager;
 import com.example.ruslan.contactsdb_project.R;
 
 
-/**
- * Created by Ann Rodina LMC on 06.07.16, Mana App Studio Ltd.
- */
 public class MaterialIndicator extends RelativeLayout implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     private TextView btnBack;
@@ -78,8 +75,6 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.btnBack:
                 viewPager.setCurrentItem(page - 1);
-                break;
-            case R.id.btnSave:
                 break;
         }
     }
