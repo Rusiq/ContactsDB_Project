@@ -81,7 +81,7 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.btnSave:
                 ((AddActivity)getContext()).getDB().addContact(((AddActivity) getContext()).getContact());
-                Toast toast = Toast.makeText(getContext(), "New contact is added", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), "new contact is added", Toast.LENGTH_SHORT);
                 toast.show();
                 ((AddActivity)getContext()).finish();
                 break;
