@@ -10,11 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ruslan.contactsdb_project.adapters.SectionsPagerAdapter;
+import com.example.ruslan.contactsdb_project.data.DBHandler;
 import com.example.ruslan.contactsdb_project.dots.MaterialIndicator;
 
 
 public class AddActivity extends AppCompatActivity {
 
+
+    final DBHandler db = new DBHandler(this);
     private CustomViewPager customViewPager;
     TextView tvTitle;
     ImageView btnNext, btnSave;
@@ -29,6 +32,7 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
 
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTitle.setText(R.string.step_1);
@@ -113,6 +117,10 @@ public class AddActivity extends AppCompatActivity {
 
     public Contact getContact() {
         return mContact;
+    }
+
+    public DBHandler getDB(){
+        return db;
     }
 
     private void getDateFromFirstStep() {

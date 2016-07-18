@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ruslan.contactsdb_project.AddActivity;
 import com.example.ruslan.contactsdb_project.CustomViewPager;
 import com.example.ruslan.contactsdb_project.R;
 
@@ -55,6 +57,7 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
         btnSave = (ImageView) findViewById(R.id.btnSave);
         btnBack.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
     }
 
     public void setViewPager(CustomViewPager viewPager) {
@@ -75,6 +78,12 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
                 break;
             case R.id.btnBack:
                 viewPager.setCurrentItem(page - 1);
+                break;
+            case R.id.btnSave:
+                ((AddActivity)getContext()).getDB().addContact(((AddActivity) getContext()).getContact());
+                Toast toast = Toast.makeText(getContext(), "New contact is added", Toast.LENGTH_SHORT);
+                toast.show();
+                ((AddActivity)getContext()).finish();
                 break;
         }
     }

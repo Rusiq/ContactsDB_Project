@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 public class FragmentDone extends Fragment {
 
@@ -18,7 +15,6 @@ public class FragmentDone extends Fragment {
     LinearLayout llLastName, llAddress, llStatus, llGender, llEmail;
     ImageView btnSave;
     private Contact mContact;
-
 
 
     public static FragmentDone getInstance() {
@@ -32,7 +28,8 @@ public class FragmentDone extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_done, container, false);
 
-        final DBHandler db = new DBHandler(getActivity());
+        //final DBHandler db = new DBHandler(getActivity());
+
         mContact = ((AddActivity) getActivity()).getContact();
 
         tvFirstName = (TextView) rootView.findViewById(R.id.tvFirstName);
@@ -52,22 +49,14 @@ public class FragmentDone extends Fragment {
 
         btnSave = (ImageView) rootView.findViewById(R.id.btnSave);
 
-
-        try {
-            btnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    db.addContact(new Contact(mContact.getFirstName(), mContact.getLastName(),
-                            mContact.getPhoneNumber(), mContact.getAddress(), mContact.getJob(),
-                            mContact.getMaritalStatus(), mContact.getGender(), mContact.getEmail()));
-                    Toast toast = Toast.makeText(getActivity(), "New contact is added", Toast.LENGTH_SHORT);
-                    toast.show();
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       /* btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.addContact(mContact);
+                Toast toast = Toast.makeText(getActivity(), "New contact is added", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });*/
 
         return rootView;
     }
