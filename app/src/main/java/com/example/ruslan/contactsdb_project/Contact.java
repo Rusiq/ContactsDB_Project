@@ -140,7 +140,7 @@ public class Contact {
 
 
     public enum Gender {
-        FEMALE("female"), MALE("male");
+        female("female"), male("male");
 
         private String text;
 
@@ -169,7 +169,7 @@ public class Contact {
     }
 
     public enum MaritalStatus {
-        MARRIED("married"), SINGLE("single");
+        married("married"), single("single");
 
         private String text;
 

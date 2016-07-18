@@ -112,17 +112,17 @@ public class FragmentSecondStep extends Fragment {
         if (isVisibleToUser) {
 
             listenerSecondStep.onFragmentSecondStepEditTextFilled(getJob(), getMaritalStatus(), getGender(), getEmail());
-            Log.i("Fragment", "call activity: " + getJob() + getMaritalStatus() + getGender() + getEmail());
+      //      Log.i("Fragment", "call activity: " + getJob() + getMaritalStatus() + getGender() + getEmail());
         }
     }
 
 
     public Contact.Gender getGender(){
-        return (radioGender.getCheckedRadioButtonId() == R.id.chkFemale) ? Contact.Gender.FEMALE : Contact.Gender.MALE;
+        return (radioGender.getCheckedRadioButtonId() == R.id.chkFemale) ? Contact.Gender.female : Contact.Gender.male;
     }
 
     public Contact.MaritalStatus getMaritalStatus(){
-        return (radioStatus.getCheckedRadioButtonId() == R.id.chkMarried) ? Contact.MaritalStatus.MARRIED : Contact.MaritalStatus.SINGLE;
+        return (radioStatus.getCheckedRadioButtonId() == R.id.chkMarried) ? Contact.MaritalStatus.married : Contact.MaritalStatus.single;
     }
 
     public String getJob() {

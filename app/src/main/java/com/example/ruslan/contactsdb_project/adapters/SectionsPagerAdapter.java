@@ -2,16 +2,13 @@ package com.example.ruslan.contactsdb_project.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.ruslan.contactsdb_project.FragmentDone;
 import com.example.ruslan.contactsdb_project.FragmentFirstStep;
 import com.example.ruslan.contactsdb_project.FragmentSecondStep;
 
-/**
- * Created by ruslan on 15.07.16.
- */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static FragmentFirstStep sFragmentFirstStep;
     private static FragmentSecondStep sFragmentSecondStep;
@@ -32,17 +29,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 if (sFragmentFirstStep == null)
                     sFragmentFirstStep = FragmentFirstStep.getInstance();
-                fragment = FragmentFirstStep.getInstance();
+                fragment = sFragmentFirstStep;
                 break;
             case 1:
                 if (sFragmentSecondStep == null)
                     sFragmentSecondStep = FragmentSecondStep.getInstance();
-                fragment = FragmentSecondStep.getInstance();
+                fragment =sFragmentSecondStep;
                 break;
             case 2:
                 if (sFragmentDone == null)
                     sFragmentDone = FragmentDone.getInstance();
-                fragment = FragmentDone.getInstance();
+                fragment = sFragmentDone;
 
                 break;
         }
@@ -51,7 +48,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
+        // Show 3 total pages.
         return 3;
     }
 }

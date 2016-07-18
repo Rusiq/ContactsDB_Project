@@ -25,7 +25,7 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
     boolean status1 = true, status2 = true;
     private Contact mContact;
     Fragment fragCurrent;
-   // FragmentDone fragmentDone;
+    // FragmentDone fragmentDone;
     SectionsPagerAdapter pagerAdapter;
 
     @Override
@@ -52,7 +52,7 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
         pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(pagerAdapter);
 
-       // FragmentDone fragmentDone = (FragmentDone) getSupportFragmentManager().findFragmentByTag(FragmentDone.getInstance().getTag());
+        // FragmentDone fragmentDone = (FragmentDone) getSupportFragmentManager().findFragmentByTag(FragmentDone.getInstance().getTag());
 
 
         //customViewPager.setOffscreenPageLimit(0);
@@ -67,8 +67,6 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
 
         fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
 
-        customViewPager.setCurrentItem(2);
-        customViewPager.setCurrentItem(0);
         customViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -83,11 +81,8 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
                         tvTitle.setText(R.string.step_1);
                         customViewPager.setDirection(CustomViewPager.SwipeDirection.all);
                         btnNext.setVisibility(View.VISIBLE);
-//                        Log.d("onPageSelected", "page 1" + " - Job: " + mContact.getJob());
-//                        Log.d("onPageSelected", "page 1" + " - FirstName: " + mContact.getFirstName());
-//                        Log.d("onPageSelected", "page 1" + " - LasttName: " + mContact.getLastName());
-//                        Log.d("onPageSelected", "page 1" + " - Phone: " + mContact.getPhoneNumber());
-//                        Log.d("onPageSelected", "page 1" + " - Address: " + mContact.getAddress());
+                        Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
+                        logContactInfo();
                         break;
 
                     case 1:
@@ -103,28 +98,25 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
                        /* if (fragCurrent != null && fragCurrent instanceof FragmentFirstStep) {
                             Log.d("onPageSelected", "First name " + ((FragmentFirstStep) fragCurrent).getFirstName());
                         }*/
-//                        Log.d("onPageSelected", "page 2" + " - Job: " + mContact.getJob());
-//                        Log.d("onPageSelected", "page 2" + " - FirstName: " + mContact.getFirstName());
-//                        Log.d("onPageSelected", "page 2" + " - LasttName: " + mContact.getLastName());
-//                        Log.d("onPageSelected", "page 2" + " - Phone: " + mContact.getPhoneNumber());
-//                        Log.d("onPageSelected", "page 2" + " - Address: " + mContact.getAddress());
+                        Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
+                        logContactInfo();
                         break;
 
                     case 2:
                         tvTitle.setText(R.string.done);
                         btnNext.setVisibility(View.INVISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
-                        // setFields();
-                    //    fragmentDone.setContact(mContact);
-                        Log.d("onPageSelected", "page 3" + " - Job: " + mContact.getJob());
-                        Log.d("onPageSelected", "page 3" + " - FirstName: " + mContact.getFirstName());
-                        Log.d("onPageSelected", "page 3" + " - LasttName: " + mContact.getLastName());
-                        Log.d("onPageSelected", "page 3" + " - Phone: " + mContact.getPhoneNumber());
-                        Log.d("onPageSelected", "page 3" + " - Address: " + mContact.getAddress());
+
+                        getDateFromFirstStep();
+                        getDateFromSecond();
+
                         fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
-                        if (fragCurrent instanceof FragmentDone){
+                        if (fragCurrent instanceof FragmentDone) {
                             ((FragmentDone) fragCurrent).setContact(mContact);
                         }
+
+                        logContactInfo();
+                        Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
                         break;
                 }
                 fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
@@ -136,6 +128,23 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
             }
         });
 
+    }
+
+    private void getDateFromFirstStep() {
+        FragmentFirstStep fragCurrent = (FragmentFirstStep) customViewPager.getAdapter().instantiateItem(customViewPager, 0);
+        mContact.setFirstName(fragCurrent.getFirstName());
+        mContact.setLastName(fragCurrent.getLastName());
+        mContact.setPhoneNumber(fragCurrent.getPhone());
+        mContact.setAddress(fragCurrent.getAddress());
+    }
+
+
+    private void getDateFromSecond() {
+        FragmentSecondStep fragCurrent = (FragmentSecondStep) customViewPager.getAdapter().instantiateItem(customViewPager, 1);
+        mContact.setJob(fragCurrent.getJob());
+        mContact.setGender(fragCurrent.getGender());
+        mContact.setMaritalStatus(fragCurrent.getMaritalStatus());
+        mContact.setEmail(fragCurrent.getEmail());
     }
 
     public void setStatus1(boolean value) {
@@ -155,40 +164,35 @@ public class AddActivity extends AppCompatActivity implements FragmentFirstStep.
 
     }
 
-    public void setFields() {
-
-
-//        mContact.setFirstName(frag1.getFirstName());
-//        mContact.setAddress(frag1.getAddress());
-//        mContact.setLastName(frag1.getLastName());
-//        mContact.setPhoneNumber(frag1.getPhone());
-//        mContact.setGender(frag2.getGender());
-//        mContact.setMaritalStatus(frag2.getMaritalStatus());
-//        mContact.setJob(frag2.getJob());
-//        mContact.setEmail(frag2.getEmail());
-
-        Log.d("contact", "contact " + mContact.getFirstName());
-        // frag3.setContact(mContact);
-
-    }
-
-    public Contact getContact() {
-        return mContact;
-    }
 
     @Override
     public void onFragmentFirstStepEditTextFilled(String firstName, String lastName, String phone, String address) {
-        mContact.setFirstName(firstName);
-        mContact.setLastName(lastName);
-        mContact.setPhoneNumber(phone);
-        mContact.setAddress(address);
+//        mContact.setFirstName(firstName);
+//        mContact.setLastName(lastName);
+//        mContact.setPhoneNumber(phone);
+//        mContact.setAddress(address);
     }
 
     @Override
     public void onFragmentSecondStepEditTextFilled(String job, Contact.MaritalStatus maritalStatus, Contact.Gender gender, String email) {
-        mContact.setJob(job);
-        mContact.setMaritalStatus(maritalStatus);
-        mContact.setGender(gender);
-        mContact.setEmail(email);
+//        mContact.setJob(job);
+//        mContact.setMaritalStatus(maritalStatus);
+//        mContact.setGender(gender);
+//        mContact.setEmail(email);
+    }
+
+    public void logContactInfo() {
+
+        Log.d("ContactInfo", " - FirstName: " + mContact.getFirstName());
+        Log.d("ContactInfo", " - LastName: " + mContact.getLastName());
+        Log.d("ContactInfo", " - Phone: " + mContact.getPhoneNumber());
+        Log.d("ContactInfo", " - Address: " + mContact.getAddress());
+
+        Log.d("ContactInfo", " - Job: " + mContact.getJob());
+        Log.d("ContactInfo", " - Marital status: " + mContact.getMaritalStatus());
+        Log.d("ContactInfo", " - Gender: " + mContact.getGender());
+        Log.d("ContactInfo", " - Email: " + mContact.getEmail());
+
+
     }
 }

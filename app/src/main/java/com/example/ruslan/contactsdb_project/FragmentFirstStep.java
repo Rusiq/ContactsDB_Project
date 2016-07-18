@@ -153,7 +153,7 @@ public class FragmentFirstStep extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (getView() !=null) {
             listenerFirstStep.onFragmentFirstStepEditTextFilled(getFirstName(), getLastName(), getPhone(), getAddress());
-            Log.i("Fragment", "call activity: " + getFirstName() + getLastName() + getPhone() + getAddress());
+    //        Log.i("Fragment", "call activity: " + getFirstName() + getLastName() + getPhone() + getAddress());
         }
     }
 
