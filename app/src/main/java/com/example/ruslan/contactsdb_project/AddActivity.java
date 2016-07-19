@@ -1,9 +1,10 @@
 package com.example.ruslan.contactsdb_project;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,19 +15,23 @@ import com.example.ruslan.contactsdb_project.data.DBHandler;
 import com.example.ruslan.contactsdb_project.dots.MaterialIndicator;
 
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity extends ListActivity implements MaterialIndicator.ButtonListener{
 
 
-    final DBHandler db = new DBHandler(this);
+    //final DBHandler db = new DBHandler(this);
     private CustomViewPager customViewPager;
     TextView tvTitle;
     ImageView btnNext, btnSave;
     private MaterialIndicator indicator;
 
     boolean status1 = true, status2 = true;
+    boolean portraitOrientation;
+    boolean currentOrientation = true;
+    boolean orientationChanged = false;
     private Contact mContact;
     Fragment fragCurrent;
     SectionsPagerAdapter pagerAdapter;
+    int page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class AddActivity extends AppCompatActivity {
 
         indicator.setViewPager(customViewPager);
 
+        indicator.setButtonListener(this);
         btnNext = (ImageView) findViewById(R.id.btnNext);
         btnSave = (ImageView) findViewById(R.id.btnSave);
 
@@ -67,6 +73,7 @@ public class AddActivity extends AppCompatActivity {
                         btnNext.setVisibility(View.VISIBLE);
                         Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
                         logContactInfo();
+
                         break;
 
                     case 1:
@@ -84,6 +91,7 @@ public class AddActivity extends AppCompatActivity {
                         }*/
                         Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
                         logContactInfo();
+
                         break;
 
                     case 2:
@@ -91,17 +99,20 @@ public class AddActivity extends AppCompatActivity {
                         btnNext.setVisibility(View.INVISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
 
+                        //       if (page != 3) {
+
+                        Log.d("getData", "getDateFromFirstStep + getDateFromSecond()");
                         getDateFromFirstStep();
                         getDateFromSecond();
-
                         fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
                         if (fragCurrent instanceof FragmentDone) {
                             ((FragmentDone) fragCurrent).setContact(mContact);
                         }
-
-
+                        //        }
                         Log.d("page", "------------- PAGE " + (position + 1) + "-------------");
                         logContactInfo();
+
+
                         break;
                 }
                 fragCurrent = (Fragment) customViewPager.getAdapter().instantiateItem(customViewPager, customViewPager.getCurrentItem());
@@ -112,32 +123,35 @@ public class AddActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     public Contact getContact() {
         return mContact;
     }
 
-    public DBHandler getDB(){
+/*    public DBHandler getDB() {
         return db;
-    }
+    }*/
 
     private void getDateFromFirstStep() {
         FragmentFirstStep fragCurrent = (FragmentFirstStep) customViewPager.getAdapter().instantiateItem(customViewPager, 0);
-        mContact.setFirstName(fragCurrent.getFirstName());
-        mContact.setLastName(fragCurrent.getLastName());
-        mContact.setPhoneNumber(fragCurrent.getPhone());
-        mContact.setAddress(fragCurrent.getAddress());
+        if (fragCurrent != null) {
+            mContact.setFirstName(fragCurrent.getFirstName());
+            mContact.setLastName(fragCurrent.getLastName());
+            mContact.setPhoneNumber(fragCurrent.getPhone());
+            mContact.setAddress(fragCurrent.getAddress());
+        }
     }
 
 
     private void getDateFromSecond() {
         FragmentSecondStep fragCurrent = (FragmentSecondStep) customViewPager.getAdapter().instantiateItem(customViewPager, 1);
-        mContact.setJob(fragCurrent.getJob());
-        mContact.setGender(fragCurrent.getGender());
-        mContact.setMaritalStatus(fragCurrent.getMaritalStatus());
-        mContact.setEmail(fragCurrent.getEmail());
+        if (fragCurrent != null) {
+            mContact.setJob(fragCurrent.getJob());
+            mContact.setGender(fragCurrent.getGender());
+            mContact.setMaritalStatus(fragCurrent.getMaritalStatus());
+            mContact.setEmail(fragCurrent.getEmail());
+        }
     }
 
     public void setStatus1(boolean value) {
@@ -170,6 +184,36 @@ public class AddActivity extends AppCompatActivity {
         Log.d("ContactInfo", " - Gender: " + mContact.getGender());
         Log.d("ContactInfo", " - Email: " + mContact.getEmail());
 
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+       /* if (page == 3) {
+            Log.d("onConfigurationChanged", "orientation changed");
+            orientationChanged = true;
+        }*/
+        Log.d("onConfigurationChanged", "orientation changed");
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            portraitOrientation = false;
+
+            Log.e("On Config Change", "LANDSCAPE");
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            portraitOrientation = true;
+
+            Log.e("On Config Change", "PORTRAIT");
+        }
+    }
+
+    @Override
+    public void onButtonDoneClick() {
+        DBHandler dbHandler = new DBHandler(this);
+        long id = dbHandler.addContact(mContact);
+        Intent intent = new Intent();
+        intent.putExtra("id", id);
+        setResult(AddActivity.RESULT_OK, intent);
+        finish();
     }
 }

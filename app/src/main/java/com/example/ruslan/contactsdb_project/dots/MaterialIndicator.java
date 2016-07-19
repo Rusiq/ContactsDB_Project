@@ -9,9 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.ruslan.contactsdb_project.AddActivity;
 import com.example.ruslan.contactsdb_project.CustomViewPager;
 import com.example.ruslan.contactsdb_project.R;
 
@@ -24,6 +22,7 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
     private CirclePageIndicator indicator;
     private ImageView btnNext;
     private CustomViewPager viewPager;
+    private ButtonListener buttonListener;
 
 
     public MaterialIndicator(Context context) {
@@ -67,6 +66,10 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
     }
 
 
+    public void setButtonListener(ButtonListener buttonListener) {
+        this.buttonListener = buttonListener;
+    }
+
     @Override
     public void onClick(View v) {
         if (viewPager == null)
@@ -80,10 +83,9 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
                 viewPager.setCurrentItem(page - 1);
                 break;
             case R.id.btnSave:
-                ((AddActivity)getContext()).getDB().addContact(((AddActivity) getContext()).getContact());
-                Toast toast = Toast.makeText(getContext(), "new contact is added", Toast.LENGTH_SHORT);
-                toast.show();
-                ((AddActivity)getContext()).finish();
+                if (buttonListener !=null){
+                    buttonListener.onButtonDoneClick();
+                }
                 break;
         }
     }
@@ -101,5 +103,9 @@ public class MaterialIndicator extends RelativeLayout implements View.OnClickLis
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public interface ButtonListener{
+        void onButtonDoneClick();
     }
 }

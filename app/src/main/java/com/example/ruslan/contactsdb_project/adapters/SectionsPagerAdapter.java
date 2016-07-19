@@ -10,9 +10,9 @@ import com.example.ruslan.contactsdb_project.FragmentSecondStep;
 
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static FragmentFirstStep sFragmentFirstStep;
-    private static FragmentSecondStep sFragmentSecondStep;
-    private static FragmentDone sFragmentDone;
+    private  FragmentFirstStep sFragmentFirstStep;
+    private  FragmentSecondStep sFragmentSecondStep;
+    private  FragmentDone sFragmentDone;
 
 
     public SectionsPagerAdapter(FragmentManager fm) {

@@ -1,6 +1,8 @@
 package com.example.ruslan.contactsdb_project;
 
 
+import android.database.Cursor;
+
 public class Contact {
 
     //private variables
@@ -17,6 +19,17 @@ public class Contact {
     // Empty constructor
     public Contact() {
 
+    }
+
+    public Contact(Cursor cursor) {
+        _firstName = (cursor.getString(1));
+        _lastName = (cursor.getString(2));
+        _phone_number = (cursor.getString(3));
+        _address = (cursor.getString(4));
+        _job = (cursor.getString(5));
+        _marital_status = (Contact.MaritalStatus.fromString(cursor.getString(6)));
+        _gender = (Contact.Gender.fromString(cursor.getString(7)));
+        _email = (cursor.getString(8));
     }
 
     // constructor
@@ -163,7 +176,6 @@ public class Contact {
             }
             return null;
         }
-
 
 
     }

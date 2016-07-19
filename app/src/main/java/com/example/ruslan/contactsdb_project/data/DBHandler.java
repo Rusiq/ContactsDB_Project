@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.ruslan.contactsdb_project.Contact;
 
@@ -32,6 +33,9 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String KEY_GENDER = "gender";
     public static final String KEY_EMAIL = "email";
 
+
+    final String selectQuery = "SELECT  * FROM contacts WHERE id ='%s'" ;
+
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -52,7 +56,7 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addContact(Contact contact) {
+    public long addContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -67,8 +71,9 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_EMAIL, contact.getEmail()); // Contact Email
 
         // Inserting Row
-        db.insert(TABLE_CONTACTS, null, values);
+        long id = db.insert(TABLE_CONTACTS, null, values);
         db.close(); // Closing database connection
+        return id;
     }
 
 
@@ -84,17 +89,7 @@ public class DBHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Contact contact = new Contact();
-                contact.setID(Integer.parseInt(cursor.getString(0)));
-                contact.setFirstName(cursor.getString(1));
-                contact.setLastName(cursor.getString(2));
-                contact.setPhoneNumber(cursor.getString(3));
-                contact.setAddress(cursor.getString(4));
-
-                contact.setJob(cursor.getString(5));
-                contact.setMaritalStatus(Contact.MaritalStatus.fromString(cursor.getString(6)));
-                contact.setGender(Contact.Gender.fromString(cursor.getString(7)));
-                contact.setEmail(cursor.getString(8));
+                Contact contact = new Contact(cursor);
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
@@ -104,5 +99,25 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // return contact list
         return contactList;
+    }
+
+    public Contact getContactById(long id) {
+        String query = String.format(selectQuery, id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        Contact contact = null;
+        try {
+            cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                contact = new Contact(cursor);
+            }
+        } catch (Exception e) {
+            Log.e("DB", e.getMessage());
+        } finally {
+            if (cursor != null)
+                cursor.close();
+            db.close();
+        }
+        return contact;
     }
 }

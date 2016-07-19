@@ -33,6 +33,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
 
         Contact contact = mContactList.get(position);
+
         holder.tvShowFirstName.setText(contact.getFirstName());
         holder.tvShowLastName.setText(contact.getLastName());
     }
@@ -55,5 +56,17 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
             tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
         }
+    }
+
+    public void addItem(Contact item) {
+
+        mContactList.add(item);
+        notifyItemInserted(mContactList.size());
+    }
+
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 }
