@@ -15,6 +15,8 @@
     <string name="search">Enter to search</string>
 
 
+
+
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="phone">Phone number</string>
@@ -30,5 +32,6 @@
     <string name="gender">Gender</string>
     <string name="next">Next</string>
     <string name="save">Save</string>
+    <string name="snack_add_message">Contact added successfully</string>
 
 </resources>

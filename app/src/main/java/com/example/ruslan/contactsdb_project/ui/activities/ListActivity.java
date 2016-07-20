@@ -9,11 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
+import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ListActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private DataAdapter dataAdapter;
     private ArrayList<Contact> mContactArrayList = new ArrayList<>();
+    private LinearLayout llList;
 
     public ListActivity() {
 
@@ -44,13 +46,16 @@ public class ListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         rv = (RecyclerView) findViewById(R.id.recycler_view);
+        llList = (LinearLayout) findViewById(R.id.llList);
 
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         dataAdapter = new DataAdapter(this, mContactArrayList);
         rv.setAdapter(dataAdapter);
         rv.setHasFixedSize(true);
+
         updateUI();
+
         //   FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addButton);
     }
 
@@ -99,12 +104,14 @@ public class ListActivity extends AppCompatActivity {
                     Long id = data.getLongExtra("id", -1);
                     if (id > 0) {
                         final Contact contact = db.getContactById(id);
-                        //db.getAllContacts();
-                        if (contact !=null) {
+                       // db.getAllContacts();
+                        if (contact != null) {
                             if (mContactArrayList.size() > 0)
                                 rv.scrollToPosition(mContactArrayList.size());
-                            rv.getItemAnimator().setAddDuration(600);
+                            rv.getItemAnimator().setAddDuration(900);
                             dataAdapter.addItem(contact);
+                            /*Snackbar snackAdd = Snackbar.make(llList, R.string.snack_add_message, Snackbar.LENGTH_LONG);
+                            snackAdd.show();*/
                         }
 
                     }

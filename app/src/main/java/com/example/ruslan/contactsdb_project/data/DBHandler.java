@@ -88,7 +88,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Contact contact = new Contact(cursor);
-                Log.d("getAllContacts", "getAllContacts " + contact.getFirstName());
+              //  Log.d("getAllContacts", "getAllContacts " + contact.getFirstName());
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
