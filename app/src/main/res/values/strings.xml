@@ -2,6 +2,10 @@
     <string name="app_name">ContactsDB</string>
 
     <string name="add">Add new contact</string>
+    <string name="delete">Delete contact</string>
+    <string name="edit">Edit contact</string>
+    <string name="confirm_changes">Confirm changes</string>
+
     <string name="new_contact">new contact</string>
 
     <string name="step_1">Step 1</string>

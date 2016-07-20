@@ -1,7 +1,11 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentDone;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentFirstStep;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentSecondStep;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 

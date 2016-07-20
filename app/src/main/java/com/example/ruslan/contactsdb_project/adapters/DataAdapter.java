@@ -1,4 +1,4 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.ruslan.contactsdb_project.data.Contact;
+import com.example.ruslan.contactsdb_project.R;
 
 import java.util.List;
 
@@ -21,6 +24,21 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         mContactList = objects;
     }
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        CardView mCardView;
+        TextView tvShowFirstName, tvShowLastName;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            mCardView = (CardView) itemView.findViewById(R.id.card_view);
+            tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
+            tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
+        }
+    }
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
@@ -29,13 +47,18 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return vh;
     }
 
+
     @Override
-    public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         Contact contact = mContactList.get(position);
 
-        holder.tvShowFirstName.setText(contact.getFirstName());
-        holder.tvShowLastName.setText(contact.getLastName());
+        try {
+            holder.tvShowFirstName.setText(contact.getFirstName());
+            holder.tvShowLastName.setText(contact.getLastName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -44,19 +67,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return mContactList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
-        TextView tvShowFirstName, tvShowLastName;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            cv = (CardView) itemView.findViewById(R.id.card_view);
-            tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
-            tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
-        }
-    }
 
     public void addItem(Contact item) {
 
@@ -69,4 +80,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
+
 }

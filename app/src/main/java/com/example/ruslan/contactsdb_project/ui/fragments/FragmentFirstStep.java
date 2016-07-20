@@ -1,4 +1,4 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.ui.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -6,12 +6,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ScrollView;
+
+import com.example.ruslan.contactsdb_project.R;
+import com.example.ruslan.contactsdb_project.ui.activities.AddActivity;
 
 public class FragmentFirstStep extends Fragment {
 
@@ -86,10 +88,10 @@ public class FragmentFirstStep extends Fragment {
                 if (oldStatus1 != isEmptyFieldsFragment1) {
                     oldStatus1 = isEmptyFieldsFragment1;
                     ((AddActivity) getActivity()).setStatus1(isEmptyFieldsFragment1);
-                    Log.d("Empty status", "sending to Activity new status fields1");
+          //          Log.d("Empty status", "sending to Activity new status fields1");
 
                 }
-                Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
+            //    Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
             }
 
             @Override
@@ -119,11 +121,11 @@ public class FragmentFirstStep extends Fragment {
                 if (oldStatus1 != isEmptyFieldsFragment1) {
                     oldStatus1 = isEmptyFieldsFragment1;
                     ((AddActivity) getActivity()).setStatus1(isEmptyFieldsFragment1);
-                    Log.d("Empty status", "sending to Activity new status fields");
+              //      Log.d("Empty status", "sending to Activity new status fields");
                 }
 
-                Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
-                Log.d("STATUS1", String.valueOf(((AddActivity) getActivity()).status1));
+               // Log.d("Empty fields fragment 1", String.valueOf(isEmptyFieldsFragment1));
+               // Log.d("STATUS1", String.valueOf(((AddActivity) getActivity()).status1));
             }
 
             @Override

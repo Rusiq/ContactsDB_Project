@@ -1,4 +1,4 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.ruslan.contactsdb_project.data.Contact;
+import com.example.ruslan.contactsdb_project.R;
+import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 import java.util.ArrayList;
@@ -46,7 +49,6 @@ public class ListActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
-
         dataAdapter = new DataAdapter(this, mContactArrayList);
         rv.setAdapter(dataAdapter);
         updateUI();
@@ -100,6 +102,7 @@ public class ListActivity extends AppCompatActivity {
                         final Contact contact = db.getContactById(id);
                         if (mContactArrayList.size() > 0)
                             rv.scrollToPosition(mContactArrayList.size());
+                        rv.getItemAnimator().setAddDuration(600);
                         dataAdapter.addItem(contact);
 
                         // dataAdapter.notifyDataSetChanged();
@@ -137,14 +140,4 @@ public class ListActivity extends AppCompatActivity {
         dataAdapter.notifyDataSetChanged();
     }
 
-
-
-
-
-   /* public void updateUI(){
-        mContacts.clear();
-        mContacts.addAll((ArrayList<Contact>) db.getAllContacts());
-        dataAdapter = new DataAdapter(this, mContacts);
-        rv.setAdapter(dataAdapter);
-    }*/
 }

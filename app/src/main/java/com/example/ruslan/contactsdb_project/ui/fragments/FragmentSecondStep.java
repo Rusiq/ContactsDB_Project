@@ -1,11 +1,10 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.ui.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.ruslan.contactsdb_project.R;
+import com.example.ruslan.contactsdb_project.data.Contact;
+import com.example.ruslan.contactsdb_project.ui.activities.AddActivity;
+
 
 public class FragmentSecondStep extends Fragment {
 
@@ -21,7 +24,7 @@ public class FragmentSecondStep extends Fragment {
     ImageView btnNext;
     RadioButton chkMarried, chkSingle, chkFemale, chkMale;
     boolean isEmptyFieldsFragment2, oldStatus2;
-    RadioGroup radioGender, radioStatus;
+    RadioGroup radioGender, radioMaritalStatus;
     TextInputLayout tilJob;
 
 
@@ -43,8 +46,8 @@ public class FragmentSecondStep extends Fragment {
         chkMale = (RadioButton) rootView.findViewById(R.id.chkMale);
         radioGender = (RadioGroup) rootView.findViewById(R.id.radioGender);
         radioGender.check(R.id.chkMale);
-        radioStatus = (RadioGroup) rootView.findViewById(R.id.radioStatus);
-        radioStatus.check(R.id.chkSingle);
+        radioMaritalStatus = (RadioGroup) rootView.findViewById(R.id.radioMaritalStatus);
+        radioMaritalStatus.check(R.id.chkSingle);
         tilJob = (TextInputLayout) rootView.findViewById(R.id.tilJob);
         btnNext = (ImageView) rootView.findViewById(R.id.btnNext);
 
@@ -76,10 +79,10 @@ public class FragmentSecondStep extends Fragment {
                     oldStatus2 = isEmptyFieldsFragment2;
                     ((AddActivity) getActivity()).setStatus2(isEmptyFieldsFragment2);
 
-                    Log.d("Empty status", "sending to Activity new status fields2");
+           //         Log.d("Empty status", "sending to Activity new status fields2");
                 }
 
-                Log.d("Empty fields fragment 2", String.valueOf(isEmptyFieldsFragment2));
+           //     Log.d("Empty fields fragment 2", String.valueOf(isEmptyFieldsFragment2));
 
             }
 
@@ -97,7 +100,7 @@ public class FragmentSecondStep extends Fragment {
     }
 
     public Contact.MaritalStatus getMaritalStatus(){
-        return (radioStatus.getCheckedRadioButtonId() == R.id.chkMarried) ? Contact.MaritalStatus.married : Contact.MaritalStatus.single;
+        return (radioMaritalStatus.getCheckedRadioButtonId() == R.id.chkMarried) ? Contact.MaritalStatus.married : Contact.MaritalStatus.single;
     }
 
     public String getJob() {

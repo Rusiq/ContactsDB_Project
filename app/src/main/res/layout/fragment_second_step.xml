@@ -57,7 +57,7 @@
                 android:textSize="15dp"/>
 
             <RadioGroup
-                android:id="@+id/radioStatus"
+                android:id="@+id/radioMaritalStatus"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">

@@ -1,37 +1,37 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.ui.activities;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.adapters.SectionsPagerAdapter;
+import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
 import com.example.ruslan.contactsdb_project.dots.MaterialIndicator;
+import com.example.ruslan.contactsdb_project.ui.CustomViewPager;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentDone;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentFirstStep;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentSecondStep;
 
 
-public class AddActivity extends ListActivity implements MaterialIndicator.ButtonListener{
+public class AddActivity extends AppCompatActivity implements MaterialIndicator.ButtonListener{
 
-
-    //final DBHandler db = new DBHandler(this);
     private CustomViewPager customViewPager;
     TextView tvTitle;
     ImageView btnNext, btnSave;
     private MaterialIndicator indicator;
 
     boolean status1 = true, status2 = true;
-    boolean portraitOrientation;
-    boolean currentOrientation = true;
-    boolean orientationChanged = false;
-    private Contact mContact;
+     private Contact mContact;
     Fragment fragCurrent;
     SectionsPagerAdapter pagerAdapter;
-    int page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,9 +129,6 @@ public class AddActivity extends ListActivity implements MaterialIndicator.Butto
         return mContact;
     }
 
-/*    public DBHandler getDB() {
-        return db;
-    }*/
 
     private void getDateFromFirstStep() {
         FragmentFirstStep fragCurrent = (FragmentFirstStep) customViewPager.getAdapter().instantiateItem(customViewPager, 0);
@@ -186,14 +183,14 @@ public class AddActivity extends ListActivity implements MaterialIndicator.Butto
 
     }
 
-    @Override
+   /* @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-       /* if (page == 3) {
+       *//* if (page == 3) {
             Log.d("onConfigurationChanged", "orientation changed");
             orientationChanged = true;
-        }*/
+        }*//*
         Log.d("onConfigurationChanged", "orientation changed");
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             portraitOrientation = false;
@@ -205,7 +202,7 @@ public class AddActivity extends ListActivity implements MaterialIndicator.Butto
 
             Log.e("On Config Change", "PORTRAIT");
         }
-    }
+    }*/
 
     @Override
     public void onButtonDoneClick() {

@@ -1,4 +1,4 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.ruslan.contactsdb_project.data.Contact;
+import com.example.ruslan.contactsdb_project.R;
+import com.example.ruslan.contactsdb_project.ui.activities.AddActivity;
 
 public class FragmentDone extends Fragment {
 

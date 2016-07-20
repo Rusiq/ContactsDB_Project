@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.ruslan.contactsdb_project.FragmentDone;
-import com.example.ruslan.contactsdb_project.FragmentFirstStep;
-import com.example.ruslan.contactsdb_project.FragmentSecondStep;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentDone;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentFirstStep;
+import com.example.ruslan.contactsdb_project.ui.fragments.FragmentSecondStep;
 
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -1,4 +1,4 @@
-package com.example.ruslan.contactsdb_project;
+package com.example.ruslan.contactsdb_project.data;
 
 
 import android.database.Cursor;

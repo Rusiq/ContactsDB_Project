@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.ruslan.contactsdb_project.CustomViewPager;
+import com.example.ruslan.contactsdb_project.ui.CustomViewPager;
 import com.example.ruslan.contactsdb_project.R;
 
 
