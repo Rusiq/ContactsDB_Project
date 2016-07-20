@@ -88,6 +88,7 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Contact contact = new Contact(cursor);
+                Log.d("getAllContacts", "getAllContacts " + contact.getFirstName());
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
@@ -100,17 +101,18 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public Contact getContactById(long id) {
+      //  String query = "SELECT * FROM contacts WHERE id = "  + id;
         String query = String.format(selectQuery, id);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
         Contact contact = null;
         try {
-            cursor = db.rawQuery(selectQuery, null);
+            cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 contact = new Contact(cursor);
             }
         } catch (Exception e) {
-            Log.e("DB", e.getMessage());
+            Log.e("DB",  e.getMessage());
         } finally {
             if (cursor != null)
                 cursor.close();

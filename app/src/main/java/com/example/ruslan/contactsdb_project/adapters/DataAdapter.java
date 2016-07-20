@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.R;
+import com.example.ruslan.contactsdb_project.data.Contact;
 
 import java.util.List;
 
@@ -52,13 +52,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Contact contact = mContactList.get(position);
+        holder.tvShowFirstName.setText(contact.getFirstName());
+        holder.tvShowLastName.setText(contact.getLastName());
 
-        try {
-            holder.tvShowFirstName.setText(contact.getFirstName());
-            holder.tvShowLastName.setText(contact.getLastName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -66,7 +62,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public int getItemCount() {
         return mContactList.size();
     }
-
 
 
     public void addItem(Contact item) {

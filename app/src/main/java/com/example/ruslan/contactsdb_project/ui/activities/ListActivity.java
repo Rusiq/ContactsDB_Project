@@ -43,14 +43,13 @@ public class ListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
 
-        //db = new DBHandler(this);
-
         rv = (RecyclerView) findViewById(R.id.recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         dataAdapter = new DataAdapter(this, mContactArrayList);
         rv.setAdapter(dataAdapter);
+        rv.setHasFixedSize(true);
         updateUI();
         //   FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addButton);
     }
@@ -100,12 +99,14 @@ public class ListActivity extends AppCompatActivity {
                     Long id = data.getLongExtra("id", -1);
                     if (id > 0) {
                         final Contact contact = db.getContactById(id);
-                        if (mContactArrayList.size() > 0)
-                            rv.scrollToPosition(mContactArrayList.size());
-                        rv.getItemAnimator().setAddDuration(600);
-                        dataAdapter.addItem(contact);
+                        //db.getAllContacts();
+                        if (contact !=null) {
+                            if (mContactArrayList.size() > 0)
+                                rv.scrollToPosition(mContactArrayList.size());
+                            rv.getItemAnimator().setAddDuration(600);
+                            dataAdapter.addItem(contact);
+                        }
 
-                        // dataAdapter.notifyDataSetChanged();
                     }
 
                     break;
