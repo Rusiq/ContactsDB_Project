@@ -3,6 +3,7 @@ package com.example.ruslan.contactsdb_project.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,22 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Contact> mContactList;
+    private ClickItemListener clickItemListener;
 
+    public interface ClickItemListener{
+        void onItemClick(int position);
+    }
+
+    public void setClickItemListener(ClickItemListener clickItemListener) {
+        this.clickItemListener = clickItemListener;
+    }
 
     public DataAdapter(Context context, List<Contact> objects) {
         mContext = context;
         mContactList = objects;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         CardView mCardView;
         TextView tvShowFirstName, tvShowLastName;
@@ -35,6 +44,25 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             mCardView = (CardView) itemView.findViewById(R.id.card_view);
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
             tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
+
+            mCardView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && view.getId() == R.id.card_view){
+                if (clickItemListener !=null){
+                    clickItemListener.onItemClick(position);
+                }
+            }
+        }
+
+        public void itemClick(int position){
+            Log.d("itemClick", "itemClick" + position);
+            Log.d("itemClick", "itemClick");
+
         }
     }
 
@@ -75,6 +103,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
+
 
 
 }

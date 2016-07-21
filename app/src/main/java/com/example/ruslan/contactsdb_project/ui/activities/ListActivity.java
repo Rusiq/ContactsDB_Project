@@ -19,7 +19,7 @@ import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 import java.util.ArrayList;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements DataAdapter.ClickItemListener {
 
 
     private final int REQUEST_CODE_ADD_CONTACT = 1;
@@ -51,6 +51,7 @@ public class ListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         dataAdapter = new DataAdapter(this, mContactArrayList);
+        dataAdapter.setClickItemListener(this);
         rv.setAdapter(dataAdapter);
         rv.setHasFixedSize(true);
 
@@ -104,7 +105,7 @@ public class ListActivity extends AppCompatActivity {
                     Long id = data.getLongExtra("id", -1);
                     if (id > 0) {
                         final Contact contact = db.getContactById(id);
-                       // db.getAllContacts();
+                        // db.getAllContacts();
                         if (contact != null) {
                             if (mContactArrayList.size() > 0)
                                 rv.scrollToPosition(mContactArrayList.size());
@@ -148,4 +149,10 @@ public class ListActivity extends AppCompatActivity {
         dataAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public void onItemClick(int position) {
+        Log.d("itemClick", "itemClick" + position);
+
+    }
 }
