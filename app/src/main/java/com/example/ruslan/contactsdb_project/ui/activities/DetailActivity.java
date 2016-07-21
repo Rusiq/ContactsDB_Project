@@ -2,6 +2,7 @@ package com.example.ruslan.contactsdb_project.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -18,6 +19,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
+
         firstNameTextView = (TextView) findViewById(R.id.firstNameTextView);
         lastNameTextView = (TextView) findViewById(R.id.lastNameTextView);
         phoneTextView = (TextView) findViewById(R.id.phoneTextView);
@@ -32,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
 

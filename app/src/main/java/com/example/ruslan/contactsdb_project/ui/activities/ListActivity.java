@@ -42,7 +42,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
 
         rv = (RecyclerView) findViewById(R.id.recycler_view);
@@ -153,6 +153,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     @Override
     public void onItemClick(int position) {
         Log.d("itemClick", "itemClick" + position);
-
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_DELETE_CONTACT);
     }
 }
