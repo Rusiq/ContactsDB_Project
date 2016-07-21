@@ -183,26 +183,6 @@ public class AddActivity extends AppCompatActivity implements MaterialIndicator.
 
     }
 
-   /* @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-       *//* if (page == 3) {
-            Log.d("onConfigurationChanged", "orientation changed");
-            orientationChanged = true;
-        }*//*
-        Log.d("onConfigurationChanged", "orientation changed");
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            portraitOrientation = false;
-
-            Log.e("On Config Change", "LANDSCAPE");
-
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            portraitOrientation = true;
-
-            Log.e("On Config Change", "PORTRAIT");
-        }
-    }*/
 
     @Override
     public void onButtonDoneClick() {

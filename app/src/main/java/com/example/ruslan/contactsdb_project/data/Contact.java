@@ -2,8 +2,10 @@ package com.example.ruslan.contactsdb_project.data;
 
 
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Contact {
+public class Contact implements Parcelable {
 
     //private variables
     int _id;
@@ -58,6 +60,21 @@ public class Contact {
         this._marital_status = marital_status;
         this._gender = gender;
         this._email = email;
+
+    }
+
+    private Contact(Parcel in) {
+        this._id = in.readInt();
+        this._firstName = in.readString();
+        this._lastName = in.readString();
+        ;
+        this._phone_number = in.readString();
+        this._address = in.readString();
+
+        this._job = in.readString();
+        this._marital_status = MaritalStatus.fromString(in.readString());
+        this._gender = Gender.fromString(in.readString());
+        this._email = in.readString();
 
     }
 
@@ -151,7 +168,6 @@ public class Contact {
         this._email = email;
     }
 
-
     public enum Gender {
         female("female"), male("male");
 
@@ -204,6 +220,37 @@ public class Contact {
             }
             return null;
         }
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
+        public Contact createFromParcel(Parcel in) {
+            return new Contact(in);
+        }
+
+        public Contact[] newArray(int size) {
+            return new Contact[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeInt(_id);
+        parcel.writeString(_firstName);
+        parcel.writeString(_lastName);
+        parcel.writeString(_phone_number);
+        parcel.writeString(_address);
+        parcel.writeString(_job);
+        parcel.writeString(_marital_status.toString());
+        parcel.writeString(_gender.toString());
+        parcel.writeString(_email);
 
     }
 

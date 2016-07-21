@@ -3,7 +3,6 @@ package com.example.ruslan.contactsdb_project.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,12 @@ import java.util.List;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
+    public static final int MODE_SIMPLE = 0;
+    public static final int MODE_SELECT = 1;
     private Context mContext;
     private List<Contact> mContactList;
     private ClickItemListener clickItemListener;
+    private int mode = MODE_SIMPLE;
 
     public interface ClickItemListener{
         void onItemClick(int position);
@@ -50,7 +52,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION && view.getId() == R.id.card_view){
                 if (clickItemListener !=null){
@@ -59,11 +60,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             }
         }
 
-        public void itemClick(int position){
-            Log.d("itemClick", "itemClick" + position);
-            Log.d("itemClick", "itemClick");
-
-        }
     }
 
 
@@ -83,6 +79,13 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         holder.tvShowFirstName.setText(contact.getFirstName());
         holder.tvShowLastName.setText(contact.getLastName());
 
+      //  holder.tvShowFirstName.setVisibility((mode == MODE_SELECT) ? View.VISIBLE : View.GONE);
+
+    }
+
+    public void setMode(int mode){
+        this.mode = mode;
+        notifyDataSetChanged();
     }
 
 

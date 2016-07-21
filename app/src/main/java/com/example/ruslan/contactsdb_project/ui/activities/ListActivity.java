@@ -2,6 +2,7 @@ package com.example.ruslan.contactsdb_project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +23,10 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity implements DataAdapter.ClickItemListener {
 
 
-    private final int REQUEST_CODE_ADD_CONTACT = 1;
-    private final int REQUEST_CODE_DELETE_CONTACT = 2;
-    private final int REQUEST_CODE_EDIT_CONTACT = 3;
+    private final int REQUEST_ADD_CONTACT = 1;
+    private final int REQUEST_DETAIL_CONTACT = 2;
+    private final int REQUEST_EDIT_CONTACT = 3;
+    private final int REQUEST_DELETE_CONTACT = 4;
     private final DBHandler db = new DBHandler(this);
     private RecyclerView rv;
     private LinearLayoutManager layoutManager;
@@ -78,7 +80,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         switch (item.getItemId()) {
             case R.id.itemAdd:
                 Intent intent = new Intent(this, AddActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_ADD_CONTACT);
+                startActivityForResult(intent, REQUEST_ADD_CONTACT);
                 break;
 
             default:
@@ -96,7 +98,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CODE_ADD_CONTACT:
+                case REQUEST_ADD_CONTACT:
                     Log.d("myLogs", "Add contact");
 
                     if (data == null) {
@@ -118,11 +120,19 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     }
 
                     break;
-                case REQUEST_CODE_DELETE_CONTACT:
+                case REQUEST_DETAIL_CONTACT:
                     Log.d("myLogs", "Delete contact");
+
                     break;
-                case REQUEST_CODE_EDIT_CONTACT:
+
+                case REQUEST_EDIT_CONTACT:
                     Log.d("myLogs", "Edit contact");
+
+                    break;
+
+                case REQUEST_DELETE_CONTACT:
+
+                    Log.d("myLogs", "Delete contact");
                     break;
             }
         } else {
@@ -153,7 +163,10 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     @Override
     public void onItemClick(int position) {
         Log.d("itemClick", "itemClick" + position);
+
         Intent intent = new Intent(this, DetailActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_DELETE_CONTACT);
+        final Contact contact = mContactArrayList.get(position);
+        intent.putExtra("contact", (Parcelable) contact);
+        startActivity(intent);
     }
 }
