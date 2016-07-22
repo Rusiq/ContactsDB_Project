@@ -111,17 +111,14 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                         if (contact != null) {
                             if (mContactArrayList.size() > 0)
                                 rv.scrollToPosition(mContactArrayList.size());
-                            rv.getItemAnimator().setAddDuration(900);
+
+                            rv.getItemAnimator().setAddDuration(1000);
                             dataAdapter.addItem(contact);
                             /*Snackbar snackAdd = Snackbar.make(llList, R.string.snack_add_message, Snackbar.LENGTH_LONG);
                             snackAdd.show();*/
                         }
 
                     }
-
-                    break;
-                case REQUEST_DETAIL_CONTACT:
-                    Log.d("myLogs", "Delete contact");
 
                     break;
 
@@ -131,6 +128,24 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     break;
 
                 case REQUEST_DELETE_CONTACT:
+
+                    if (data == null) {
+                        return;
+                    }
+
+                    Long idForDel = data.getLongExtra("id", -1);
+                    if (idForDel > 0) {
+
+                        final Contact contact = db.getContactById(idForDel);
+                        db.deleteContact(idForDel);
+                        if (contact != null) {
+
+                            rv.getItemAnimator().setAddDuration(1000);
+                            dataAdapter.deleteItem(contact);
+                        }
+
+                    }
+
 
                     Log.d("myLogs", "Delete contact");
                     break;
@@ -165,8 +180,15 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         Log.d("itemClick", "itemClick" + position);
 
         Intent intent = new Intent(this, DetailActivity.class);
-        final Contact contact = mContactArrayList.get(position);
-        intent.putExtra("contact", (Parcelable) contact);
-        startActivity(intent);
+       final Contact contact = mContactArrayList.get(position);
+       intent.putExtra("contact", (Parcelable) contact);
+        startActivityForResult(intent, REQUEST_DELETE_CONTACT);
+
+
+        /*db.deleteContact(mContactArrayList.get(position).getID());
+        mContactArrayList.clear();
+        mContactArrayList.addAll(db.getAllContacts());
+        dataAdapter.notifyDataSetChanged();*/
+
     }
 }

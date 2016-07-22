@@ -74,6 +74,28 @@ public class DBHandler extends SQLiteOpenHelper {
         return id;
     }
 
+    // Updating single contact
+    public int updateContact(Contact contact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_FIRST_NAME, contact.getFirstName()); // Contact FirstName
+        values.put(KEY_LAST_NAME, contact.getLastName()); // Contact LastName
+        values.put(KEY_ADDRESS, contact.getAddress()); // Contact Adress
+        values.put(KEY_PH_NO, contact.getPhoneNumber()); // Contact Phone
+
+        values.put(KEY_JOB, contact.getJob()); // Contact Job
+        values.put(KEY_STATUS, String.valueOf(contact.getMaritalStatus())); // Contact MaritalStatus
+        values.put(KEY_GENDER, String.valueOf(contact.getGender())); // Contact Gender
+        values.put(KEY_EMAIL, contact.getEmail()); // Contact Email
+
+        // updating row
+        int id =  db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(contact.getID()) });
+        db.close();
+        return  id;
+    }
+
 
     // Getting All Contacts
     public List<Contact> getAllContacts() {
@@ -119,5 +141,25 @@ public class DBHandler extends SQLiteOpenHelper {
             db.close();
         }
         return contact;
+    }
+
+    // Deleting single contact
+    public void deleteContact(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String args = String.valueOf(id);
+        String query = "DELETE FROM contacts WHERE id ='" + args +"'";
+     //  db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(contact.getID()) });
+       // db.rawQuery(query, null);
+        db.rawQuery(query, null);
+        db.close();
+    }
+
+
+    public void deleteContactByName(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM contacts WHERE first_name = '" + name +"'";
+        //  db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(contact.getID()) });
+        db.rawQuery(query, null);
+        db.close();
     }
 }

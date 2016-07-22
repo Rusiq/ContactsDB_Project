@@ -101,6 +101,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         notifyItemInserted(mContactList.size());
     }
 
+    public void deleteItem (Contact item) {
+        mContactList.remove(item);
+        notifyItemRemoved(mContactList.size());
+
+    }
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

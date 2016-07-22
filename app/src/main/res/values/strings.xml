@@ -18,11 +18,15 @@
 
 
     <string name="first_name">First name</string>
+    <string name="first_name_required">First name (Required)</string>
+
     <string name="last_name">Last name</string>
     <string name="phone">Phone number</string>
+    <string name="phone_required">Phone number (Required)</string>
     <string name="address">Address</string>
 
     <string name="job">Job</string>
+    <string name="job_required">Job (Required)</string>
     <string name="female">female</string>
     <string name="male">male</string>
     <string name="married">married</string>

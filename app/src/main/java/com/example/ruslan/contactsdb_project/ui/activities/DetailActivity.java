@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.data.Contact;
+import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -22,6 +25,9 @@ public class DetailActivity extends AppCompatActivity {
             maritalStatusTextView, genderTextView, emailTextView;
     Contact contact;
     Context context;
+    private final int REQUEST_EDIT_CONTACT = 1;
+    private  DBHandler db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +48,10 @@ public class DetailActivity extends AppCompatActivity {
         emailTextView = (TextView) findViewById(R.id.emailTextView);
 
         Intent intent = getIntent();
-
+        db = new DBHandler(this);
         contact = intent.getParcelableExtra("contact");
         setContactDetail();
+
     }
 
     private final DialogFragment confirmDelete = new DialogFragment() {
@@ -58,7 +65,12 @@ public class DetailActivity extends AppCompatActivity {
             builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int button) {
-                            //TODO Реализация удаления контакта
+                            long id = contact.getID();
+                            db.deleteContact(id);
+                            Intent intent = new Intent();
+                            intent.putExtra("id", id);
+                            setResult(DetailActivity.RESULT_OK, intent);
+                            finish();
                         }
                     }
             );
@@ -71,7 +83,7 @@ public class DetailActivity extends AppCompatActivity {
     private void deleteContact() {
         // FragmentManager используется для отображения confirmDelete
         confirmDelete.show(getSupportFragmentManager(), "confirm delete");
-     //   DetailActivity.finish();
+        //   DetailActivity.finish();
     }
 
     private void setContactDetail() {
@@ -98,6 +110,22 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d("myLogs", "requestCode = " + requestCode + ", resultCode = " + resultCode);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_EDIT_CONTACT:
+                    contact = data.getParcelableExtra("contact");
+                    setContactDetail();
+            }
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -107,6 +135,11 @@ public class DetailActivity extends AppCompatActivity {
                 break;
 
             case R.id.itemEdit:
+
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra("contact", (Parcelable) contact);
+                startActivityForResult(intent, REQUEST_EDIT_CONTACT);
+
 
                 break;
 

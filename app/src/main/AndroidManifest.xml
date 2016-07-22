@@ -22,10 +22,12 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name=".ui.activities.DetailActivity"
+                  android:configChanges="orientation|screenSize"
             android:label="Сontact details">
         </activity>
         <activity android:name=".ui.activities.EditActivity"
-                  android:label="Edit contact">
+                  android:label="Edit contact"
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 
