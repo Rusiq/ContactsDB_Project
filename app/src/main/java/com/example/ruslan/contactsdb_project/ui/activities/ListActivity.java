@@ -33,6 +33,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private DataAdapter dataAdapter;
     private ArrayList<Contact> mContactArrayList = new ArrayList<>();
     private LinearLayout llList;
+    private int positionItemClick;
 
     public ListActivity() {
 
@@ -100,7 +101,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
             switch (requestCode) {
                 case REQUEST_ADD_CONTACT:
                     Log.d("myLogs", "Add contact");
-
                     if (data == null) {
                         return;
                     }
@@ -114,17 +114,12 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
                             rv.getItemAnimator().setAddDuration(1000);
                             dataAdapter.addItem(contact);
-                            /*Snackbar snackAdd = Snackbar.make(llList, R.string.snack_add_message, Snackbar.LENGTH_LONG);
-                            snackAdd.show();*/
                         }
-
                     }
-
                     break;
 
                 case REQUEST_EDIT_CONTACT:
                     Log.d("myLogs", "Edit contact");
-
                     break;
 
                 case REQUEST_DELETE_CONTACT:
@@ -132,18 +127,18 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     if (data == null) {
                         return;
                     }
-
                     Long idForDel = data.getLongExtra("id", -1);
                     if (idForDel > 0) {
-
                         final Contact contact = db.getContactById(idForDel);
-                        db.deleteContact(idForDel);
+                        //  db.deleteContact(idForDel);
                         if (contact != null) {
+                           // rv.getItemAnimator().setAddDuration(1000);
 
-                            rv.getItemAnimator().setAddDuration(1000);
-                            dataAdapter.deleteItem(contact);
+                            //dataAdapter.notifyItemRemoved(positionItemClick);
+                            dataAdapter.deleteItem(contact, positionItemClick);
+                         //   dataAdapter.notifyDataSetChanged();
                         }
-
+                        db.deleteContact(idForDel);
                     }
 
 
@@ -159,7 +154,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     @Override
     protected void onResume() {
         super.onResume();
-
 
     }
 
@@ -179,9 +173,10 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     public void onItemClick(int position) {
         Log.d("itemClick", "itemClick" + position);
 
+        positionItemClick = position;
         Intent intent = new Intent(this, DetailActivity.class);
-       final Contact contact = mContactArrayList.get(position);
-       intent.putExtra("contact", (Parcelable) contact);
+        final Contact contact = mContactArrayList.get(position);
+        intent.putExtra("contact", (Parcelable) contact);
         startActivityForResult(intent, REQUEST_DELETE_CONTACT);
 
 

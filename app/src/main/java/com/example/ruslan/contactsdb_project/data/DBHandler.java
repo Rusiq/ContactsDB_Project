@@ -41,7 +41,7 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_FIRST_NAME + " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + KEY_FIRST_NAME + " TEXT,"
                 + KEY_LAST_NAME + " TEXT," + KEY_PH_NO + " TEXT,"
                 + KEY_ADDRESS + " TEXT," + KEY_JOB + " TEXT," + KEY_STATUS + " TEXT,"
                 + KEY_GENDER + " TEXT," + KEY_EMAIL + " TEXT" + ")";
@@ -145,18 +145,11 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Deleting single contact
     public void deleteContact(long id) {
+
         Log.i(DBHandler.class.getName(),"contacts count before " + getAllContacts().size());
         SQLiteDatabase db = this.getWritableDatabase();
-        String args = String.valueOf(id);
-//        String query = "DELETE FROM contacts WHERE id =" + args ;
-//        db.delete(TABLE_CONTACTS, "id=?", new String[]{Long.toString(id)});
-
-
-        String whereClause = "id" + "=?";
-        String[] whereArgs = new String[] { String.valueOf(id) };
-        db.delete(TABLE_CONTACTS, whereClause, whereArgs);
+        db.delete(TABLE_CONTACTS, KEY_ID + " = " + id , null);
         db.close();
-
         Log.i(DBHandler.class.getName(),"contacts count after " + getAllContacts().size());
     }
 

@@ -3,6 +3,7 @@ package com.example.ruslan.contactsdb_project.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.data.Contact;
+import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     private List<Contact> mContactList;
     private ClickItemListener clickItemListener;
     private int mode = MODE_SIMPLE;
+
+
+
 
     public interface ClickItemListener{
         void onItemClick(int position);
@@ -78,6 +83,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         Contact contact = mContactList.get(position);
         holder.tvShowFirstName.setText(contact.getFirstName());
         holder.tvShowLastName.setText(contact.getLastName());
+        Log.i(DBHandler.class.getName(),"Contact id" +contact.getID());
 
       //  holder.tvShowFirstName.setVisibility((mode == MODE_SELECT) ? View.VISIBLE : View.GONE);
 
@@ -101,9 +107,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         notifyItemInserted(mContactList.size());
     }
 
-    public void deleteItem (Contact item) {
-        mContactList.remove(item);
-        notifyItemRemoved(mContactList.size());
+    public void deleteItem (Contact item, int position) {
+        mContactList.remove(position);
+        notifyItemRemoved(position);
 
     }
 

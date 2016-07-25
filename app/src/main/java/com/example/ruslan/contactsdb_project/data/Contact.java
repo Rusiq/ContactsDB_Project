@@ -4,6 +4,7 @@ package com.example.ruslan.contactsdb_project.data;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Contact implements Parcelable {
 
@@ -24,6 +25,8 @@ public class Contact implements Parcelable {
     }
 
     public Contact(Cursor cursor) {
+        Log.i(DBHandler.class.getName(),"Contact id" +cursor.getInt(0));
+        _id = (cursor.getInt(0));
         _firstName = (cursor.getString(1));
         _lastName = (cursor.getString(2));
         _phone_number = (cursor.getString(3));

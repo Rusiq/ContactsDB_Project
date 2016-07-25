@@ -26,7 +26,7 @@ public class DetailActivity extends AppCompatActivity {
     Contact contact;
     Context context;
     private final int REQUEST_EDIT_CONTACT = 1;
-    private  DBHandler db;
+    private DBHandler db;
 
 
     @Override
@@ -66,11 +66,12 @@ public class DetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int button) {
                             long id = contact.getID();
-                            db.deleteContact(id);
-//                            Intent intent = new Intent();
-//                            intent.putExtra("id", id);
-//                            setResult(DetailActivity.RESULT_OK, intent);
-//                            finish();
+                         //   db.deleteContact(id);
+
+                            Intent intent = new Intent();
+                            intent.putExtra("id", id);
+                            setResult(DetailActivity.RESULT_OK, intent);
+                            finish();
                         }
                     }
             );
