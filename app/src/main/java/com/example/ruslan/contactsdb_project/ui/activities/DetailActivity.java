@@ -67,10 +67,10 @@ public class DetailActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int button) {
                             long id = contact.getID();
                             db.deleteContact(id);
-                            Intent intent = new Intent();
-                            intent.putExtra("id", id);
-                            setResult(DetailActivity.RESULT_OK, intent);
-                            finish();
+//                            Intent intent = new Intent();
+//                            intent.putExtra("id", id);
+//                            setResult(DetailActivity.RESULT_OK, intent);
+//                            finish();
                         }
                     }
             );

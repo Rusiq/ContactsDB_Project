@@ -145,13 +145,19 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Deleting single contact
     public void deleteContact(long id) {
+        Log.i(DBHandler.class.getName(),"contacts count before " + getAllContacts().size());
         SQLiteDatabase db = this.getWritableDatabase();
         String args = String.valueOf(id);
-        String query = "DELETE FROM contacts WHERE id ='" + args +"'";
-     //  db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(contact.getID()) });
-       // db.rawQuery(query, null);
-        db.rawQuery(query, null);
+//        String query = "DELETE FROM contacts WHERE id =" + args ;
+//        db.delete(TABLE_CONTACTS, "id=?", new String[]{Long.toString(id)});
+
+
+        String whereClause = "id" + "=?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+        db.delete(TABLE_CONTACTS, whereClause, whereArgs);
         db.close();
+
+        Log.i(DBHandler.class.getName(),"contacts count after " + getAllContacts().size());
     }
 
 

@@ -19,7 +19,7 @@
             android:name=".ui.activities.AddActivity"
             android:configChanges="orientation|screenSize"
             android:label="ActivityTwo"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateUnspecified">
         </activity>
         <activity android:name=".ui.activities.DetailActivity"
                   android:configChanges="orientation|screenSize"
