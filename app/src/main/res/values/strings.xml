@@ -37,5 +37,6 @@
     <string name="next">Next</string>
     <string name="save">Save</string>
     <string name="snack_add_message">Contact added successfully</string>
+    <string name="multiple_delete">Multiple delete</string>
 
 </resources>

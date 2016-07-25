@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
@@ -23,11 +26,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     private List<Contact> mContactList;
     private ClickItemListener clickItemListener;
     private int mode = MODE_SIMPLE;
+    private HashMap<Integer, Integer> selected = new HashMap<>();
 
 
-
-
-    public interface ClickItemListener{
+    public interface ClickItemListener {
         void onItemClick(int position);
     }
 
@@ -45,6 +47,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         CardView mCardView;
         TextView tvShowFirstName, tvShowLastName;
 
+        CheckBox chkMultipleMode;
+
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -52,15 +57,32 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
             tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
 
+            chkMultipleMode = (CheckBox) itemView.findViewById(R.id.chkMultipleMode);
+            chkMultipleMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        if (!selected.containsKey(getAdapterPosition())) {
+                            selected.put(getAdapterPosition(), mContactList.get(getAdapterPosition()).getID());
+                        }
+                    } else if (selected.containsKey(getAdapterPosition())) {
+                        selected.remove(getAdapterPosition());
+                    }
+                }
+            });
+
             mCardView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION && view.getId() == R.id.card_view){
-                if (clickItemListener !=null){
-                    clickItemListener.onItemClick(position);
+            if (position != RecyclerView.NO_POSITION && view.getId() == R.id.card_view) {
+                if (clickItemListener != null) {
+                    if (mode == MODE_SIMPLE)
+                        clickItemListener.onItemClick(position);
+                    else
+                        chkMultipleMode.setChecked(!chkMultipleMode.isChecked());
                 }
             }
         }
@@ -83,17 +105,32 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         Contact contact = mContactList.get(position);
         holder.tvShowFirstName.setText(contact.getFirstName());
         holder.tvShowLastName.setText(contact.getLastName());
-        Log.i(DBHandler.class.getName(),"Contact id" +contact.getID());
 
-      //  holder.tvShowFirstName.setVisibility((mode == MODE_SELECT) ? View.VISIBLE : View.GONE);
+        Log.i(DBHandler.class.getName(), "Contact id" + contact.getID());
+
+
+        holder.chkMultipleMode.setVisibility((mode == MODE_SELECT) ? View.VISIBLE : View.GONE);
+        holder.chkMultipleMode.setChecked(selected.containsKey(position));
 
     }
 
-    public void setMode(int mode){
-        this.mode = mode;
+    public void changeMode() {
+        if (mode == MODE_SIMPLE)
+            mode = MODE_SELECT;
+        else {
+            mode = MODE_SIMPLE;
+            selected.clear();
+        }
         notifyDataSetChanged();
     }
 
+    public int getCurrentMode() {
+        return mode;
+    }
+
+    public HashMap<Integer, Integer> getSelected() {
+        return selected;
+    }
 
     @Override
     public int getItemCount() {
@@ -107,7 +144,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         notifyItemInserted(mContactList.size());
     }
 
-    public void deleteItem (Contact item, int position) {
+    public void deleteItem(Contact item, int position) {
         mContactList.remove(position);
         notifyItemRemoved(position);
 
@@ -118,8 +155,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
-
-
 
 
 }

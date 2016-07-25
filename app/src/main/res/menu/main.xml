@@ -3,12 +3,21 @@
       xmlns:app="http://schemas.android.com/tools"
       xmlns:contactsdb="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        android:id="@+id/itemMultipleChoiceDelete"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:title="@string/multiple_delete"
+        contactsdb:showAsAction="always">
+    </item>
+
     <item
         android:id="@+id/itemAdd"
         android:icon="@drawable/ic_person_add"
         android:title="@string/add"
         contactsdb:showAsAction="always">
     </item>
+
 
 
 </menu>

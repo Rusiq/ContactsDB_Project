@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,8 +35,12 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private LinearLayoutManager layoutManager;
     private DataAdapter dataAdapter;
     private ArrayList<Contact> mContactArrayList = new ArrayList<>();
-    private LinearLayout llList;
+    private LinearLayout llList, llChoiceMode;
     private int positionItemClick;
+    private ViewGroup.MarginLayoutParams params;
+    private DisplayMetrics displayMetrics;
+    private float d;
+    private int dpValue;
 
     public ListActivity() {
 
@@ -50,6 +57,8 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
         rv = (RecyclerView) findViewById(R.id.recycler_view);
         llList = (LinearLayout) findViewById(R.id.llList);
+        llChoiceMode = (LinearLayout) findViewById(R.id.llChoiceMode);
+        displayMetrics = this.getResources().getDisplayMetrics();
 
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
@@ -57,6 +66,9 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         dataAdapter.setClickItemListener(this);
         rv.setAdapter(dataAdapter);
         rv.setHasFixedSize(true);
+
+        d = getResources().getDisplayMetrics().density;
+        params = (ViewGroup.MarginLayoutParams) rv.getLayoutParams();
 
         updateUI();
 
@@ -83,6 +95,22 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                 Intent intent = new Intent(this, AddActivity.class);
                 startActivityForResult(intent, REQUEST_ADD_CONTACT);
                 break;
+
+            case R.id.itemMultipleChoiceDelete:
+                dataAdapter.changeMode();
+                if (dataAdapter.getCurrentMode() == DataAdapter.MODE_SELECT) {
+                    llChoiceMode.setVisibility(View.VISIBLE);
+                //    params.bottomMargin = Math.round(56 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+                //    params.bottomMargin = (int) (d / dpValue);
+                    rv.scrollToPosition(mContactArrayList.size());
+                } else {
+                    params.bottomMargin = 0;
+                    llChoiceMode.setVisibility(View.GONE);
+
+                }
+
+                break;
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -132,11 +160,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                         final Contact contact = db.getContactById(idForDel);
                         //  db.deleteContact(idForDel);
                         if (contact != null) {
-                           // rv.getItemAnimator().setAddDuration(1000);
+                            // rv.getItemAnimator().setAddDuration(1000);
 
                             //dataAdapter.notifyItemRemoved(positionItemClick);
                             dataAdapter.deleteItem(contact, positionItemClick);
-                         //   dataAdapter.notifyDataSetChanged();
+                            //   dataAdapter.notifyDataSetChanged();
                         }
                         db.deleteContact(idForDel);
                     }
