@@ -184,22 +184,22 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     }
 
 
-                    final Contact contactEdit = db.getContactById(data.getLongExtra("idForEdit", -9999));
+                    final Contact contactEdit = db.getContactById(data.getLongExtra("id", -9999));
 
                     boolean isEdit = data.getBooleanExtra("edit", false);
-                    if (isEdit){
+                    if (isEdit) {
                         dataAdapter.changeItem(contactEdit, positionItemClick);
-                    }
+                    }else {
 
-                    Long idForDel = data.getLongExtra("id", -1);
-                    if (idForDel > 0) {
-                        final Contact contact = db.getContactById(idForDel);
-
+                        Long idForDel = data.getLongExtra("id", -1);
+                        if (idForDel > 0) {
+                            final Contact contact = db.getContactById(idForDel);
                             if (contact != null) {
                                 dataAdapter.deleteItem(positionItemClick);
                             }
                             db.deleteContact(idForDel);
 
+                        }
                     }
 
              /*       Long idForDel = data.getLongExtra("id", -1);
@@ -234,12 +234,12 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     @Override
     public void onBackPressed() {
 
-        switch (dataAdapter.getCurrentMode())
-        {
+        switch (dataAdapter.getCurrentMode()) {
             case DataAdapter.MODE_SELECT:
                 disableChoiceMode();
                 break;
-            case DataAdapter.MODE_SIMPLE: super.onBackPressed();
+            case DataAdapter.MODE_SIMPLE:
+                super.onBackPressed();
                 break;
         }
     }
@@ -251,7 +251,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     }
 
 
-    public Context getContext(){
+    public Context getContext() {
         return context;
     }
 
@@ -277,17 +277,31 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnMultipleChoiceCancel:
                 disableChoiceMode();
                 break;
 
             case R.id.btnMultipleChoiceDelete:
-                HashMap<Integer,Integer> selectedHashMap = dataAdapter.getSelectedHashMap();
-                for (HashMap.Entry<Integer,Integer> entry : selectedHashMap.entrySet()){
+                HashMap<Integer, Integer> selectedHashMap = dataAdapter.getSelectedHashMap();
+                for (HashMap.Entry<Integer, Integer> entry : selectedHashMap.entrySet()) {
 
-                    Log.d("selectedHashMap", "Position: " + entry.getKey()+ " ID: " + entry.getValue());
+                    Log.d("selectedHashMap", "Position: " + entry.getKey() + " ID: " + entry.getValue());
 
                     db.deleteContact(entry.getValue());
                 }
@@ -299,7 +313,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         }
     }
 
-    private void disableChoiceMode(){
+    private void disableChoiceMode() {
         dataAdapter.changeMode();
         rv.setPadding(0, 0, 0, 0);
         llChoiceMode.setVisibility(View.GONE);

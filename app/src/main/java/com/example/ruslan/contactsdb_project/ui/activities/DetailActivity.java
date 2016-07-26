@@ -132,7 +132,7 @@ public class DetailActivity extends AppCompatActivity {
         if (isContactWasChange) {
             long id = contact.getID();
             Intent intent = new Intent();
-            intent.putExtra("idForEdit", id);
+            intent.putExtra("id", id);
             intent.putExtra("edit", true);
             setResult(AddActivity.RESULT_OK, intent);
         }
