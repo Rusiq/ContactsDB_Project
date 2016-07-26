@@ -66,7 +66,7 @@ public class DetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int button) {
                             long id = contact.getID();
-                         //   db.deleteContact(id);
+                            //   db.deleteContact(id);
 
                             Intent intent = new Intent();
                             intent.putExtra("id", id);
@@ -122,10 +122,24 @@ public class DetailActivity extends AppCompatActivity {
                 case REQUEST_EDIT_CONTACT:
                     contact = data.getParcelableExtra("contact");
                     setContactDetail();
+                    isContactWasChange = true;
             }
         }
     }
 
+    @Override
+    public void finish() {
+        if (isContactWasChange) {
+            long id = contact.getID();
+            Intent intent = new Intent();
+            intent.putExtra("idForEdit", id);
+            intent.putExtra("edit", true);
+            setResult(AddActivity.RESULT_OK, intent);
+        }
+        super.finish();
+    }
+
+    boolean isContactWasChange = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

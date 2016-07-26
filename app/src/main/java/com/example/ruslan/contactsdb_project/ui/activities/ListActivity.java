@@ -23,6 +23,7 @@ import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ListActivity extends AppCompatActivity implements DataAdapter.ClickItemListener, DataAdapter.SizeSelectedListener, View.OnClickListener {
 
@@ -66,8 +67,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         btnMultipleChoiceDelete.setOnClickListener(this);
         btnMultipleChoiceCancel.setOnClickListener(this);
 
-
-
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         dataAdapter = new DataAdapter(this, mContactArrayList);
@@ -77,10 +76,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         rv.setHasFixedSize(true);
         context = getContext();
 
-     //   params = (ViewGroup.MarginLayoutParams) rv.getLayoutParams();
-
        /* llChoiceMode.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
             @Override
             public void onGlobalLayout() {
                 llChoiceMode.getHeight();
@@ -94,7 +90,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         });*/
 
         updateUI();
-
         //   FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addButton);
     }
 
@@ -133,25 +128,13 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
                     llChoiceMode.setAlpha(0f);
                     llChoiceMode.setVisibility(View.VISIBLE);
+                    llChoiceMode.animate().setDuration(500);
                     llChoiceMode.animate().alpha(1).start();
                     getSupportActionBar().setTitle(R.string.choice_mode);
                     itemAdd.setVisible(false);
-
-                    //    params.bottomMargin = Math.round(56 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-                    //params.bottomMargin = (int) (dpValue * d);
-                    //rv.scrollToPosition(mContactArrayList.size());
-                } else {
-                    //params.bottomMargin = 0;
-                    rv.setPadding(0, 0, 0, 0);
-                    llChoiceMode.setVisibility(View.GONE);
-                    getSupportActionBar().setTitle(R.string.app_name);
-                    itemAdd.setVisible(true);
-
-
+                    itemMultipleChoiceDelete.setVisible(false);
                 }
-
                 break;
-
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -192,24 +175,46 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     break;
 
                 case REQUEST_DELETE_CONTACT:
+                    Log.d("myLogs", "Delete contact");
+                    Log.d("myLogs", String.valueOf(data.getLongExtra("id", -1000)));
+
 
                     if (data == null) {
                         return;
                     }
+
+
+                    final Contact contactEdit = db.getContactById(data.getLongExtra("idForEdit", -9999));
+
+                    boolean isEdit = data.getBooleanExtra("edit", false);
+                    if (isEdit){
+                        dataAdapter.changeItem(contactEdit, positionItemClick);
+                    }
+
                     Long idForDel = data.getLongExtra("id", -1);
                     if (idForDel > 0) {
                         final Contact contact = db.getContactById(idForDel);
-                        //  db.deleteContact(idForDel);
-                        if (contact != null) {
-                            // rv.getItemAnimator().setAddDuration(1000);
 
-                            //dataAdapter.notifyItemRemoved(positionItemClick);
-                            dataAdapter.deleteItem(contact, positionItemClick);
-                            //   dataAdapter.notifyDataSetChanged();
-                        }
-                        db.deleteContact(idForDel);
+                            if (contact != null) {
+                                dataAdapter.deleteItem(positionItemClick);
+                            }
+                            db.deleteContact(idForDel);
+
                     }
 
+             /*       Long idForDel = data.getLongExtra("id", -1);
+                    if (idForDel > 0) {
+                        final Contact contact = db.getContactById(idForDel);
+                        boolean isEdit = data.getBooleanExtra("edit", false);
+                        if (isEdit){
+                            dataAdapter.changeItem(contact, positionItemClick);
+                        }else {
+                            if (contact != null) {
+                                dataAdapter.deleteItem(positionItemClick);
+                            }
+                            db.deleteContact(idForDel);
+                        }
+                    }*/
 
                     Log.d("myLogs", "Delete contact");
                     break;
@@ -232,22 +237,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         switch (dataAdapter.getCurrentMode())
         {
             case DataAdapter.MODE_SELECT:
-                dataAdapter.changeMode();
-                rv.setPadding(0, 0, 0, 0);
-                llChoiceMode.setVisibility(View.GONE);
-                getSupportActionBar().setTitle(R.string.app_name);
-                itemAdd.setVisible(true);
+                disableChoiceMode();
                 break;
             case DataAdapter.MODE_SIMPLE: super.onBackPressed();
                 break;
         }
-
-
-       // super.onBackPressed();
-    }
-
-    public DBHandler getDB() {
-        return db;
     }
 
     public void updateUI() {
@@ -256,9 +250,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         dataAdapter.notifyDataSetChanged();
     }
 
-    public void setValueForButtonMultipleChoiceDelete (int size) {
-        btnMultipleChoiceDelete.setText(String.format(String.valueOf(R.string.multiple_choice_delete), size));
-    }
 
     public Context getContext(){
         return context;
@@ -273,8 +264,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         final Contact contact = mContactArrayList.get(position);
         intent.putExtra("contact", contact);
         startActivityForResult(intent, REQUEST_DELETE_CONTACT);
-
-
         /*db.deleteContact(mContactArrayList.get(position).getID());
         mContactArrayList.clear();
         mContactArrayList.addAll(db.getAllContacts());
@@ -284,8 +273,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
     @Override
     public void selectedSize(int size) {
-
-      //  String string = "Delete (%s)";
         btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, size));
     }
 
@@ -293,14 +280,32 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnMultipleChoiceCancel:
-                dataAdapter.changeMode();
-                rv.setPadding(0, 0, 0, 0);
-                llChoiceMode.setVisibility(View.GONE);
-                getSupportActionBar().setTitle(R.string.app_name);
-                itemAdd.setVisible(true);
+                disableChoiceMode();
                 break;
+
             case R.id.btnMultipleChoiceDelete:
+                HashMap<Integer,Integer> selectedHashMap = dataAdapter.getSelectedHashMap();
+                for (HashMap.Entry<Integer,Integer> entry : selectedHashMap.entrySet()){
+
+                    Log.d("selectedHashMap", "Position: " + entry.getKey()+ " ID: " + entry.getValue());
+
+                    db.deleteContact(entry.getValue());
+                }
+                mContactArrayList.clear();
+                mContactArrayList.addAll(db.getAllContacts());
+                dataAdapter.notifyDataSetChanged();
+                disableChoiceMode();
                 break;
         }
     }
+
+    private void disableChoiceMode(){
+        dataAdapter.changeMode();
+        rv.setPadding(0, 0, 0, 0);
+        llChoiceMode.setVisibility(View.GONE);
+        getSupportActionBar().setTitle(R.string.app_name);
+        itemAdd.setVisible(true);
+        itemMultipleChoiceDelete.setVisible(true);
+    }
+
 }

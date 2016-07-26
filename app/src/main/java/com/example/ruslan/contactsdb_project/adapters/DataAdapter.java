@@ -38,6 +38,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         void selectedSize(int size);
     }
 
+
     public void setClickItemListener(ClickItemListener clickItemListener) {
         this.clickItemListener = clickItemListener;
     }
@@ -45,6 +46,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void setSizeSelectedListener(SizeSelectedListener sizeSelectedListener) {
         this.sizeSelectedListener = sizeSelectedListener;
     }
+
+
 
     public DataAdapter(Context context, List<Contact> objects) {
         mContext = context;
@@ -61,6 +64,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
+
 
             mCardView = (CardView) itemView.findViewById(R.id.card_view);
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
@@ -80,6 +84,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
                     }
                     if (sizeSelectedListener != null)
                         sizeSelectedListener.selectedSize(selected.size());
+
                 }
             });
 
@@ -140,7 +145,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return mode;
     }
 
-    public HashMap<Integer, Integer> getSelected() {
+    public HashMap<Integer, Integer> getSelectedHashMap() {
         return selected;
     }
 
@@ -156,10 +161,19 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         notifyItemInserted(mContactList.size());
     }
 
-    public void deleteItem(Contact item, int position) {
+    public void changeItem(Contact item, int position) {
+
+        mContactList.set(position, item);
+        notifyItemChanged(position);
+    }
+
+    public void deleteItem(int position) {
         mContactList.remove(position);
         notifyItemRemoved(position);
+    }
 
+    public void deleteItemChoiceMode(int position){
+        mContactList.remove(position);
     }
 
 

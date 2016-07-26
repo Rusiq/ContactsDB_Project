@@ -41,6 +41,6 @@
 
     <string name="multiple_choice_cancel">Cancel</string>
     <string name="multiple_choice_delete">Delete (%s)</string>
-    <string name="choice_mode">Choice mode</string>
+    <string name="choice_mode">Choice Mode</string>
 
 </resources>
