@@ -39,4 +39,8 @@
     <string name="snack_add_message">Contact added successfully</string>
     <string name="multiple_delete">Multiple delete</string>
 
+    <string name="multiple_choice_cancel">Cancel</string>
+    <string name="multiple_choice_delete">Delete (%s)</string>
+    <string name="choice_mode">Choice mode</string>
+
 </resources>

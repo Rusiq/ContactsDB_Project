@@ -1,8 +1,8 @@
 package com.example.ruslan.contactsdb_project.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ import com.example.ruslan.contactsdb_project.data.DBHandler;
 
 import java.util.ArrayList;
 
-public class ListActivity extends AppCompatActivity implements DataAdapter.ClickItemListener {
+public class ListActivity extends AppCompatActivity implements DataAdapter.ClickItemListener, DataAdapter.SizeSelectedListener, View.OnClickListener {
 
 
     private final int REQUEST_ADD_CONTACT = 1;
@@ -39,8 +40,9 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private int positionItemClick;
     private ViewGroup.MarginLayoutParams params;
     private DisplayMetrics displayMetrics;
-    private float d;
-    private int dpValue;
+    private Button btnMultipleChoiceDelete, btnMultipleChoiceCancel;
+    private Context context;
+    private MenuItem itemAdd, itemMultipleChoiceDelete;
 
     public ListActivity() {
 
@@ -59,16 +61,37 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         llList = (LinearLayout) findViewById(R.id.llList);
         llChoiceMode = (LinearLayout) findViewById(R.id.llChoiceMode);
         displayMetrics = this.getResources().getDisplayMetrics();
+        btnMultipleChoiceDelete = (Button) findViewById(R.id.btnMultipleChoiceDelete);
+        btnMultipleChoiceCancel = (Button) findViewById(R.id.btnMultipleChoiceCancel);
+        btnMultipleChoiceDelete.setOnClickListener(this);
+        btnMultipleChoiceCancel.setOnClickListener(this);
+
+
 
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         dataAdapter = new DataAdapter(this, mContactArrayList);
         dataAdapter.setClickItemListener(this);
+        dataAdapter.setSizeSelectedListener(this);
         rv.setAdapter(dataAdapter);
         rv.setHasFixedSize(true);
+        context = getContext();
 
-        d = getResources().getDisplayMetrics().density;
-        params = (ViewGroup.MarginLayoutParams) rv.getLayoutParams();
+     //   params = (ViewGroup.MarginLayoutParams) rv.getLayoutParams();
+
+       /* llChoiceMode.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                llChoiceMode.getHeight();
+                if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    llChoiceMode.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+                else {
+                    llChoiceMode.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            }
+        });*/
 
         updateUI();
 
@@ -85,11 +108,16 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        itemAdd = (MenuItem) menu.findItem(R.id.itemAdd);
+        itemMultipleChoiceDelete = (MenuItem) menu.findItem(R.id.itemMultipleChoiceDelete);
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.itemAdd:
                 Intent intent = new Intent(this, AddActivity.class);
@@ -99,13 +127,26 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
             case R.id.itemMultipleChoiceDelete:
                 dataAdapter.changeMode();
                 if (dataAdapter.getCurrentMode() == DataAdapter.MODE_SELECT) {
+                    int valueInPixels = (int) getResources().getDimension(R.dimen.marginButtonMultipleChoice);
+                    rv.setPadding(0, 0, 0, valueInPixels);
+                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, 0));
+
+                    llChoiceMode.setAlpha(0f);
                     llChoiceMode.setVisibility(View.VISIBLE);
-                //    params.bottomMargin = Math.round(56 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-                //    params.bottomMargin = (int) (d / dpValue);
-                    rv.scrollToPosition(mContactArrayList.size());
+                    llChoiceMode.animate().alpha(1).start();
+                    getSupportActionBar().setTitle(R.string.choice_mode);
+                    itemAdd.setVisible(false);
+
+                    //    params.bottomMargin = Math.round(56 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+                    //params.bottomMargin = (int) (dpValue * d);
+                    //rv.scrollToPosition(mContactArrayList.size());
                 } else {
-                    params.bottomMargin = 0;
+                    //params.bottomMargin = 0;
+                    rv.setPadding(0, 0, 0, 0);
                     llChoiceMode.setVisibility(View.GONE);
+                    getSupportActionBar().setTitle(R.string.app_name);
+                    itemAdd.setVisible(true);
+
 
                 }
 
@@ -185,6 +226,25 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        switch (dataAdapter.getCurrentMode())
+        {
+            case DataAdapter.MODE_SELECT:
+                dataAdapter.changeMode();
+                rv.setPadding(0, 0, 0, 0);
+                llChoiceMode.setVisibility(View.GONE);
+                getSupportActionBar().setTitle(R.string.app_name);
+                itemAdd.setVisible(true);
+                break;
+            case DataAdapter.MODE_SIMPLE: super.onBackPressed();
+                break;
+        }
+
+
+       // super.onBackPressed();
+    }
 
     public DBHandler getDB() {
         return db;
@@ -192,10 +252,17 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
     public void updateUI() {
         mContactArrayList.clear();
-        mContactArrayList.addAll((ArrayList<Contact>) db.getAllContacts());
+        mContactArrayList.addAll(db.getAllContacts());
         dataAdapter.notifyDataSetChanged();
     }
 
+    public void setValueForButtonMultipleChoiceDelete (int size) {
+        btnMultipleChoiceDelete.setText(String.format(String.valueOf(R.string.multiple_choice_delete), size));
+    }
+
+    public Context getContext(){
+        return context;
+    }
 
     @Override
     public void onItemClick(int position) {
@@ -204,7 +271,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         positionItemClick = position;
         Intent intent = new Intent(this, DetailActivity.class);
         final Contact contact = mContactArrayList.get(position);
-        intent.putExtra("contact", (Parcelable) contact);
+        intent.putExtra("contact", contact);
         startActivityForResult(intent, REQUEST_DELETE_CONTACT);
 
 
@@ -213,5 +280,27 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         mContactArrayList.addAll(db.getAllContacts());
         dataAdapter.notifyDataSetChanged();*/
 
+    }
+
+    @Override
+    public void selectedSize(int size) {
+
+      //  String string = "Delete (%s)";
+        btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, size));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnMultipleChoiceCancel:
+                dataAdapter.changeMode();
+                rv.setPadding(0, 0, 0, 0);
+                llChoiceMode.setVisibility(View.GONE);
+                getSupportActionBar().setTitle(R.string.app_name);
+                itemAdd.setVisible(true);
+                break;
+            case R.id.btnMultipleChoiceDelete:
+                break;
+        }
     }
 }

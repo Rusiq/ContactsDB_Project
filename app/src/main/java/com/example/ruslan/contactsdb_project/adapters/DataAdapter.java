@@ -25,6 +25,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     private Context mContext;
     private List<Contact> mContactList;
     private ClickItemListener clickItemListener;
+    private SizeSelectedListener sizeSelectedListener;
     private int mode = MODE_SIMPLE;
     private HashMap<Integer, Integer> selected = new HashMap<>();
 
@@ -33,8 +34,16 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         void onItemClick(int position);
     }
 
+    public interface SizeSelectedListener {
+        void selectedSize(int size);
+    }
+
     public void setClickItemListener(ClickItemListener clickItemListener) {
         this.clickItemListener = clickItemListener;
+    }
+
+    public void setSizeSelectedListener(SizeSelectedListener sizeSelectedListener) {
+        this.sizeSelectedListener = sizeSelectedListener;
     }
 
     public DataAdapter(Context context, List<Contact> objects) {
@@ -67,7 +76,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
                         }
                     } else if (selected.containsKey(getAdapterPosition())) {
                         selected.remove(getAdapterPosition());
+
                     }
+                    if (sizeSelectedListener != null)
+                        sizeSelectedListener.selectedSize(selected.size());
                 }
             });
 
