@@ -2,14 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.ruslan.contactsdb_project">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.ListActivity"
-                  android:configChanges="orientation|screenSize">
+        <activity
+            android:name=".ui.activities.ListActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,16 +22,23 @@
         <activity
             android:name=".ui.activities.AddActivity"
             android:configChanges="orientation|screenSize"
-            android:label="ActivityTwo"
+            android:label="ActivityAdd"
             android:windowSoftInputMode="stateUnspecified">
         </activity>
-        <activity android:name=".ui.activities.DetailActivity"
-                  android:configChanges="orientation|screenSize"
-            android:label="Сontact details">
+        <activity
+            android:name=".ui.activities.DetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="Сontact Details">
         </activity>
-        <activity android:name=".ui.activities.EditActivity"
-                  android:label="Edit contact"
+        <activity
+            android:name=".ui.activities.EditActivity"
+            android:label="Edit contact"
             android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".ui.activities.ImportActivity"
+                  android:label="Import"
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 

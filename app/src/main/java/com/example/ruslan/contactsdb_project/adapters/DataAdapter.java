@@ -154,6 +154,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return mContactList.size();
     }
 
+    public void selectAllItem(){
+
+        for (int i = 0; i < mContactList.size(); i++){
+
+        }
+        notifyDataSetChanged();
+    }
+
 
     public void addItem(Contact item) {
 

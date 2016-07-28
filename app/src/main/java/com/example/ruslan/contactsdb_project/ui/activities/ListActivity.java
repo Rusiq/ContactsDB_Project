@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
@@ -32,6 +31,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private final int REQUEST_DETAIL_CONTACT = 2;
     private final int REQUEST_EDIT_CONTACT = 3;
     private final int REQUEST_DELETE_CONTACT = 4;
+    private final int REQUEST_IMPORT_CONTACTS = 5;
     private final DBHandler db = new DBHandler(this);
     private RecyclerView rv;
     private LinearLayoutManager layoutManager;
@@ -43,7 +43,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private DisplayMetrics displayMetrics;
     private Button btnMultipleChoiceDelete, btnMultipleChoiceCancel;
     private Context context;
-    private MenuItem itemAdd, itemMultipleChoiceDelete;
+    private MenuItem itemAdd, itemMultipleChoiceDelete, itemImport, itemClearSelection, itemSelectAll;
 
     public ListActivity() {
 
@@ -95,7 +95,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
 
 
@@ -106,6 +106,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
         itemAdd = (MenuItem) menu.findItem(R.id.itemAdd);
         itemMultipleChoiceDelete = (MenuItem) menu.findItem(R.id.itemMultipleChoiceDelete);
+        itemImport = (MenuItem) menu.findItem(R.id.itemImport);
+        itemClearSelection = (MenuItem) menu.findItem(R.id.itemClearSelection);
+        itemSelectAll = (MenuItem) menu.findItem(R.id.itemSelectAll);
+        itemClearSelection.setVisible(false);
+        itemSelectAll.setVisible(false);
         return true;
     }
 
@@ -133,6 +138,46 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     getSupportActionBar().setTitle(R.string.choice_mode);
                     itemAdd.setVisible(false);
                     itemMultipleChoiceDelete.setVisible(false);
+                    itemImport.setVisible(false);
+                    itemClearSelection.setVisible(true);
+                    itemSelectAll.setVisible(true);
+
+                }
+                break;
+
+            case R.id.itemImport:
+
+                Intent intentImport = new Intent(this, ImportActivity.class);
+                startActivityForResult(intentImport, REQUEST_IMPORT_CONTACTS);
+                break;
+
+               /* final int PICK_CONTACT=1;
+
+                Intent intentImport = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intentImport, PICK_CONTACT);
+
+                break;*/
+
+            case R.id.itemClearSelection:
+
+                dataAdapter.getSelectedHashMap().clear();
+                btnMultipleChoiceDelete.setText(getResources().getString(R.string.import_contacts, 0));
+                dataAdapter.notifyDataSetChanged();
+                break;
+
+            case R.id.itemSelectAll:
+                if (dataAdapter.getSelectedHashMap().size() == dataAdapter.getItemCount()) {
+                    dataAdapter.getSelectedHashMap().clear();
+                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.import_contacts, 0));
+                    dataAdapter.notifyDataSetChanged();
+                } else {
+                    dataAdapter.getSelectedHashMap().clear();
+                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.import_contacts, 0));
+
+                    for (int i = 0; i < dataAdapter.getItemCount(); i++) {
+                        dataAdapter.getSelectedHashMap().put(i ,mContactArrayList.get(i).getID() );
+                    }
+                    dataAdapter.notifyDataSetChanged();
                 }
                 break;
 
@@ -189,7 +234,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     boolean isEdit = data.getBooleanExtra("edit", false);
                     if (isEdit) {
                         dataAdapter.changeItem(contactEdit, positionItemClick);
-                    }else {
+                    } else {
 
                         Long idForDel = data.getLongExtra("id", -1);
                         if (idForDel > 0) {
@@ -201,27 +246,20 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
                         }
                     }
-
-             /*       Long idForDel = data.getLongExtra("id", -1);
-                    if (idForDel > 0) {
-                        final Contact contact = db.getContactById(idForDel);
-                        boolean isEdit = data.getBooleanExtra("edit", false);
-                        if (isEdit){
-                            dataAdapter.changeItem(contact, positionItemClick);
-                        }else {
-                            if (contact != null) {
-                                dataAdapter.deleteItem(positionItemClick);
-                            }
-                            db.deleteContact(idForDel);
-                        }
-                    }*/
-
                     Log.d("myLogs", "Delete contact");
                     break;
+
+                case REQUEST_IMPORT_CONTACTS:
+                    Log.d("myLogs", "Import contacts");
+                    dataAdapter.notifyDataSetChanged();
+
+                    break;
+
             }
-        } else {
-            Toast.makeText(this, "Wrong result", Toast.LENGTH_SHORT).show();
         }
+       /* else {
+            Toast.makeText(this, "Wrong result", Toast.LENGTH_SHORT).show();
+        }*/
     }
 
 
@@ -276,19 +314,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, size));
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-
-
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onClick(View v) {
@@ -320,6 +345,9 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         getSupportActionBar().setTitle(R.string.app_name);
         itemAdd.setVisible(true);
         itemMultipleChoiceDelete.setVisible(true);
+        itemImport.setVisible(true);
+        itemClearSelection.setVisible(false);
+        itemSelectAll.setVisible(false);
     }
 
 }

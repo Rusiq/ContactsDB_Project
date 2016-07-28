@@ -3,6 +3,26 @@
       xmlns:app="http://schemas.android.com/tools"
       xmlns:contactsdb="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/itemClearSelection"
+        android:title="@string/clear_selection"
+        contactsdb:showAsAction="always">
+    </item>
+
+
+    <item
+        android:id="@+id/itemSelectAll"
+        android:icon="@drawable/ic_select_all_black_24dp"
+        android:title="@string/select_all"
+        contactsdb:showAsAction="always">
+    </item>
+
+    <item
+        android:id="@+id/itemImport"
+        android:icon="@drawable/ic_import"
+        android:title="@string/import_phone_book"
+        contactsdb:showAsAction="always">
+    </item>
 
     <item
         android:id="@+id/itemMultipleChoiceDelete"
@@ -17,7 +37,6 @@
         android:title="@string/add"
         contactsdb:showAsAction="always">
     </item>
-
 
 
 </menu>

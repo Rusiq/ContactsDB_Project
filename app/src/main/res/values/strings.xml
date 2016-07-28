@@ -2,6 +2,7 @@
     <string name="app_name">ContactsDB</string>
 
     <string name="add">Add new contact</string>
+    <string name="import_phone_book">Import contacts</string>
     <string name="delete">Delete contact</string>
     <string name="edit">Edit contact</string>
     <string name="confirm_changes">Confirm changes</string>
@@ -13,8 +14,6 @@
     <string name="done">Done!</string>
 
     <string name="search">Enter to search</string>
-
-
 
 
     <string name="first_name">First name</string>
@@ -39,8 +38,13 @@
     <string name="snack_add_message">Contact added successfully</string>
     <string name="multiple_delete">Multiple delete</string>
 
+    <string name="select_all">Select All</string>
+    <string name="clear_selection">Clear</string>
+
     <string name="multiple_choice_cancel">Cancel</string>
     <string name="multiple_choice_delete">Delete (%s)</string>
+    <string name="import_contacts">Import (%s)</string>
+
     <string name="choice_mode">Choice Mode</string>
 
 </resources>
