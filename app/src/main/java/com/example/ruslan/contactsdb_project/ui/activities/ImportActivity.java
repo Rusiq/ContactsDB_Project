@@ -1,5 +1,6 @@
 package com.example.ruslan.contactsdb_project.ui.activities;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,13 +84,17 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
                 ContactsContract.Data.RAW_CONTACT_ID + "=?" + " AND "
                         + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "'",
                 new String[] {String.valueOf(rawContactId)}, null);*/
-        Cursor contactsCursor = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER + "=?", new String[]{String.valueOf(1)}, null);
+
+
+
+/*        Cursor contactsCursor = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER + "=?", new String[]{String.valueOf(1)}, null);
 
 
         int indexGivenName = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
         int indexFamilyName = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME);
         //   int indexPhone = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER);
         int indexPhone = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int indexPhone = contactsCursor.getColumnIndexOrThrow(ContactsContract.Contacts.);
         int indexEmail = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS);
 
         while (contactsCursor.moveToNext()) {
@@ -99,24 +105,86 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
             String contactPhone = contactsCursor.getString(indexPhone);
             String contactEmail = contactsCursor.getString(indexEmail);
 
-
-           // if (contactPhone.length() == 11) {
-
                 Contact contact = new Contact();
                 contact.setFirstName(contactFirstName);
                 contact.setLastName(contactLastName);
                 contact.setPhoneNumber(contactPhone);
                 contact.setEmail(contactEmail);
                 mContactArrayList.add(contact);
-         //   }
+        }*/
+
+
+        ContentResolver cr = getBaseContext().getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (cur.getCount() > 0) {
+            Log.i("Content provider", "Reading contact  emails");
+            while (cur.moveToNext()) {
+
+                String contactId = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+
+                // Create query to use CommonDataKinds classes to fetch emails
+                Cursor phoneNumbers = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId,
+                        null,
+                        null);
+
+
+                    /*        //You can use all columns defined for ContactsContract.Data
+                            // Query to get phone numbers by directly call data table column
+
+                            Cursor c = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                                      new String[] {ContactsContract.Data._ID, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL},
+                                      ContactsContract.Data.CONTACT_ID + "=?" + " AND "
+                                              + ContactsContract.Data.MIMETYPE + "= + Phone.CONTENT_ITEM_TYPE + ",
+                                      new String[] {String.valueOf(contactId)}, null);*/
+
+          //      int indexGivenName = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+          //      int indexFamilyName = contactsCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME);
+
+
+                while (phoneNumbers.moveToNext()) {
+
+                    // This would allow you get several email addresses
+                    String phoneNumbersString = cur.getString(phoneNumbers.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA));
+
+                    String firstNameString = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME));
+                    String lasttNameString = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
+
+                    //Log.e("email==>", emailAddress);
+                    Contact contact = new Contact();
+                    contact.setPhoneNumber(phoneNumbersString);
+                    contact.setFirstName(firstNameString);
+                    contact.setLastName(lasttNameString);
+                    mContactArrayList.add(contact);
+
+                }
+                phoneNumbers.close();
+            }
+
         }
+        /*else
+        {
+            emaildata +="
+            Data not found.
+            ";
+
+        }*/
+        cur.close();
 
 
-        // String[] uiBindFrom = {ContactsContract.Contacts.NAME}
+
+
+
+
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

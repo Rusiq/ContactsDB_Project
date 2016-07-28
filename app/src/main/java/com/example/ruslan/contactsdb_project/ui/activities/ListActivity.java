@@ -156,6 +156,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                 Intent intentImport = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                 startActivityForResult(intentImport, PICK_CONTACT);
 
+
                 break;*/
 
             case R.id.itemClearSelection:
@@ -251,6 +252,8 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
                 case REQUEST_IMPORT_CONTACTS:
                     Log.d("myLogs", "Import contacts");
+                    mContactArrayList.clear();
+                    mContactArrayList.addAll(db.getAllContacts());
                     dataAdapter.notifyDataSetChanged();
 
                     break;
