@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ruslan.contactsdb_project.R;
@@ -58,6 +59,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         CardView mCardView;
         TextView tvShowFirstName, tvShowLastName;
+        LinearLayout content;
 
         CheckBox chkMultipleMode;
 
@@ -66,7 +68,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             super(itemView);
 
 
-            mCardView = (CardView) itemView.findViewById(R.id.card_view);
+         //   mCardView = (CardView) itemView.findViewById(R.id.card_view);
+            content = (LinearLayout) itemView.findViewById(R.id.content);
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
             tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
 
@@ -88,13 +91,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
                 }
             });
 
-            mCardView.setOnClickListener(this);
+         //   mCardView.setOnClickListener(this);
+            content.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION && view.getId() == R.id.card_view) {
+            if (position != RecyclerView.NO_POSITION && view.getId() == R.id.content) {
                 if (clickItemListener != null) {
                     if (mode == MODE_SIMPLE)
                         clickItemListener.onItemClick(position);

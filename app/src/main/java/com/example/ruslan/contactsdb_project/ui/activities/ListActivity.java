@@ -1,7 +1,9 @@
 package com.example.ruslan.contactsdb_project.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
 import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
+import com.example.ruslan.contactsdb_project.ui.ItemDivider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +47,8 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private Button btnMultipleChoiceDelete, btnMultipleChoiceCancel;
     private Context context;
     private MenuItem itemAdd, itemMultipleChoiceDelete, itemImport, itemClearSelection, itemSelectAll;
+    private ProgressDialog pdConfirmDelete;
+    private ConfirmDeleteAsyncTask confirmDeleteTask;
 
     public ListActivity() {
 
@@ -74,7 +79,10 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         dataAdapter.setSizeSelectedListener(this);
         rv.setAdapter(dataAdapter);
         rv.setHasFixedSize(true);
+        rv.addItemDecoration(new ItemDivider(this));
         context = getContext();
+        confirmDeleteTask = new ConfirmDeleteAsyncTask();
+
 
        /* llChoiceMode.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -92,6 +100,58 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         updateUI();
         //   FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.addButton);
     }
+
+
+    class ConfirmDeleteAsyncTask extends AsyncTask <Void, Integer, Void> {
+
+        public ConfirmDeleteAsyncTask(){
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdConfirmDelete = new ProgressDialog(ListActivity.this);
+            pdConfirmDelete.setTitle(R.string.deleting);
+            pdConfirmDelete.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pdConfirmDelete.setMax(dataAdapter.getSelectedHashMap().size());
+            pdConfirmDelete.setCancelable(false);
+            pdConfirmDelete.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            int count = 1;
+            HashMap<Integer, Integer> selectedHashMap = dataAdapter.getSelectedHashMap();
+            for (HashMap.Entry<Integer, Integer> entry : selectedHashMap.entrySet()) {
+
+                Log.d("selectedHashMap", "Position: " + entry.getKey() + " ID: " + entry.getValue());
+
+                db.deleteContact(entry.getValue());
+                publishProgress(++count);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+           // pdConfirmDelete.incrementProgressBy(values[0]);
+            pdConfirmDelete.setProgress(values[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pdConfirmDelete.dismiss();
+            mContactArrayList.clear();
+            mContactArrayList.addAll(db.getAllContacts());
+            dataAdapter.notifyDataSetChanged();
+            disableChoiceMode();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,23 +201,13 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     itemImport.setVisible(false);
                     itemClearSelection.setVisible(true);
                     itemSelectAll.setVisible(true);
-
                 }
                 break;
 
             case R.id.itemImport:
-
                 Intent intentImport = new Intent(this, ImportActivity.class);
                 startActivityForResult(intentImport, REQUEST_IMPORT_CONTACTS);
                 break;
-
-               /* final int PICK_CONTACT=1;
-
-                Intent intentImport = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(intentImport, PICK_CONTACT);
-
-
-                break;*/
 
             case R.id.itemClearSelection:
 
@@ -322,21 +372,16 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnMultipleChoiceCancel:
+
                 disableChoiceMode();
                 break;
 
             case R.id.btnMultipleChoiceDelete:
-                HashMap<Integer, Integer> selectedHashMap = dataAdapter.getSelectedHashMap();
-                for (HashMap.Entry<Integer, Integer> entry : selectedHashMap.entrySet()) {
+                new ConfirmDeleteAsyncTask().execute();
+                //confirmDeleteTask.execute();
 
-                    Log.d("selectedHashMap", "Position: " + entry.getKey() + " ID: " + entry.getValue());
+              //  confirmDeleteTask.cancel();
 
-                    db.deleteContact(entry.getValue());
-                }
-                mContactArrayList.clear();
-                mContactArrayList.addAll(db.getAllContacts());
-                dataAdapter.notifyDataSetChanged();
-                disableChoiceMode();
                 break;
         }
     }
