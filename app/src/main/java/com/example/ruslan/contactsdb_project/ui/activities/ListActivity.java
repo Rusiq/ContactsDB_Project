@@ -71,7 +71,6 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         btnMultipleChoiceCancel = (Button) findViewById(R.id.btnMultipleChoiceCancel);
         btnMultipleChoiceDelete.setOnClickListener(this);
         btnMultipleChoiceCancel.setOnClickListener(this);
-
         layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         dataAdapter = new DataAdapter(this, mContactArrayList);
@@ -82,6 +81,8 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         rv.addItemDecoration(new ItemDivider(this));
         context = getContext();
         confirmDeleteTask = new ConfirmDeleteAsyncTask();
+       /* final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(dataAdapter);
+        rv.addItemDecoration(headersDecor);*/
 
 
        /* llChoiceMode.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -242,9 +243,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Log.d("myLogs", "requestCode = " + requestCode + ", resultCode = " + resultCode);
-
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_ADD_CONTACT:
@@ -272,16 +271,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
                 case REQUEST_DELETE_CONTACT:
                     Log.d("myLogs", "Delete contact");
-                    Log.d("myLogs", String.valueOf(data.getLongExtra("id", -1000)));
-
-
                     if (data == null) {
                         return;
                     }
 
-
                     final Contact contactEdit = db.getContactById(data.getLongExtra("id", -9999));
-
                     boolean isEdit = data.getBooleanExtra("edit", false);
                     if (isEdit) {
                         dataAdapter.changeItem(contactEdit, positionItemClick);
@@ -294,10 +288,8 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                                 dataAdapter.deleteItem(positionItemClick);
                             }
                             db.deleteContact(idForDel);
-
                         }
                     }
-                    Log.d("myLogs", "Delete contact");
                     break;
 
                 case REQUEST_IMPORT_CONTACTS:
@@ -305,26 +297,19 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                     mContactArrayList.clear();
                     mContactArrayList.addAll(db.getAllContacts());
                     dataAdapter.notifyDataSetChanged();
-
                     break;
-
             }
         }
-       /* else {
-            Toast.makeText(this, "Wrong result", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
     public void onBackPressed() {
-
         switch (dataAdapter.getCurrentMode()) {
             case DataAdapter.MODE_SELECT:
                 disableChoiceMode();
@@ -349,17 +334,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     @Override
     public void onItemClick(int position) {
         Log.d("itemClick", "itemClick" + position);
-
         positionItemClick = position;
         Intent intent = new Intent(this, DetailActivity.class);
         final Contact contact = mContactArrayList.get(position);
         intent.putExtra("contact", contact);
         startActivityForResult(intent, REQUEST_DELETE_CONTACT);
-        /*db.deleteContact(mContactArrayList.get(position).getID());
-        mContactArrayList.clear();
-        mContactArrayList.addAll(db.getAllContacts());
-        dataAdapter.notifyDataSetChanged();*/
-
     }
 
     @Override
@@ -372,16 +351,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnMultipleChoiceCancel:
-
                 disableChoiceMode();
                 break;
 
             case R.id.btnMultipleChoiceDelete:
                 new ConfirmDeleteAsyncTask().execute();
-                //confirmDeleteTask.execute();
-
-              //  confirmDeleteTask.cancel();
-
                 break;
         }
     }

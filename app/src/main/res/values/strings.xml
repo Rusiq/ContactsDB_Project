@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ContactsDB</string>
+    <string name="app_name">Contacts Reader</string>
 
     <string name="add">Add new contact</string>
     <string name="import_phone_book">Import contacts</string>

@@ -1,13 +1,17 @@
 package com.example.ruslan.contactsdb_project.ui.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
@@ -45,6 +50,7 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
     private ConfirmImportAsyncTask confirmImportTask;
     private ProgressBar pbImport;
     private ProgressDialog pdConfirmImport;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +86,26 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
 
         importTask = new ImportAsyncTask();
         confirmImportTask = new ConfirmImportAsyncTask();
-        importTask.execute();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+        } else {
+            importTask.execute();
+        }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                importTask.execute();
+            } else {
+                Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 
     class ImportAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -92,6 +115,9 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
             super.onPreExecute();
             rvImport.setVisibility(View.INVISIBLE);
             pbImport.setVisibility(View.VISIBLE);
+
+
+
         }
 
         @Override
@@ -255,7 +281,7 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnImportContacts:
-                confirmImportTask.execute();
+                    new ConfirmImportAsyncTask().execute();
 
                 break;
 

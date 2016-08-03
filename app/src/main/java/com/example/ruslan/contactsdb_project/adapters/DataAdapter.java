@@ -67,7 +67,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-
          //   mCardView = (CardView) itemView.findViewById(R.id.card_view);
             content = (LinearLayout) itemView.findViewById(R.id.content);
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
@@ -153,6 +152,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return selected;
     }
 
+
+
     @Override
     public int getItemCount() {
         return mContactList.size();
@@ -193,6 +194,25 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
+
+/*    @Override
+    public long getHeaderId(int position) {
+        return Long.parseLong(mContactList.get(position).getFirstName());
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.view_header, parent, false);
+
+        return new RecyclerView.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    }*/
 
 
 }
