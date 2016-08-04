@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
@@ -22,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
@@ -173,7 +173,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
 
             PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            Resources res = getApplicationContext().getResources();
+          //  Resources res = getApplicationContext().getResources();
             Notification.Builder builder = new Notification.Builder(getApplicationContext());
 
             builder.setContentIntent(contentIntent)
@@ -393,7 +393,9 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                 break;
 
             case R.id.btnMultipleChoiceDelete:
-                new ConfirmDeleteAsyncTask().execute();
+                if (dataAdapter.getSelectedHashMap().size() == 0){
+                    Toast.makeText(this, "Please select contacts for delete", Toast.LENGTH_SHORT).show();
+                } else new ConfirmDeleteAsyncTask().execute();
                 break;
         }
     }

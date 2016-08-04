@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activities.ListActivity"
-            android:configChanges="orientation|screenSize">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -39,7 +39,7 @@
         </activity>
         <activity android:name=".ui.activities.ImportActivity"
                   android:label="Import"
-                  android:configChanges="orientation|screenSize"
+
                   android:windowSoftInputMode="stateHidden">
         </activity>
     </application>

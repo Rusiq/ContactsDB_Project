@@ -297,7 +297,9 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnImportContacts:
-                new ConfirmImportAsyncTask().execute();
+                if (dataAdapter.getSelectedHashMap().size() == 0){
+                    Toast.makeText(this, "Please select contacts for import", Toast.LENGTH_SHORT).show();
+                } else new ConfirmImportAsyncTask().execute();
 
                 break;
 
