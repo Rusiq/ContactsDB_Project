@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    tools:ignore="MissingPrefix"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:textAllCaps="true"
-    android:background="@color/colorAccent"
-    android:textSize="14sp"
+    android:background="#BBDEFB">
 
-    android:gravity="center"
-    android:textColor="@android:color/white"
-    fontPath="fonts/sfns.ttf"
-    tools:text="Animals starting with A"
-    tools:context=".ListActivity"/>
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:gravity="left"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textAllCaps="true"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20sp"
+        tools:context=".ui.activities.ListActivity"
+        tools:ignore="MissingPrefix"
+        tools:text="Animals starting with A"/>
+</RelativeLayout>

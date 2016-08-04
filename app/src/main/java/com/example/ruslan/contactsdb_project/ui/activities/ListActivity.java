@@ -1,10 +1,15 @@
 package com.example.ruslan.contactsdb_project.ui.activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +28,7 @@ import com.example.ruslan.contactsdb_project.adapters.DataAdapter;
 import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
 import com.example.ruslan.contactsdb_project.ui.ItemDivider;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +55,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     private MenuItem itemAdd, itemMultipleChoiceDelete, itemImport, itemClearSelection, itemSelectAll;
     private ProgressDialog pdConfirmDelete;
     private ConfirmDeleteAsyncTask confirmDeleteTask;
+    private static final int NOTIFICATION_ID = 1111;
 
     public ListActivity() {
 
@@ -81,8 +88,11 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         rv.addItemDecoration(new ItemDivider(this));
         context = getContext();
         confirmDeleteTask = new ConfirmDeleteAsyncTask();
-       /* final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(dataAdapter);
-        rv.addItemDecoration(headersDecor);*/
+
+        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(dataAdapter);
+        rv.addItemDecoration(headersDecor);
+
+
 
 
        /* llChoiceMode.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -103,9 +113,9 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
     }
 
 
-    class ConfirmDeleteAsyncTask extends AsyncTask <Void, Integer, Void> {
+    class ConfirmDeleteAsyncTask extends AsyncTask<Void, Integer, Void> {
 
-        public ConfirmDeleteAsyncTask(){
+        public ConfirmDeleteAsyncTask() {
 
         }
 
@@ -118,6 +128,10 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
             pdConfirmDelete.setMax(dataAdapter.getSelectedHashMap().size());
             pdConfirmDelete.setCancelable(false);
             pdConfirmDelete.show();
+
+
+
+
         }
 
         @Override
@@ -137,7 +151,7 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-           // pdConfirmDelete.incrementProgressBy(values[0]);
+            // pdConfirmDelete.incrementProgressBy(values[0]);
             pdConfirmDelete.setProgress(values[0]);
 
         }
@@ -150,6 +164,31 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
             mContactArrayList.addAll(db.getAllContacts());
             dataAdapter.notifyDataSetChanged();
             disableChoiceMode();
+
+
+            Intent notificationIntent = new Intent(getApplicationContext(), ListActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            stackBuilder.addParentStack(ListActivity.class);
+            stackBuilder.addNextIntent(notificationIntent);
+
+            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Resources res = getApplicationContext().getResources();
+            Notification.Builder builder = new Notification.Builder(getApplicationContext());
+
+            builder.setContentIntent(contentIntent)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setAutoCancel(true)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText("Selected contacts have been removed");
+
+            Notification deleteNotification;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                deleteNotification = builder.build();
+            } else deleteNotification = builder.getNotification();
+
+            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(NOTIFICATION_ID, deleteNotification);
         }
     }
 
@@ -211,23 +250,22 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
                 break;
 
             case R.id.itemClearSelection:
-
                 dataAdapter.getSelectedHashMap().clear();
-                btnMultipleChoiceDelete.setText(getResources().getString(R.string.import_contacts, 0));
+                btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, 0));
                 dataAdapter.notifyDataSetChanged();
                 break;
 
             case R.id.itemSelectAll:
                 if (dataAdapter.getSelectedHashMap().size() == dataAdapter.getItemCount()) {
                     dataAdapter.getSelectedHashMap().clear();
-                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.import_contacts, 0));
+                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, 0));
                     dataAdapter.notifyDataSetChanged();
                 } else {
                     dataAdapter.getSelectedHashMap().clear();
-                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.import_contacts, 0));
+                    btnMultipleChoiceDelete.setText(getResources().getString(R.string.multiple_choice_delete, 0));
 
                     for (int i = 0; i < dataAdapter.getItemCount(); i++) {
-                        dataAdapter.getSelectedHashMap().put(i ,mContactArrayList.get(i).getID() );
+                        dataAdapter.getSelectedHashMap().put(i, mContactArrayList.get(i).getID());
                     }
                     dataAdapter.notifyDataSetChanged();
                 }
@@ -372,4 +410,14 @@ public class ListActivity extends AppCompatActivity implements DataAdapter.Click
         itemSelectAll.setVisible(false);
     }
 
+   /* @Override
+        public void onConfigurationChanged(Configuration newConfig) {
+            super.onConfigurationChanged(newConfig);
+
+            if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                setContentView(R.layout.activity_list);
+            } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setContentView(R.layout.activity_list);
+            }
+    }*/
 }

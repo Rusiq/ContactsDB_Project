@@ -15,11 +15,12 @@ import android.widget.TextView;
 import com.example.ruslan.contactsdb_project.R;
 import com.example.ruslan.contactsdb_project.data.Contact;
 import com.example.ruslan.contactsdb_project.data.DBHandler;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter {
 
     public static final int MODE_SIMPLE = 0;
     public static final int MODE_SELECT = 1;
@@ -49,7 +50,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
 
-
     public DataAdapter(Context context, List<Contact> objects) {
         mContext = context;
         mContactList = objects;
@@ -67,7 +67,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-         //   mCardView = (CardView) itemView.findViewById(R.id.card_view);
+            //   mCardView = (CardView) itemView.findViewById(R.id.card_view);
             content = (LinearLayout) itemView.findViewById(R.id.content);
             tvShowFirstName = (TextView) itemView.findViewById(R.id.tvShowFirstName);
             tvShowLastName = (TextView) itemView.findViewById(R.id.tvShowLastName);
@@ -90,7 +90,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
                 }
             });
 
-         //   mCardView.setOnClickListener(this);
+            //   mCardView.setOnClickListener(this);
             content.setOnClickListener(this);
         }
 
@@ -153,15 +153,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
 
-
     @Override
     public int getItemCount() {
         return mContactList.size();
     }
 
-    public void selectAllItem(){
+    public void selectAllItem() {
 
-        for (int i = 0; i < mContactList.size(); i++){
+        for (int i = 0; i < mContactList.size(); i++) {
 
         }
         notifyDataSetChanged();
@@ -185,7 +184,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }
 
-    public void deleteItemChoiceMode(int position){
+    public void deleteItemChoiceMode(int position) {
         mContactList.remove(position);
     }
 
@@ -196,23 +195,34 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
 
-/*    @Override
+    @Override
     public long getHeaderId(int position) {
-        return Long.parseLong(mContactList.get(position).getFirstName());
+        return mContactList.get(position).getFirstName().charAt(0);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_header, parent, false);
+         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_header, parent, false);
+        return new HeaderHolder(view);
 
-        return new RecyclerView.ViewHolder(view);
     }
+
+    class HeaderHolder extends RecyclerView.ViewHolder {
+        TextView header;
+
+        public HeaderHolder(View itemView) {
+            super(itemView);
+            header = (TextView) itemView.findViewById(R.id.header);
+        }
+    }
+
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-    }*/
+        TextView textView = (TextView) holder.itemView.findViewById(R.id.header);
+        textView.setText(String.valueOf(mContactList.get(position).getFirstName().charAt(0)));
 
+    }
 
 }

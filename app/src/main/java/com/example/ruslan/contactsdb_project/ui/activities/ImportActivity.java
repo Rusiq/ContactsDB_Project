@@ -50,6 +50,7 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
     private ConfirmImportAsyncTask confirmImportTask;
     private ProgressBar pbImport;
     private ProgressDialog pdConfirmImport;
+    private MenuItem itemSelectAll;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     @Override
@@ -108,21 +109,19 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    class ImportAsyncTask extends AsyncTask<Void, Void, Void> {
+    class ImportAsyncTask extends AsyncTask<Void, Void, ArrayList<Contact>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            rvImport.setVisibility(View.INVISIBLE);
             pbImport.setVisibility(View.VISIBLE);
-
-
-
+            invalidateOptionsMenu();
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected ArrayList<Contact> doInBackground(Void... params) {
 
+            ArrayList<Contact> list = new ArrayList<>();
             ContentResolver cr = getContentResolver();
             Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
                     null, null, null, null);
@@ -135,7 +134,9 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
 
                     String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
                     String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    Contact contact = new Contact();
 
+                    contact.setFirstName(name);
                     if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
 
                         Cursor pCur = cr.query(
@@ -147,26 +148,36 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
                         while (pCur.moveToNext()) {
                             String phoneNo = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                             //  Toast.makeText(ImportActivity.this, "Name: " + name + ", Phone No: " + phoneNo, Toast.LENGTH_SHORT).show();
+                            contact.setPhoneNumber(contact.getPhoneNumber() + "; " + phoneNo);
 
-                            Contact contact = new Contact();
-                            contact.setFirstName(name);
-                            contact.setPhoneNumber(phoneNo);
-                            mContactArrayList.add(contact);
+//                            if (TextUtils.isEmpty(contact.getPhoneNumber()))
+//                                contact.setPhoneNumber(phoneNo);
+//                            else {
+//                                String number1 = contact.getPhoneNumber().replace(" ", " ");
+//                                number1 = number1.replace("-", " ");
+//                                phoneNo = phoneNo.replace("-", " ");
+//                                phoneNo = phoneNo.replace(" ", " ");
+//                                if (!number1.contains(phoneNo))
+//                                    contact.setPhoneNumber(contact.getPhoneNumber() + "; " + phoneNo);
+//                            }
                         }
                         pCur.close();
+                        list.add(contact);
                     }
                 }
             }
-            return null;
+            return list;
         }
 
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(ArrayList<Contact> result) {
             super.onPostExecute(result);
+            mContactArrayList.clear();
+            mContactArrayList.addAll(result);
             dataAdapter.notifyDataSetChanged();
-            rvImport.setVisibility(View.VISIBLE);
             pbImport.setVisibility(View.INVISIBLE);
+            invalidateOptionsMenu();
         }
     }
 
@@ -181,7 +192,7 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
             pdConfirmImport.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             pdConfirmImport.setMax(dataAdapter.getSelectedHashMap().size());
             pdConfirmImport.setCancelable(false);
-          //  pdConfirmImport.setIndeterminate(true);
+            //  pdConfirmImport.setIndeterminate(true);
             pdConfirmImport.show();
         }
 
@@ -194,7 +205,7 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
                 contact.setMaritalStatus(Contact.MaritalStatus.single);
                 contact.setGender(Contact.Gender.male);
                 db.addContact(contact);
-           //     count = entry.getKey();
+                //     count = entry.getKey();
                 publishProgress(++count);
             }
             return null;
@@ -233,11 +244,16 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_import, menu);
+
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        itemSelectAll = (MenuItem) menu.findItem(R.id.itemSelectAll);
+        if (mContactArrayList == null){
+            itemSelectAll.setCheckable(false);
+        } else itemSelectAll.setCheckable(true);
         return true;
     }
 
@@ -281,7 +297,7 @@ public class ImportActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnImportContacts:
-                    new ConfirmImportAsyncTask().execute();
+                new ConfirmImportAsyncTask().execute();
 
                 break;
 
